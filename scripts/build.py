@@ -1,0 +1,272 @@
+#!/usr/bin/env python3
+"""
+build.py — Parse cv.tex → structured dict → render Jinja2 template → docs/index.html
+
+Usage:
+    python scripts/build.py
+    python scripts/build.py --cv cv/cv.tex --template templates/index.html.j2 --out docs/index.html
+    python scripts/build.py --dump-json   # print extracted JSON and exit
+"""
+
+import re
+import sys
+import json
+import argparse
+from pathlib import Path
+
+# Jinja2 is the only non-stdlib dependency
+try:
+    from jinja2 import Environment, FileSystemLoader, select_autoescape
+except ImportError:
+    sys.exit("Missing dependency: pip install jinja2")
+
+
+# ── Argument parser ────────────────────────────────────────────────────────────
+
+def cli() -> argparse.Namespace:
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument("--cv",       default="cv/cv.tex",              help="Path to cv.tex")
+    p.add_argument("--template", default="templates/index.html.j2",help="Path to Jinja2 template")
+    p.add_argument("--out",      default="docs/index.html",         help="Output HTML path")
+    p.add_argument("--dump-json", action="store_true",              help="Print extracted JSON and exit")
+    return p.parse_args()
+
+
+# ── Brace-balanced argument extractor ─────────────────────────────────────────
+
+def extract_args(text: str, start: int, n: int) -> tuple[list[str], int]:
+    """
+    Extract n brace-balanced arguments from `text` starting at position `start`.
+    Handles nested braces and escaped characters (e.g. \\{ \\}).
+    Returns (list_of_arg_strings, position_after_last_arg).
+    """
+    args: list[str] = []
+    pos = start
+    for _ in range(n):
+        # skip whitespace / newlines between arguments
+        while pos < len(text) and text[pos] in " \t\n":
+            pos += 1
+        if pos >= len(text) or text[pos] != "{":
+            break
+        depth = 0
+        arg_start = pos + 1
+        while pos < len(text):
+            ch = text[pos]
+            if ch == "\\":
+                pos += 2          # skip backslash + next char (escaped brace, etc.)
+                continue
+            if ch == "{":
+                depth += 1
+            elif ch == "}":
+                depth -= 1
+                if depth == 0:
+                    args.append(text[arg_start:pos])
+                    pos += 1
+                    break
+            pos += 1
+    return args, pos
+
+
+# ── LaTeX → HTML cleanup ───────────────────────────────────────────────────────
+
+def clean_latex(text: str) -> str:
+    """
+    Convert a LaTeX snippet to an HTML-safe string.
+    Preserves inline semantic markup as HTML tags.
+    """
+    # 1. Strip LaTeX line comments (% not preceded by \)
+    text = re.sub(r"(?<!\\)%[^\n]*", "", text)
+
+    # 2. Typographic dashes  (must come before \% handling)
+    text = text.replace("---", "\u2014")   # em-dash
+    text = text.replace("--",  "\u2013")   # en-dash
+
+    # 3. LaTeX special-character escapes
+    replacements = [
+        (r"\%", "%"),
+        (r"\&", "&amp;"),
+        (r"\$", "$"),
+        (r"\#", "#"),
+        (r"\_", "_"),
+    ]
+    for src, dst in replacements:
+        text = text.replace(src, dst)
+
+    # narrow no-break space  (\,)
+    text = re.sub(r"\\,", "\u202f", text)
+
+    # 4. Inline math
+    text = re.sub(r"\$\\times\$", "\u00d7", text)          # $\times$ → ×
+    text = re.sub(r"\$10\^\\times\$", "10\u00d7", text)
+    text = re.sub(r"\$([^$]+)\$", r"\1", text)             # strip remaining $ delimiters
+
+    # 5. Formatting commands → HTML  (one level of nesting is enough for this CV)
+    text = re.sub(r"\\textbf\{([^{}]*)\}", r"<strong>\1</strong>", text)
+    text = re.sub(r"\\textit\{([^{}]*)\}", r"<em>\1</em>",         text)
+    text = re.sub(r"\\texttt\{([^{}]*)\}", r"<code>\1</code>",     text)
+    text = re.sub(r"\\href\{([^{}]+)\}\{([^{}]+)\}",
+                  r'<a href="\1">\2</a>', text)
+
+    # 6. Strip remaining \commands (with optional star and trailing space)
+    text = re.sub(r"\\[a-zA-Z@]+\*?\s*", "", text)
+
+    # 7. Strip stray bare braces left over from LaTeX grouping
+    text = text.replace("{", "").replace("}", "")
+
+    # 8. Normalise whitespace
+    text = re.sub(r"[ \t]+",  " ", text)
+    text = re.sub(r"\n\s*\n", " ", text)
+    text = re.sub(r"\s+",     " ", text).strip()
+
+    return text
+
+
+def extract_items(block: str) -> list[str]:
+    """
+    Extract bullet text from a LaTeX itemize block.
+    Returns a list of HTML-cleaned strings, one per \\item.
+    """
+    # drop the environment wrappers
+    block = re.sub(r"\\begin\{[^}]+\}", "", block)
+    block = re.sub(r"\\end\{[^}]+\}",   "", block)
+    parts = re.split(r"\\item\b", block)
+    return [clean_latex(p) for p in parts if p.strip()]
+
+
+# ── CV parser ──────────────────────────────────────────────────────────────────
+
+def parse_cv(tex: str) -> dict:
+    """
+    Parse cv.tex and return a structured dict.
+    Only the parse-target custom commands defined in the DESIGN CONTRACT are read.
+    Everything else (preamble, layout commands) is ignored.
+    """
+    # Restrict search to the document body so \newcommand definitions
+    # (which also mention the command names) are never accidentally matched.
+    body_match = re.search(r"\\begin\{document\}", tex)
+    body = tex[body_match.start():] if body_match else tex
+
+    data: dict = {}
+
+    # ── 1. \cvperson{name}{email}{phone}{linkedin}{github}{website} ────────────
+    m = re.search(r"\\cvperson", body)
+    if m:
+        args, _ = extract_args(body, m.end(), 6)
+        data["person"] = {
+            "name":     args[0].strip() if len(args) > 0 else "",
+            "email":    args[1].strip() if len(args) > 1 else "",
+            "phone":    args[2].strip() if len(args) > 2 else "",
+            "linkedin": args[3].strip() if len(args) > 3 else "",
+            "github":   args[4].strip() if len(args) > 4 else "",
+            "website":  args[5].strip() if len(args) > 5 else "",
+        }
+
+    # ── 2. \section{Summary} … freeform text (until next \section) ────────────
+    m = re.search(r"\\section\{Summary\}(.*?)(?=\\section)", body, re.DOTALL)
+    if m:
+        raw = re.sub(r"%%?[^\n]*", "", m.group(1))   # strip comments
+        data["summary"] = re.sub(r"\s+", " ", raw).strip()
+
+    # ── 3. \experience{title}{company}{location}{dates}{bullets} ──────────────
+    data["experience"] = []
+    for m in re.finditer(r"\\experience(?!\s*\[)", body):   # skip \experience[ ]
+        args, _ = extract_args(body, m.end(), 5)
+        if len(args) < 5:
+            continue
+        data["experience"].append({
+            "title":    clean_latex(args[0]),
+            "company":  clean_latex(args[1]),
+            "location": clean_latex(args[2]),
+            "dates":    clean_latex(args[3]),
+            "bullets":  extract_items(args[4]),
+        })
+
+    # ── 4. \project{name}{tech}{dates}{bullets} ───────────────────────────────
+    data["projects"] = []
+    for m in re.finditer(r"\\project(?!\s*\[)", body):
+        args, _ = extract_args(body, m.end(), 4)
+        if len(args) < 4:
+            continue
+        data["projects"].append({
+            "name":    clean_latex(args[0]),
+            "tech":    clean_latex(args[1]),
+            "dates":   clean_latex(args[2]),
+            "bullets": extract_items(args[3]),
+        })
+
+    # ── 5. \education{degree}{institution}{location}{dates}{details} ──────────
+    data["education"] = []
+    for m in re.finditer(r"\\education(?!\s*\[)", body):
+        args, _ = extract_args(body, m.end(), 5)
+        if len(args) < 5:
+            continue
+        data["education"].append({
+            "degree":      clean_latex(args[0]),
+            "institution": clean_latex(args[1]),
+            "location":    clean_latex(args[2]),
+            "dates":       clean_latex(args[3]),
+            "details":     clean_latex(args[4]),
+        })
+
+    # ── 6. \skillgroup{category}{comma-separated items} ───────────────────────
+    data["skills"] = []
+    for m in re.finditer(r"\\skillgroup(?!\s*\[)", body):
+        args, _ = extract_args(body, m.end(), 2)
+        if len(args) < 2:
+            continue
+        raw_items = re.sub(r"\\,", "\u202f", args[1])   # \, → narrow space before split
+        data["skills"].append({
+            "category": clean_latex(args[0]),
+            "tags":     [s.strip() for s in raw_items.split(",") if s.strip()],
+        })
+
+    return data
+
+
+# ── Renderer ───────────────────────────────────────────────────────────────────
+
+def render(data: dict, template_path: Path) -> str:
+    env = Environment(
+        loader=FileSystemLoader(str(template_path.parent)),
+        autoescape=select_autoescape(["html"]),
+    )
+    # We produce safe HTML strings in clean_latex, so mark them safe in Jinja2.
+    from markupsafe import Markup
+    env.filters["safe_html"] = lambda s: Markup(s)
+
+    tmpl = env.get_template(template_path.name)
+    return tmpl.render(**data)
+
+
+# ── Entry point ────────────────────────────────────────────────────────────────
+
+def main() -> None:
+    args = cli()
+
+    # Resolve paths relative to the repo root (one level up from scripts/)
+    repo_root = Path(__file__).parent.parent
+    cv_path       = repo_root / args.cv
+    template_path = repo_root / args.template
+    out_path      = repo_root / args.out
+
+    if not cv_path.exists():
+        sys.exit(f"ERROR: CV file not found: {cv_path}")
+    if not template_path.exists():
+        sys.exit(f"ERROR: Template not found: {template_path}")
+
+    tex  = cv_path.read_text(encoding="utf-8")
+    data = parse_cv(tex)
+
+    if args.dump_json:
+        print(json.dumps(data, indent=2, ensure_ascii=False))
+        return
+
+    html = render(data, template_path)
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(html, encoding="utf-8")
+    print(f"Built: {out_path}")
+
+
+if __name__ == "__main__":
+    main()

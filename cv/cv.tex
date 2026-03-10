@@ -1,0 +1,248 @@
+%% ============================================================
+%%  cv.tex  —  Reverse-chronological, ATS-friendly LaTeX CV
+%%  Compile:  pdflatex cv.tex
+%%
+%%  DESIGN CONTRACT
+%%  All semantic data lives in custom commands defined below.
+%%  The build pipeline parses ONLY these commands — never freeform text.
+%%  Keep every \experience / \project / \education / \skill call intact.
+%% ============================================================
+
+\documentclass[11pt, letterpaper]{article}
+
+%% ── Packages ─────────────────────────────────────────────────
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=0.75in, top=0.6in, bottom=0.6in]{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{array}
+
+%% ── Colour palette ───────────────────────────────────────────
+\definecolor{accent}{HTML}{2C3E50}   % dark blue-grey for headings
+\definecolor{link}{HTML}{2980B9}     % blue for hyperlinks
+
+%% ── Hyperlinks ───────────────────────────────────────────────
+\hypersetup{
+  colorlinks=true,
+  urlcolor=link,
+  hidelinks
+}
+
+%% ── Section style ────────────────────────────────────────────
+\titleformat{\section}
+  {\large\bfseries\color{accent}}
+  {}{0em}{}
+  [\vspace{-4pt}\rule{\linewidth}{0.6pt}\vspace{2pt}]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+
+%% ── List style ───────────────────────────────────────────────
+\setlist[itemize]{
+  noitemsep,
+  topsep=1pt,
+  parsep=0pt,
+  leftmargin=1.2em,
+  label=\textbullet
+}
+
+%% ── No page numbers ──────────────────────────────────────────
+\pagestyle{empty}
+
+%% ============================================================
+%%  PARSE-TARGET CUSTOM COMMANDS
+%%  The Python build script extracts data from these calls.
+%%  Argument contracts are fixed — do not reorder args.
+%% ============================================================
+
+%%  \cvperson{Full Name}{Email}{Phone}{LinkedIn handle}{GitHub handle}{Website}
+\newcommand{\cvperson}[6]{%
+  \begin{center}
+    {\LARGE\bfseries\color{accent} #1}\\[4pt]
+    {\small
+      \href{mailto:#2}{#2}
+      \enspace\textbar\enspace
+      #3
+      \enspace\textbar\enspace
+      \href{https://linkedin.com/in/#4}{linkedin.com/in/#4}
+      \enspace\textbar\enspace
+      \href{https://github.com/#5}{github.com/#5}%
+      \ifx&#6&\else
+        \enspace\textbar\enspace\href{https://#6}{#6}%
+      \fi
+    }
+  \end{center}
+}
+
+%%  \experience{Job Title}{Company}{Location}{Date Range}{Bullet list of achievements}
+%%  Achievements: use \item inside a standard itemize (see examples below).
+\newcommand{\experience}[5]{%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}X r@{}}
+    \textbf{#1} \textit{at} \textbf{#2}, #3 & \textit{#4}
+  \end{tabularx}
+  \vspace{1pt}
+  #5
+  \vspace{4pt}
+}
+
+%%  \project{Project Name}{Tech Stack}{Date Range}{Description bullet list}
+\newcommand{\project}[4]{%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}X r@{}}
+    \textbf{#1} \hspace{4pt}{\small\textit{#2}} & \textit{#3}
+  \end{tabularx}
+  \vspace{1pt}
+  #4
+  \vspace{4pt}
+}
+
+%%  \education{Degree}{Institution}{Location}{Date Range}{Details / GPA / honours}
+\newcommand{\education}[5]{%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}X r@{}}
+    \textbf{#1} — \textit{#2}, #3 & \textit{#4}
+  \end{tabularx}
+  \ifx&#5&\else{\small #5}\fi
+  \vspace{4pt}
+}
+
+%%  \skillgroup{Category}{Comma-separated skill list}
+\newcommand{\skillgroup}[2]{%
+  \noindent\textbf{#1:} #2\par\vspace{2pt}
+}
+
+%% ============================================================
+%%  DOCUMENT BODY
+%% ============================================================
+\begin{document}
+
+%% ── Header ───────────────────────────────────────────────────
+\cvperson
+  {Ignacio Salgado}
+  {ignacio@example.com}
+  {+34 600 000 000}
+  {ignacio-salgado}
+  {isalgado}
+  {isalgado.dev}
+
+%% ── Summary ──────────────────────────────────────────────────
+\section{Summary}
+Computer Vision and Embedded Systems Engineer with 6 years of experience
+building real-time perception pipelines for autonomous and industrial
+applications. Proven track record of shipping latency-critical software
+on resource-constrained hardware. Strong advocate of reproducible ML
+workflows and clean, well-tested C++/Python codebases.
+
+%% ── Experience ───────────────────────────────────────────────
+\section{Experience}
+
+\experience
+  {Senior Computer Vision Engineer}
+  {Wayve}
+  {London, UK (Remote)}
+  {Jan 2023 -- Present}
+  {
+    \begin{itemize}
+      \item Redesigned the on-device object-detection inference stack in
+            C++17, reducing end-to-end latency by \textbf{42\%}
+            (120\,ms → 70\,ms) while maintaining 97.3\% mAP on the
+            internal benchmark.
+      \item Led migration from TensorFlow Lite to ONNX Runtime on
+            Jetson Orin, cutting model-deployment effort from 3 weeks
+            to 2 days per new model.
+      \item Mentored 3 junior engineers through fortnightly design-review
+            sessions; two were promoted within a year.
+    \end{itemize}
+  }
+
+\experience
+  {Computer Vision Engineer}
+  {Prophesee}
+  {Paris, France}
+  {Mar 2021 -- Dec 2022}
+  {
+    \begin{itemize}
+      \item Built a Python/C++ event-camera processing library
+            (\textit{evlib}) used by 12 enterprise customers;
+            reduced integration time from weeks to hours.
+      \item Implemented a sparse optical-flow algorithm on FPGA logic,
+            achieving 10$\times$ throughput improvement over the CPU baseline.
+      \item Authored the team's CI pipeline (GitHub Actions + Docker) that
+            cut flaky-test failures by 85\% and standardised cross-platform
+            builds across Linux, macOS, and Windows.
+    \end{itemize}
+  }
+
+\experience
+  {Embedded Software Engineer}
+  {SENER Aeroespacial}
+  {Madrid, Spain}
+  {Sep 2019 -- Feb 2021}
+  {
+    \begin{itemize}
+      \item Developed RTOS firmware in C for star-tracker attitude sensors
+            aboard two ESA satellites; zero in-orbit anomalies after 18 months.
+      \item Reduced flash memory footprint by 30\% through custom compression
+            of telemetry buffers, enabling 6 additional instrument channels.
+    \end{itemize}
+  }
+
+%% ── Projects ─────────────────────────────────────────────────
+\section{Projects}
+
+\project
+  {EdgeDet}
+  {C++, TensorRT, CUDA, ROS\,2}
+  {2024}
+  {
+    \begin{itemize}
+      \item Open-source real-time pedestrian detection node for ROS\,2;
+            runs at 60\,fps on Jetson AGX Orin with YOLOv8-nano.
+      \item 340+ GitHub stars; cited in two academic papers on edge inference.
+    \end{itemize}
+  }
+
+\project
+  {cv-automat}
+  {Python, LaTeX, Jinja2, GitHub Actions}
+  {2025}
+  {
+    \begin{itemize}
+      \item CI/CD pipeline that parses this \texttt{cv.tex}, generates a
+            static HTML portfolio page, and deploys it to GitHub Pages on
+            every push — single source of truth for both PDF and web CV.
+    \end{itemize}
+  }
+
+%% ── Education ────────────────────────────────────────────────
+\section{Education}
+
+\education
+  {M.Sc. Robotics \& Computer Vision}
+  {Universidad Politécnica de Madrid}
+  {Madrid, Spain}
+  {2017 -- 2019}
+  {GPA: 9.1/10 · Thesis: \textit{Event-camera depth estimation on low-power SoCs}}
+
+\education
+  {B.Eng. Telecommunications Engineering}
+  {Universidad Autónoma de Madrid}
+  {Madrid, Spain}
+  {2013 -- 2017}
+  {Graduated with Honours (Matrícula de Honor)}
+
+%% ── Skills ───────────────────────────────────────────────────
+\section{Skills}
+
+\skillgroup{Languages}{Python, C++17, C, CUDA, Bash, SQL}
+\skillgroup{CV / ML}{OpenCV, PyTorch, ONNX Runtime, TensorRT, YOLOv8, scikit-learn}
+\skillgroup{Embedded}{Embedded Linux, Jetson, RTOS, FreeRTOS, CAN, SPI, I²C}
+\skillgroup{Infra \& Tools}{Docker, GitHub Actions, CMake, Git, ROS\,2, Linux}
+\skillgroup{Languages (human)}{Spanish (native), English (C2), French (B2)}
+
+\end{document}

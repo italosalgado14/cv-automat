@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ person.name }} — CV</title>
+  <style>
+    /* ── Reset & base ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                   Helvetica, Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #1a1a1a;
+      background: #f5f5f5;
+    }
+
+    /* ── Layout ─────────────────────────────────────────────────── */
+    #page {
+      max-width: 760px;
+      margin: 2.5rem auto;
+      background: #fff;
+      padding: 3rem 3.5rem;
+      border-radius: 4px;
+      box-shadow: 0 1px 6px rgba(0,0,0,.08);
+    }
+
+    @media (max-width: 640px) {
+      #page { margin: 0; padding: 1.5rem 1.2rem; border-radius: 0; box-shadow: none; }
+    }
+
+    /* ── Header ─────────────────────────────────────────────────── */
+    header { text-align: center; margin-bottom: 2rem; }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -.5px;
+      color: #2c3e50;
+      margin-bottom: .5rem;
+    }
+
+    .contact {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: .25rem .75rem;
+      font-size: .85rem;
+      color: #555;
+    }
+
+    .contact a {
+      color: #2980b9;
+      text-decoration: none;
+    }
+    .contact a:hover { text-decoration: underline; }
+
+    .contact span::before {
+      content: "·";
+      margin-right: .75rem;
+      color: #ccc;
+    }
+    .contact span:first-child::before { content: none; }
+
+    /* ── Sections ───────────────────────────────────────────────── */
+    section { margin-bottom: 1.75rem; }
+
+    section h2 {
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #2c3e50;
+      border-bottom: 1.5px solid #2c3e50;
+      padding-bottom: .25rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ── Summary ────────────────────────────────────────────────── */
+    .summary p {
+      color: #333;
+      line-height: 1.7;
+    }
+
+    /* ── Entry (shared by experience, projects, education) ──────── */
+    .entry { margin-bottom: 1.1rem; }
+    .entry:last-child { margin-bottom: 0; }
+
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: .1rem .5rem;
+      margin-bottom: .2rem;
+    }
+
+    .entry-title {
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .entry-sub {
+      font-size: .88rem;
+      color: #555;
+    }
+
+    .entry-dates {
+      font-size: .82rem;
+      color: #888;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .entry-details {
+      font-size: .85rem;
+      color: #666;
+      margin-top: .1rem;
+    }
+
+    /* ── Bullets ────────────────────────────────────────────────── */
+    ul.bullets {
+      list-style: none;
+      padding: 0;
+      margin: .35rem 0 0 0;
+    }
+
+    ul.bullets li {
+      position: relative;
+      padding-left: 1.1em;
+      font-size: .9rem;
+      color: #333;
+      margin-bottom: .25rem;
+      line-height: 1.55;
+    }
+
+    ul.bullets li::before {
+      content: "–";
+      position: absolute;
+      left: 0;
+      color: #aaa;
+    }
+
+    ul.bullets li strong { color: #1a1a1a; }
+    ul.bullets li em     { font-style: italic; }
+    ul.bullets li code   { font-family: "SFMono-Regular", Consolas, monospace;
+                           font-size: .88em; background: #f0f0f0;
+                           padding: .05em .3em; border-radius: 3px; }
+    ul.bullets li a      { color: #2980b9; text-decoration: none; }
+    ul.bullets li a:hover{ text-decoration: underline; }
+
+    /* ── Skills ─────────────────────────────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: .35rem 1rem;
+      align-items: baseline;
+    }
+
+    .skill-category {
+      font-weight: 600;
+      font-size: .88rem;
+      color: #2c3e50;
+      white-space: nowrap;
+    }
+
+    .skill-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .3rem;
+    }
+
+    .skill-chip {
+      display: inline-block;
+      font-size: .78rem;
+      background: #eef2f7;
+      color: #2c3e50;
+      padding: .15em .55em;
+      border-radius: 3px;
+      line-height: 1.5;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────── */
+    footer {
+      margin-top: 2.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #eee;
+      font-size: .75rem;
+      color: #bbb;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div id="page">
+
+  <!-- ── Header ─────────────────────────────────────────────────── -->
+  <header>
+    <h1>{{ person.name }}</h1>
+    <div class="contact">
+      {% if person.email %}
+      <span><a href="mailto:{{ person.email }}">{{ person.email }}</a></span>
+      {% endif %}
+      {% if person.phone %}
+      <span>{{ person.phone }}</span>
+      {% endif %}
+      {% if person.linkedin %}
+      <span><a href="https://linkedin.com/in/{{ person.linkedin }}" target="_blank">LinkedIn</a></span>
+      {% endif %}
+      {% if person.github %}
+      <span><a href="https://github.com/{{ person.github }}" target="_blank">GitHub</a></span>
+      {% endif %}
+      {% if person.website %}
+      <span><a href="https://{{ person.website }}" target="_blank">{{ person.website }}</a></span>
+      {% endif %}
+    </div>
+  </header>
+
+  <!-- ── Summary ────────────────────────────────────────────────── -->
+  {% if summary %}
+  <section class="summary">
+    <h2>Summary</h2>
+    <p>{{ summary }}</p>
+  </section>
+  {% endif %}
+
+  <!-- ── Experience ─────────────────────────────────────────────── -->
+  {% if experience %}
+  <section>
+    <h2>Experience</h2>
+    {% for job in experience %}
+    <div class="entry">
+      <div class="entry-header">
+        <div>
+          <span class="entry-title">{{ job.title }}</span>
+          <span class="entry-sub"> &mdash; {{ job.company }}{% if job.location %}, {{ job.location }}{% endif %}</span>
+        </div>
+        <span class="entry-dates">{{ job.dates }}</span>
+      </div>
+      {% if job.bullets %}
+      <ul class="bullets">
+        {% for bullet in job.bullets %}
+        <li>{{ bullet | safe_html }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  <!-- ── Projects ───────────────────────────────────────────────── -->
+  {% if projects %}
+  <section>
+    <h2>Projects</h2>
+    {% for proj in projects %}
+    <div class="entry">
+      <div class="entry-header">
+        <div>
+          <span class="entry-title">{{ proj.name }}</span>
+          {% if proj.tech %}
+          <span class="entry-sub"> &mdash; {{ proj.tech }}</span>
+          {% endif %}
+        </div>
+        <span class="entry-dates">{{ proj.dates }}</span>
+      </div>
+      {% if proj.bullets %}
+      <ul class="bullets">
+        {% for bullet in proj.bullets %}
+        <li>{{ bullet | safe_html }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  <!-- ── Education ──────────────────────────────────────────────── -->
+  {% if education %}
+  <section>
+    <h2>Education</h2>
+    {% for edu in education %}
+    <div class="entry">
+      <div class="entry-header">
+        <div>
+          <span class="entry-title">{{ edu.degree }}</span>
+          <span class="entry-sub"> &mdash; {{ edu.institution }}{% if edu.location %}, {{ edu.location }}{% endif %}</span>
+        </div>
+        <span class="entry-dates">{{ edu.dates }}</span>
+      </div>
+      {% if edu.details %}
+      <div class="entry-details">{{ edu.details | safe_html }}</div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  <!-- ── Skills ─────────────────────────────────────────────────── -->
+  {% if skills %}
+  <section>
+    <h2>Skills</h2>
+    <div class="skills-grid">
+      {% for group in skills %}
+      <div class="skill-category">{{ group.category }}</div>
+      <div class="skill-items">
+        {% for item in group.tags %}
+        <span class="skill-chip">{{ item }}</span>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <footer>
+    Generated from <a href="cv/cv.tex">cv.tex</a> &mdash; last built automatically by cv-automat.
+  </footer>
+
+</div>
+</body>
+</html>
