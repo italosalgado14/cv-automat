@@ -31,6 +31,7 @@ def cli() -> argparse.Namespace:
     p.add_argument("--posts-data",     default="data/posts.json",            help="Path to posts JSON")
     p.add_argument("--posts-template", default="templates/posts.html.j2",   help="Path to posts Jinja2 template")
     p.add_argument("--posts-out",      default="docs/posts.html",            help="Output posts HTML path")
+    p.add_argument("--certs-data",     default="data/certifications.json",   help="Path to certifications JSON")
     p.add_argument("--dump-json",      action="store_true",                  help="Print extracted JSON and exit")
     return p.parse_args()
 
@@ -254,6 +255,7 @@ def main() -> None:
     posts_data_path    = repo_root / args.posts_data
     posts_tmpl_path    = repo_root / args.posts_template
     posts_out_path     = repo_root / args.posts_out
+    certs_data_path    = repo_root / args.certs_data
 
     if not cv_path.exists():
         sys.exit(f"ERROR: CV file not found: {cv_path}")
@@ -267,9 +269,27 @@ def main() -> None:
         print(json.dumps(data, indent=2, ensure_ascii=False))
         return
 
+    # ── Split skills → tech_skills + languages ─────────────────────
+    all_skills  = data.get("skills", [])
+    tech_skills = [s for s in all_skills if "human" not in s["category"].lower()]
+    languages   = [s for s in all_skills if "human"     in s["category"].lower()]
+
+    # Flatten languages into a single tag list (one \skillgroup "Languages (human)")
+    lang_tags = languages[0]["tags"] if languages else []
+
+    # ── Load certifications ────────────────────────────────────────
+    certifications = (
+        json.loads(certs_data_path.read_text(encoding="utf-8"))
+        if certs_data_path.exists() else []
+    )
+
     # ── Build CV page ──────────────────────────────────────────────
+    index_ctx = {**data,
+                 "tech_skills":    tech_skills,
+                 "lang_tags":      lang_tags,
+                 "certifications": certifications}
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(render(data, template_path), encoding="utf-8")
+    out_path.write_text(render(index_ctx, template_path), encoding="utf-8")
     print(f"Built: {out_path}")
 
     # ── Build posts page ───────────────────────────────────────────

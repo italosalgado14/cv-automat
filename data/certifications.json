@@ -1,0 +1,37 @@
+[
+  {
+    "title": "Deep Learning Specialization",
+    "platform": "Coursera",
+    "provider": "DeepLearning.AI",
+    "year": "2022",
+    "url": ""
+  },
+  {
+    "title": "Machine Learning Specialization",
+    "platform": "Coursera",
+    "provider": "Stanford / DeepLearning.AI",
+    "year": "2022",
+    "url": ""
+  },
+  {
+    "title": "DeepLearning to Data Engineering",
+    "platform": "Coursera",
+    "provider": "DeepLearning.AI",
+    "year": "2026",
+    "url": ""
+  },
+  {
+    "title": "Preparing for Google Cloud Certification: Machine Learning Engineer",
+    "platform": "Coursera",
+    "provider": "Google",
+    "year": "2026",
+    "url": ""
+  },
+  {
+    "title": "MLOps | Machine Learning Operations",
+    "platform": "Coursera",
+    "provider": "Duke University",
+    "year": "2024",
+    "url": "https://www.coursera.org/specializations/mlops-machine-learning-duke"
+  }
+]

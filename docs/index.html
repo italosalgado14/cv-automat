@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ignacio Salgado</title>
+  <title>Italo Salgado</title>
   <style>
     /* ── Reset & tokens ─────────────────────────────────────────── */
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -177,6 +177,90 @@
       border-radius: 999px;
       line-height: 1.6;
       font-weight: 500;
+    }
+
+    /* ── Languages ───────────────────────────────────────────────── */
+    .lang-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .lang-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: .82rem;
+    }
+
+    .lang-name { font-weight: 600; color: var(--text); }
+    .lang-level {
+      font-size: .72rem;
+      color: #fff;
+      background: var(--accent);
+      padding: .1em .45em;
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: .03em;
+    }
+
+    /* ── Certifications ──────────────────────────────────────────── */
+    .cert-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .cert-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 14px;
+    }
+
+    .cert-badge {
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      padding: .25em .6em;
+      border-radius: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .cert-badge.coursera { background: #f3f6ff; color: #0056d2; border: 1px solid #c7d7f5; }
+    .cert-badge.udemy    { background: #fff3f0; color: #a435f0; border: 1px solid #e8c8f8; }
+    .cert-badge.other    { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+
+    .cert-body { flex: 1; min-width: 0; }
+
+    .cert-title {
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+    }
+
+    .cert-title:hover { color: var(--accent-d); }
+
+    .cert-meta {
+      font-size: .75rem;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+
+    .cert-year {
+      font-size: .75rem;
+      color: #cbd5e1;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     /* ── Project cards ───────────────────────────────────────────── */
@@ -369,6 +453,7 @@
       .skill-group { grid-template-columns: 1fr; gap: 4px 0; }
       .edu-item { grid-template-columns: 1fr; gap: 2px; }
       #topnav .site-name { display: none; }
+      .cert-title { white-space: normal; }
     }
   </style>
 </head>
@@ -379,25 +464,25 @@
   <div id="hero-inner">
 
     <div id="topnav">
-      <span class="site-name">Ignacio Salgado</span>
+      <span class="site-name">Italo Salgado</span>
       <div class="nav-links">
         <a href="index.html" class="active">cv</a>
         <a href="posts.html">posts</a>
       </div>
     </div>
 
-    <h1>Ignacio Salgado</h1>
+    <h1>Italo Salgado</h1>
 
     
-    <p class="tagline">Computer Vision and Embedded Systems Engineer with 6 years of experience building real-time perception pipelines for autonomous and industrial applications. Proven track record of…</p>
+    <p class="tagline">Ingeniero Civil Electrónico (UTFSM) con 5 años de experiencia en Ingenieria de Software y Machine Learning. Trayectoria en despliegue de modelos de visión por computador y de desa…</p>
     
 
     <div class="contacts">
       
-        <a href="mailto:ignacio@example.com">ignacio@example.com</a>
+        <a href="mailto:italo.salgado.14@sansano.usm.cl">italo.salgado.14@sansano.usm.cl</a>
       
       
-        <a href="https://linkedin.com/in/ignacio-salgado" target="_blank">LinkedIn</a>
+        <a href="https://linkedin.com/in/italo-salgado" target="_blank">LinkedIn</a>
       
       
         <a href="https://github.com/isalgado" target="_blank">GitHub</a>
@@ -406,7 +491,7 @@
         <a href="https://isalgado.dev" target="_blank">isalgado.dev</a>
       
       
-        <span class="ph">+34 600 000 000</span>
+        <span class="ph">+569 595 750 75</span>
       
     </div>
 
@@ -420,7 +505,7 @@
   
   <div class="section">
     <h2 class="section-title">About</h2>
-    <p class="about-text">Computer Vision and Embedded Systems Engineer with 6 years of experience building real-time perception pipelines for autonomous and industrial applications. Proven track record of shipping latency-critical software on resource-constrained hardware. Strong advocate of reproducible ML workflows and clean, well-tested C++/Python codebases.</p>
+    <p class="about-text">Ingeniero Civil Electrónico (UTFSM) con 5 años de experiencia en Ingenieria de Software y Machine Learning. Trayectoria en despliegue de modelos de visión por computador y de desarrollo backend. El dominio de las bases informática-electrónica permite demostrar aptitudes de manejo software y hardware a distintos niveles: desde microarquitecturas hasta aplicaciones de alto nivel. Con interés en trabajos de MLE y SWE, siempre vinculados a un ambiente de trabajo I+D dinámico.</p>
   </div>
   
 
@@ -436,11 +521,9 @@
           
           <span class="pill">Python</span>
           
-          <span class="pill">C++17</span>
+          <span class="pill">C++</span>
           
-          <span class="pill">C</span>
-          
-          <span class="pill">CUDA</span>
+          <span class="pill">C#</span>
           
           <span class="pill">Bash</span>
           
@@ -459,11 +542,11 @@
           
           <span class="pill">ONNX Runtime</span>
           
-          <span class="pill">TensorRT</span>
-          
-          <span class="pill">YOLOv8</span>
+          <span class="pill">YOLO</span>
           
           <span class="pill">scikit-learn</span>
+          
+          <span class="pill">MLFlow</span>
           
         </div>
       </div>
@@ -508,17 +591,94 @@
         </div>
       </div>
       
-      <div class="skill-group">
-        <span class="skill-group-name">Languages (human)</span>
-        <div class="skill-pills">
+    </div>
+  </div>
+  
+
+  <!-- Languages -->
+  
+  <div class="section">
+    <h2 class="section-title">Languages</h2>
+    <div class="lang-pills">
+      
+      <div class="lang-pill">
+        <span class="lang-name">Spanish</span>
+        <span class="lang-level">native</span>
+      </div>
+      
+      <div class="lang-pill">
+        <span class="lang-name">English</span>
+        <span class="lang-level">C2</span>
+      </div>
+      
+      <div class="lang-pill">
+        <span class="lang-name">French</span>
+        <span class="lang-level">B2</span>
+      </div>
+      
+    </div>
+  </div>
+  
+
+  <!-- Certifications -->
+  
+  <div class="section">
+    <h2 class="section-title">Certifications</h2>
+    <div class="cert-list">
+      
+      <div class="cert-item">
+        <span class="cert-badge coursera">Coursera</span>
+        <div class="cert-body">
           
-          <span class="pill">Spanish (native)</span>
+          <span class="cert-title">Deep Learning Specialization</span>
           
-          <span class="pill">English (C2)</span>
-          
-          <span class="pill">French (B2)</span>
-          
+          <div class="cert-meta">DeepLearning.AI</div>
         </div>
+        <span class="cert-year">2022</span>
+      </div>
+      
+      <div class="cert-item">
+        <span class="cert-badge coursera">Coursera</span>
+        <div class="cert-body">
+          
+          <span class="cert-title">Machine Learning Specialization</span>
+          
+          <div class="cert-meta">Stanford / DeepLearning.AI</div>
+        </div>
+        <span class="cert-year">2022</span>
+      </div>
+      
+      <div class="cert-item">
+        <span class="cert-badge udemy">Udemy</span>
+        <div class="cert-body">
+          
+          <span class="cert-title">PyTorch for Deep Learning Bootcamp</span>
+          
+          <div class="cert-meta">Zero to Mastery</div>
+        </div>
+        <span class="cert-year">2023</span>
+      </div>
+      
+      <div class="cert-item">
+        <span class="cert-badge udemy">Udemy</span>
+        <div class="cert-body">
+          
+          <span class="cert-title">Docker & Kubernetes: The Practical Guide</span>
+          
+          <div class="cert-meta">Maximilian Schwarzmüller</div>
+        </div>
+        <span class="cert-year">2023</span>
+      </div>
+      
+      <div class="cert-item">
+        <span class="cert-badge coursera">Coursera</span>
+        <div class="cert-body">
+          
+          <span class="cert-title">MLOps Fundamentals</span>
+          
+          <div class="cert-meta">Google Cloud</div>
+        </div>
+        <span class="cert-year">2024</span>
       </div>
       
     </div>
@@ -526,43 +686,6 @@
   
 
   <!-- Projects -->
-  
-  <div class="section">
-    <h2 class="section-title">Projects</h2>
-    <div class="proj-grid">
-      
-      <div class="proj-card">
-        <div class="proj-card-meta">
-          <div class="proj-card-name">EdgeDet</div>
-          <div class="proj-card-date">2024</div>
-        </div>
-        
-        <div class="proj-card-tech">C++, TensorRT, CUDA, ROS 2</div>
-        
-        
-        <ul class="bullets">
-          <li>Open-source real-time pedestrian detection node for ROS 2; runs at 60 fps on Jetson AGX Orin with YOLOv8-nano.</li><li>340+ GitHub stars; cited in two academic papers on edge inference.</li>
-        </ul>
-        
-      </div>
-      
-      <div class="proj-card">
-        <div class="proj-card-meta">
-          <div class="proj-card-name">cv-automat</div>
-          <div class="proj-card-date">2025</div>
-        </div>
-        
-        <div class="proj-card-tech">Python, LaTeX, Jinja2, GitHub Actions</div>
-        
-        
-        <ul class="bullets">
-          <li>CI/CD pipeline that parses this <code>cv.tex</code>, generates a static HTML portfolio page, and deploys it to GitHub Pages on every push — single source of truth for both PDF and web CV.</li>
-        </ul>
-        
-      </div>
-      
-    </div>
-  </div>
   
 
   <!-- Experience -->
@@ -578,15 +701,15 @@
         </div>
         <div class="tl-body">
           <div class="tl-head">
-            <div class="tl-title">Senior Computer Vision Engineer</div>
-            <div class="tl-date">Jan 2023 – Present</div>
+            <div class="tl-title">Project Engineer II</div>
+            <div class="tl-date">Mayo 2023 – Present</div>
           </div>
           <div class="tl-company">
-            Wayve &middot; <span style="font-weight:400; color:var(--muted);">London, UK (Remote)</span>
+            Honeywell &middot; <span style="font-weight:400; color:var(--muted);">Santiago, Chile (Híbrido)</span>
           </div>
           
           <ul class="bullets">
-            <li>Redesigned the on-device object-detection inference stack in C++17, reducing end-to-end latency by <strong>42%</strong> (120 ms → 70 ms) while maintaining 97.3% mAP on the internal benchmark.</li><li>Led migration from TensorFlow Lite to ONNX Runtime on Jetson Orin, cutting model-deployment effort from 3 weeks to 2 days per new model.</li><li>Mentored 3 junior engineers through fortnightly design-review sessions; two were promoted within a year.</li>
+            <li>Integrante del equipo de Innovación de Honeywell Chile, parte del pilar de Data Science, que desempeña actividades principalmente como Machine Learning Engineer y Software Engineer.</li><li>Implementación del ciclo de vida de modelo detector de objetos: entrenamiento, tuning de parámetros, deployment en producción y monitoreo.</li><li>Implementación e integración de señales a sistemas de control Honeywell.</li><li>Desarrollo e implementación de pipelines de visión artificial combinando métodos tradicionales (feature-based) y basados en datos (DL y ML tradicional) para: monitoreo de salud de cámaras, reentrenamiento automático de modelos de clasificación, y evaluación de performance mediante interfaz CLI. Enfocado en Backend.</li><li>Diseño y configuración de pipelines de entrenamiento de modelos en Azure, necesario para modelos de Deep Learning.</li>
           </ul>
           
         </div>
@@ -600,14 +723,14 @@
         <div class="tl-body">
           <div class="tl-head">
             <div class="tl-title">Computer Vision Engineer</div>
-            <div class="tl-date">Mar 2021 – Dec 2022</div>
+            <div class="tl-date">Enero 2023 – Mayo 2023</div>
           </div>
           <div class="tl-company">
-            Prophesee &middot; <span style="font-weight:400; color:var(--muted);">Paris, France</span>
+            Universidad Técnica Federico Santa María - Wildsense &middot; <span style="font-weight:400; color:var(--muted);">Valparaíso, Chile (Presencial)</span>
           </div>
           
           <ul class="bullets">
-            <li>Built a Python/C++ event-camera processing library (<em>evlib</em>) used by 12 enterprise customers; reduced integration time from weeks to hours.</li><li>Implemented a sparse optical-flow algorithm on FPGA logic, achieving 10× throughput improvement over the CPU baseline.</li><li>Authored the team's CI pipeline (GitHub Actions + Docker) that cut flaky-test failures by 85% and standardised cross-platform builds across Linux, macOS, and Windows.</li>
+            <li>Uso de visión artificial para dar solución a problemas de diversa índole en la acuicultura. Spin-off con la empresa Wildsense Technologies &amp; Innovation.</li><li>Integración de módulos de visión de distinta índole: tracking, segmentación, etc.</li><li>Uso de nube de puntos para estimación de tamaño, usando filtrado, preprocesamiento y seleccionado de zonas de interés.</li><li>Manejo y gestión de célula de trabajo de visión artificial de 5 personas.</li><li>Generar dataset representativo de nube de puntos para iterar creación de modelos de acuicultura.</li>
           </ul>
           
         </div>
@@ -620,15 +743,99 @@
         </div>
         <div class="tl-body">
           <div class="tl-head">
-            <div class="tl-title">Embedded Software Engineer</div>
-            <div class="tl-date">Sep 2019 – Feb 2021</div>
+            <div class="tl-title">Software Engineer</div>
+            <div class="tl-date">Noviembre 2022 – Diciembre 2022</div>
           </div>
           <div class="tl-company">
-            SENER Aeroespacial &middot; <span style="font-weight:400; color:var(--muted);">Madrid, Spain</span>
+            Aikologic Spa &middot; <span style="font-weight:400; color:var(--muted);">Chile, Santiago (Remoto)</span>
           </div>
           
           <ul class="bullets">
-            <li>Developed RTOS firmware in C for star-tracker attitude sensors aboard two ESA satellites; zero in-orbit anomalies after 18 months.</li><li>Reduced flash memory footprint by 30% through custom compression of telemetry buffers, enabling 6 additional instrument channels.</li>
+            <li>Desarrollo de hardware y software a distintos niveles, especialmente de implementaciones de Machine Learning.</li><li>Manejo de bases de datos a través de Python.</li><li>Evaluación y puesta en marcha de modelos de Machine Learning en operaciones. Evaluación de algoritmos para microcontroladores.</li>
+          </ul>
+          
+        </div>
+      </li>
+      
+      <li class="tl-item">
+        <div class="tl-bar">
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-head">
+            <div class="tl-title">Computer Vision Engineer</div>
+            <div class="tl-date">Abril 2022 – Septiembre 2022</div>
+          </div>
+          <div class="tl-company">
+            Universidad Técnica Federico Santa María &middot; <span style="font-weight:400; color:var(--muted);">Chile, Valparaíso (Presencial)</span>
+          </div>
+          
+          <ul class="bullets">
+            <li>Estudio del estado del arte e implementación de algoritmos de estimación de los latidos del corazón, la respiración, la presión sanguínea, entre otros, que cubrían técnicas de Deep Learning y de procesamiento de imágenes.</li><li>Generación de dataset especializado para evaluación de bioindicadores en coordinación con hospital y médicos.</li><li>Manejo y gestión de una célula de trabajo de 3 personas encargada del área de visión. Coordinación con equipo Full Stack para integración.</li>
+          </ul>
+          
+        </div>
+      </li>
+      
+      <li class="tl-item">
+        <div class="tl-bar">
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-head">
+            <div class="tl-title">Trainee Computer Vision Engineer</div>
+            <div class="tl-date">Abril 2021 – Febrero 2022</div>
+          </div>
+          <div class="tl-company">
+            Nexar S.A. &middot; <span style="font-weight:400; color:var(--muted);">Chile, Santiago (Remoto)</span>
+          </div>
+          
+          <ul class="bullets">
+            <li>Trabajo de título en visión artificial. Se capturan los movimientos 3D en un video corto. Se realiza segmentación del usuario y repintado del video original. Esto se importa hacia Unreal Engine.</li><li>Estudio e implementación de algoritmos de Body Tracking 3D, segmentación y repintado. Scripting con Python. Manejo de gestor de paquetes y sistema de gestión de entornos.</li><li>Manejo de Unreal Engine: construcción de <em>Levels</em> con <em>Blueprints</em>, animaciones, texturas, etc.</li>
+          </ul>
+          
+        </div>
+      </li>
+      
+      <li class="tl-item">
+        <div class="tl-bar">
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-head">
+            <div class="tl-title">Trainee Computer Vision Engineer</div>
+            <div class="tl-date">Abril 2021 – Septiembre 2021</div>
+          </div>
+          <div class="tl-company">
+            TSF S.A &middot; <span style="font-weight:400; color:var(--muted);">Chile, Santiago (Remoto)</span>
+          </div>
+          
+          <ul class="bullets">
+            <li>Soporte en la detección de frutales con un enfoque Deep Learning.</li><li>Generación de datos de segmentación a través de VIA.</li><li>Programación Pytorch de modelos de detección basados en Detectron2 (Mask R-CNN).</li>
+          </ul>
+          
+        </div>
+      </li>
+      
+      <li class="tl-item">
+        <div class="tl-bar">
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-head">
+            <div class="tl-title">Trainee Hardware Engineer</div>
+            <div class="tl-date">Abril 2021 – Septiembre 2021</div>
+          </div>
+          <div class="tl-company">
+            Wiseconn S.A. &middot; <span style="font-weight:400; color:var(--muted);">Chile, Valparaíso (Remoto)</span>
+          </div>
+          
+          <ul class="bullets">
+            <li>Integración de sistemas embebidos experimentales con la nube AWS IoT. Integración de nodos WiFi con la red interna de la empresa.</li><li>Relacionar un nodo XBee 3 Cellular con la red AWS IoT.</li><li>Integración de un nodo ESP8266 WiFi.</li>
           </ul>
           
         </div>
@@ -639,31 +846,6 @@
   
 
   <!-- Education -->
-  
-  <div class="section">
-    <h2 class="section-title">Education</h2>
-    <ul class="edu-list">
-      
-      <li class="edu-item">
-        <div class="edu-dates">2017 – 2019</div>
-        <div>
-          <div class="edu-degree">M.Sc. Robotics &amp; Computer Vision</div>
-          <div class="edu-inst">Universidad Politécnica de Madrid &middot; Madrid, Spain</div>
-          <div class="edu-details">GPA: 9.1/10 · Thesis: <em>Event-camera depth estimation on low-power SoCs</em></div>
-        </div>
-      </li>
-      
-      <li class="edu-item">
-        <div class="edu-dates">2013 – 2017</div>
-        <div>
-          <div class="edu-degree">B.Eng. Telecommunications Engineering</div>
-          <div class="edu-inst">Universidad Autónoma de Madrid &middot; Madrid, Spain</div>
-          <div class="edu-details">Graduated with Honours (Matrícula de Honor)</div>
-        </div>
-      </li>
-      
-    </ul>
-  </div>
   
 
   <div id="footer">

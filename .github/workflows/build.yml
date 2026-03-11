@@ -9,6 +9,7 @@ on:
       - "templates/posts.html.j2"
       - "scripts/build.py"
       - "data/posts.json"
+      - "data/certifications.json"
       - ".github/workflows/build.yml"
   workflow_dispatch:   # allow manual trigger from the Actions tab
 
