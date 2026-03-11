@@ -25,10 +25,13 @@ except ImportError:
 
 def cli() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--cv",       default="cv/cv.tex",              help="Path to cv.tex")
-    p.add_argument("--template", default="templates/index.html.j2",help="Path to Jinja2 template")
-    p.add_argument("--out",      default="docs/index.html",         help="Output HTML path")
-    p.add_argument("--dump-json", action="store_true",              help="Print extracted JSON and exit")
+    p.add_argument("--cv",             default="cv/cv.tex",                  help="Path to cv.tex")
+    p.add_argument("--template",       default="templates/index.html.j2",    help="Path to CV Jinja2 template")
+    p.add_argument("--out",            default="docs/index.html",            help="Output CV HTML path")
+    p.add_argument("--posts-data",     default="data/posts.json",            help="Path to posts JSON")
+    p.add_argument("--posts-template", default="templates/posts.html.j2",   help="Path to posts Jinja2 template")
+    p.add_argument("--posts-out",      default="docs/posts.html",            help="Output posts HTML path")
+    p.add_argument("--dump-json",      action="store_true",                  help="Print extracted JSON and exit")
     return p.parse_args()
 
 
@@ -245,9 +248,12 @@ def main() -> None:
 
     # Resolve paths relative to the repo root (one level up from scripts/)
     repo_root = Path(__file__).parent.parent
-    cv_path       = repo_root / args.cv
-    template_path = repo_root / args.template
-    out_path      = repo_root / args.out
+    cv_path            = repo_root / args.cv
+    template_path      = repo_root / args.template
+    out_path           = repo_root / args.out
+    posts_data_path    = repo_root / args.posts_data
+    posts_tmpl_path    = repo_root / args.posts_template
+    posts_out_path     = repo_root / args.posts_out
 
     if not cv_path.exists():
         sys.exit(f"ERROR: CV file not found: {cv_path}")
@@ -261,11 +267,20 @@ def main() -> None:
         print(json.dumps(data, indent=2, ensure_ascii=False))
         return
 
-    html = render(data, template_path)
-
+    # ── Build CV page ──────────────────────────────────────────────
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(html, encoding="utf-8")
+    out_path.write_text(render(data, template_path), encoding="utf-8")
     print(f"Built: {out_path}")
+
+    # ── Build posts page ───────────────────────────────────────────
+    if posts_tmpl_path.exists():
+        posts = json.loads(posts_data_path.read_text(encoding="utf-8")) \
+                if posts_data_path.exists() else []
+        posts_html = render({"person": data["person"], "posts": posts}, posts_tmpl_path)
+        posts_out_path.write_text(posts_html, encoding="utf-8")
+        print(f"Built: {posts_out_path}")
+    else:
+        print(f"Skipped posts page (template not found: {posts_tmpl_path})")
 
 
 if __name__ == "__main__":

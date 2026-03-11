@@ -1,0 +1,34 @@
+[
+  {
+    "title": "Real-time Pedestrian Detection on Jetson AGX Orin",
+    "date": "2024-11",
+    "image": "assets/17538.jpg",
+    "description": "A deep dive into deploying YOLOv8-nano at 60 fps on edge hardware using TensorRT. Covers quantisation, layer-fusion tricks, and the ROS 2 node architecture that lets EdgeDet slot into any autonomous-vehicle stack.",
+    "link": "https://github.com/isalgado/edgedet",
+    "tags": ["C++", "TensorRT", "ROS 2", "CUDA"]
+  },
+  {
+    "title": "PyTorch Internals: Custom CUDA Kernels for Computer Vision",
+    "date": "2023-09",
+    "image": "assets/pytorch1.png",
+    "description": "Writing custom CUDA extensions for PyTorch to speed up event-camera preprocessing. Walks through torch.utils.cpp_extension, memory layout considerations, and benchmarking against the naive Python baseline.",
+    "link": "",
+    "tags": ["PyTorch", "CUDA", "Python"]
+  },
+  {
+    "title": "Event Cameras Meet Enterprise: Lessons from 12 Deployments",
+    "date": "2022-06",
+    "image": "assets/ibm1.jpg",
+    "description": "A retrospective on integrating event-based vision into enterprise robotics pipelines — packaging constraints, latency budgets, SDK design choices, and what actually breaks in production versus in the lab.",
+    "link": "",
+    "tags": ["Event cameras", "Embedded", "Computer Vision"]
+  },
+  {
+    "title": "Building a CI/CD Pipeline for Your LaTeX CV",
+    "date": "2025-03",
+    "image": "assets/image1.jpg",
+    "description": "How this very site works: a single cv.tex is parsed by a Python script, rendered through Jinja2, and deployed to GitHub Pages on every push — no manual steps, no drift between your PDF and web CV.",
+    "link": "https://github.com/isalgado/cv-automat",
+    "tags": ["Python", "LaTeX", "GitHub Actions"]
+  }
+]

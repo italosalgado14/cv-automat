@@ -3,474 +3,672 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ignacio Salgado — CV</title>
+  <title>Ignacio Salgado</title>
   <style>
-    /* ── Reset & base ───────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ── Reset & tokens ─────────────────────────────────────────── */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent:   #0ea5e9;   /* sky-500  */
+      --accent-d: #0369a1;   /* sky-700  */
+      --hero-bg:  #0f172a;   /* slate-900 */
+      --hero-fg:  #f1f5f9;   /* slate-100 */
+      --pill-bg:  #dbeafe;   /* blue-100 */
+      --pill-fg:  #1e3a8a;   /* blue-900 */
+      --body-bg:  #f8fafc;   /* slate-50 */
+      --text:     #1e293b;   /* slate-800 */
+      --muted:    #64748b;   /* slate-500 */
+      --border:   #e2e8f0;   /* slate-200 */
+    }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-                   Helvetica, Arial, sans-serif;
-      font-size: 15px;
-      line-height: 1.6;
-      color: #1a1a1a;
-      background: #f5f5f5;
+      font-family: sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--text);
+      background: var(--body-bg);
     }
 
-    /* ── Layout ─────────────────────────────────────────────────── */
-    #page {
-      max-width: 760px;
-      margin: 2.5rem auto;
-      background: #fff;
-      padding: 3rem 3.5rem;
-      border-radius: 4px;
-      box-shadow: 0 1px 6px rgba(0,0,0,.08);
+    a { color: var(--accent-d); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Hero ───────────────────────────────────────────────────── */
+    #hero {
+      background: var(--hero-bg);
+      color: var(--hero-fg);
+      padding: 0 20px;
     }
 
-    @media (max-width: 640px) {
-      #page { margin: 0; padding: 1.5rem 1.2rem; border-radius: 0; box-shadow: none; }
+    #hero-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 22px 0 36px;
     }
 
-    /* ── Header ─────────────────────────────────────────────────── */
-    header { text-align: center; margin-bottom: 2rem; }
-
-    header h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: -.5px;
-      color: #2c3e50;
-      margin-bottom: .5rem;
-    }
-
-    .contact {
+    /* nav inside hero */
+    #topnav {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: .25rem .75rem;
-      font-size: .85rem;
-      color: #555;
+      justify-content: space-between;
+      align-items: center;
+      font-size: .82rem;
+      color: #94a3b8;       /* slate-400 */
+      margin-bottom: 32px;
     }
 
-    .contact a {
-      color: #2980b9;
+    #topnav .nav-links { display: flex; gap: 20px; }
+
+    #topnav a {
+      color: #94a3b8;
       text-decoration: none;
     }
-    .contact a:hover { text-decoration: underline; }
+    #topnav a:hover { color: #fff; }
+    #topnav a.active { color: #fff; font-weight: bold; }
 
-    .contact span::before {
-      content: "·";
-      margin-right: .75rem;
-      color: #ccc;
-    }
-    .contact span:first-child::before { content: none; }
-
-    /* ── Sections ───────────────────────────────────────────────── */
-    section { margin-bottom: 1.75rem; }
-
-    section h2 {
-      font-size: .8rem;
+    /* name */
+    #hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 700;
-      letter-spacing: .12em;
+      color: #fff;
+      letter-spacing: -.5px;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+
+    /* short tagline */
+    #hero .tagline {
+      font-size: 1rem;
+      color: #94a3b8;
+      max-width: 600px;
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+
+    /* contact row */
+    #hero .contacts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 18px;
+      font-size: .82rem;
+    }
+
+    #hero .contacts a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+    }
+    #hero .contacts a:hover {
+      border-bottom-color: var(--accent);
+    }
+
+    #hero .contacts .ph {
+      color: #475569;   /* slate-600 */
+    }
+
+    /* ── Content wrapper ─────────────────────────────────────────── */
+    #content {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 44px 20px 64px;
+    }
+
+    /* ── Section ─────────────────────────────────────────────────── */
+    .section { margin-bottom: 44px; }
+
+    .section-title {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .16em;
       text-transform: uppercase;
-      color: #2c3e50;
-      border-bottom: 1.5px solid #2c3e50;
-      padding-bottom: .25rem;
-      margin-bottom: 1rem;
+      color: var(--accent);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    /* ── Summary ────────────────────────────────────────────────── */
-    .summary p {
-      color: #333;
-      line-height: 1.7;
+    .section-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
     }
 
-    /* ── Entry (shared by experience, projects, education) ──────── */
-    .entry { margin-bottom: 1.1rem; }
-    .entry:last-child { margin-bottom: 0; }
+    /* ── About ───────────────────────────────────────────────────── */
+    .about-text {
+      font-size: .97rem;
+      color: var(--text);
+      line-height: 1.75;
+      max-width: 720px;
+    }
 
-    .entry-header {
+    /* ── Skills ──────────────────────────────────────────────────── */
+    .skill-groups {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .skill-group {
+      display: grid;
+      grid-template-columns: 168px 1fr;
+      gap: 0 16px;
+      align-items: start;
+    }
+
+    .skill-group-name {
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--muted);
+      padding-top: 3px;
+    }
+
+    .skill-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .pill {
+      display: inline-block;
+      font-size: .75rem;
+      background: var(--pill-bg);
+      color: var(--pill-fg);
+      padding: .2em .65em;
+      border-radius: 999px;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    /* ── Project cards ───────────────────────────────────────────── */
+    .proj-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .proj-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--accent);
+      border-radius: 4px;
+      padding: 16px 18px;
+    }
+
+    .proj-card-name {
+      font-weight: 700;
+      font-size: .95rem;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .proj-card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+
+    .proj-card-tech {
+      font-size: .75rem;
+      color: var(--muted);
+    }
+
+    .proj-card-date {
+      font-size: .75rem;
+      color: #cbd5e1;   /* slate-300 */
+      white-space: nowrap;
+    }
+
+    /* ── Experience timeline ─────────────────────────────────────── */
+    .timeline { list-style: none; }
+
+    .tl-item {
+      display: grid;
+      grid-template-columns: 8px 1fr;
+      gap: 0 18px;
+      margin-bottom: 24px;
+    }
+
+    .tl-item:last-child { margin-bottom: 0; }
+
+    /* colored left bar */
+    .tl-bar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 5px;
+    }
+
+    .tl-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .tl-line {
+      width: 2px;
+      flex: 1;
+      background: var(--border);
+      margin-top: 4px;
+    }
+
+    .tl-item:last-child .tl-line { display: none; }
+
+    .tl-body {}
+
+    .tl-head {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
       flex-wrap: wrap;
-      gap: .1rem .5rem;
-      margin-bottom: .2rem;
+      gap: 2px 10px;
+      margin-bottom: 2px;
     }
 
-    .entry-title {
-      font-weight: 600;
-      color: #1a1a1a;
+    .tl-title {
+      font-weight: 700;
+      font-size: .95rem;
+      color: var(--text);
     }
 
-    .entry-sub {
-      font-size: .88rem;
-      color: #555;
-    }
-
-    .entry-dates {
-      font-size: .82rem;
-      color: #888;
+    .tl-date {
+      font-size: .78rem;
+      color: #cbd5e1;
       white-space: nowrap;
-      flex-shrink: 0;
     }
 
-    .entry-details {
+    .tl-company {
       font-size: .85rem;
-      color: #666;
-      margin-top: .1rem;
+      color: var(--accent-d);
+      font-weight: 600;
+      margin-bottom: 6px;
     }
 
-    /* ── Bullets ────────────────────────────────────────────────── */
-    ul.bullets {
-      list-style: none;
-      padding: 0;
-      margin: .35rem 0 0 0;
+    /* ── Education (compact two-col) ─────────────────────────────── */
+    .edu-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+
+    .edu-item {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 0 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
     }
+
+    .edu-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .edu-dates {
+      font-size: .78rem;
+      color: #cbd5e1;
+      padding-top: 3px;
+    }
+
+    .edu-degree {
+      font-weight: 700;
+      font-size: .9rem;
+      color: var(--text);
+    }
+
+    .edu-inst {
+      font-size: .82rem;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+    .edu-details {
+      font-size: .8rem;
+      color: #94a3b8;
+    }
+
+    /* ── Bullets ─────────────────────────────────────────────────── */
+    ul.bullets { list-style: none; padding: 0; margin-top: 6px; }
 
     ul.bullets li {
       position: relative;
-      padding-left: 1.1em;
-      font-size: .9rem;
-      color: #333;
-      margin-bottom: .25rem;
+      padding-left: 14px;
+      font-size: .85rem;
+      color: #475569;   /* slate-600 */
       line-height: 1.55;
+      margin-bottom: 4px;
     }
 
     ul.bullets li::before {
-      content: "–";
+      content: "›";
       position: absolute;
       left: 0;
-      color: #aaa;
+      color: var(--accent);
+      font-weight: bold;
     }
 
-    ul.bullets li strong { color: #1a1a1a; }
+    ul.bullets li strong { color: var(--text); }
     ul.bullets li em     { font-style: italic; }
-    ul.bullets li code   { font-family: "SFMono-Regular", Consolas, monospace;
-                           font-size: .88em; background: #f0f0f0;
-                           padding: .05em .3em; border-radius: 3px; }
-    ul.bullets li a      { color: #2980b9; text-decoration: none; }
-    ul.bullets li a:hover{ text-decoration: underline; }
-
-    /* ── Skills ─────────────────────────────────────────────────── */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: .35rem 1rem;
-      align-items: baseline;
-    }
-
-    .skill-category {
-      font-weight: 600;
-      font-size: .88rem;
-      color: #2c3e50;
-      white-space: nowrap;
-    }
-
-    .skill-items {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .3rem;
-    }
-
-    .skill-chip {
-      display: inline-block;
-      font-size: .78rem;
-      background: #eef2f7;
-      color: #2c3e50;
-      padding: .15em .55em;
+    ul.bullets li code   {
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: .83em;
+      background: #f1f5f9;
+      padding: .05em .3em;
       border-radius: 3px;
-      line-height: 1.5;
     }
 
-    /* ── Footer ─────────────────────────────────────────────────── */
-    footer {
-      margin-top: 2.5rem;
-      padding-top: 1rem;
-      border-top: 1px solid #eee;
-      font-size: .75rem;
-      color: #bbb;
-      text-align: center;
+    /* ── Footer ──────────────────────────────────────────────────── */
+    #footer {
+      font-size: .72rem;
+      color: #cbd5e1;
+      margin-top: 48px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    #footer a { color: #94a3b8; }
+
+    /* ── Responsive ──────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .proj-grid { grid-template-columns: 1fr; }
+      .skill-group { grid-template-columns: 1fr; gap: 4px 0; }
+      .edu-item { grid-template-columns: 1fr; gap: 2px; }
+      #topnav .site-name { display: none; }
     }
   </style>
 </head>
 <body>
-<div id="page">
 
-  <!-- ── Header ─────────────────────────────────────────────────── -->
-  <header>
+<!-- ══ HERO ══════════════════════════════════════════════════════════ -->
+<div id="hero">
+  <div id="hero-inner">
+
+    <div id="topnav">
+      <span class="site-name">Ignacio Salgado</span>
+      <div class="nav-links">
+        <a href="index.html" class="active">cv</a>
+        <a href="posts.html">posts</a>
+      </div>
+    </div>
+
     <h1>Ignacio Salgado</h1>
-    <div class="contact">
-      
-      <span><a href="mailto:ignacio@example.com">ignacio@example.com</a></span>
-      
-      
-      <span>+34 600 000 000</span>
-      
-      
-      <span><a href="https://linkedin.com/in/ignacio-salgado" target="_blank">LinkedIn</a></span>
-      
-      
-      <span><a href="https://github.com/isalgado" target="_blank">GitHub</a></span>
-      
-      
-      <span><a href="https://isalgado.dev" target="_blank">isalgado.dev</a></span>
-      
-    </div>
-  </header>
 
-  <!-- ── Summary ────────────────────────────────────────────────── -->
-  
-  <section class="summary">
-    <h2>Summary</h2>
-    <p>Computer Vision and Embedded Systems Engineer with 6 years of experience building real-time perception pipelines for autonomous and industrial applications. Proven track record of shipping latency-critical software on resource-constrained hardware. Strong advocate of reproducible ML workflows and clean, well-tested C++/Python codebases.</p>
-  </section>
-  
+    
+    <p class="tagline">Computer Vision and Embedded Systems Engineer with 6 years of experience building real-time perception pipelines for autonomous and industrial applications. Proven track record of…</p>
+    
 
-  <!-- ── Experience ─────────────────────────────────────────────── -->
+    <div class="contacts">
+      
+        <a href="mailto:ignacio@example.com">ignacio@example.com</a>
+      
+      
+        <a href="https://linkedin.com/in/ignacio-salgado" target="_blank">LinkedIn</a>
+      
+      
+        <a href="https://github.com/isalgado" target="_blank">GitHub</a>
+      
+      
+        <a href="https://isalgado.dev" target="_blank">isalgado.dev</a>
+      
+      
+        <span class="ph">+34 600 000 000</span>
+      
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ CONTENT ═══════════════════════════════════════════════════════ -->
+<div id="content">
+
+  <!-- About -->
   
-  <section>
-    <h2>Experience</h2>
-    
-    <div class="entry">
-      <div class="entry-header">
-        <div>
-          <span class="entry-title">Senior Computer Vision Engineer</span>
-          <span class="entry-sub"> &mdash; Wayve, London, UK (Remote)</span>
-        </div>
-        <span class="entry-dates">Jan 2023 – Present</span>
-      </div>
-      
-      <ul class="bullets">
-        
-        <li>Redesigned the on-device object-detection inference stack in C++17, reducing end-to-end latency by <strong>42%</strong> (120 ms → 70 ms) while maintaining 97.3% mAP on the internal benchmark.</li>
-        
-        <li>Led migration from TensorFlow Lite to ONNX Runtime on Jetson Orin, cutting model-deployment effort from 3 weeks to 2 days per new model.</li>
-        
-        <li>Mentored 3 junior engineers through fortnightly design-review sessions; two were promoted within a year.</li>
-        
-      </ul>
-      
-    </div>
-    
-    <div class="entry">
-      <div class="entry-header">
-        <div>
-          <span class="entry-title">Computer Vision Engineer</span>
-          <span class="entry-sub"> &mdash; Prophesee, Paris, France</span>
-        </div>
-        <span class="entry-dates">Mar 2021 – Dec 2022</span>
-      </div>
-      
-      <ul class="bullets">
-        
-        <li>Built a Python/C++ event-camera processing library (<em>evlib</em>) used by 12 enterprise customers; reduced integration time from weeks to hours.</li>
-        
-        <li>Implemented a sparse optical-flow algorithm on FPGA logic, achieving 10× throughput improvement over the CPU baseline.</li>
-        
-        <li>Authored the team's CI pipeline (GitHub Actions + Docker) that cut flaky-test failures by 85% and standardised cross-platform builds across Linux, macOS, and Windows.</li>
-        
-      </ul>
-      
-    </div>
-    
-    <div class="entry">
-      <div class="entry-header">
-        <div>
-          <span class="entry-title">Embedded Software Engineer</span>
-          <span class="entry-sub"> &mdash; SENER Aeroespacial, Madrid, Spain</span>
-        </div>
-        <span class="entry-dates">Sep 2019 – Feb 2021</span>
-      </div>
-      
-      <ul class="bullets">
-        
-        <li>Developed RTOS firmware in C for star-tracker attitude sensors aboard two ESA satellites; zero in-orbit anomalies after 18 months.</li>
-        
-        <li>Reduced flash memory footprint by 30% through custom compression of telemetry buffers, enabling 6 additional instrument channels.</li>
-        
-      </ul>
-      
-    </div>
-    
-  </section>
+  <div class="section">
+    <h2 class="section-title">About</h2>
+    <p class="about-text">Computer Vision and Embedded Systems Engineer with 6 years of experience building real-time perception pipelines for autonomous and industrial applications. Proven track record of shipping latency-critical software on resource-constrained hardware. Strong advocate of reproducible ML workflows and clean, well-tested C++/Python codebases.</p>
+  </div>
   
 
-  <!-- ── Projects ───────────────────────────────────────────────── -->
+  <!-- Skills -->
   
-  <section>
-    <h2>Projects</h2>
-    
-    <div class="entry">
-      <div class="entry-header">
-        <div>
-          <span class="entry-title">EdgeDet</span>
+  <div class="section">
+    <h2 class="section-title">Skills</h2>
+    <div class="skill-groups">
+      
+      <div class="skill-group">
+        <span class="skill-group-name">Languages</span>
+        <div class="skill-pills">
           
-          <span class="entry-sub"> &mdash; C++, TensorRT, CUDA, ROS 2</span>
+          <span class="pill">Python</span>
+          
+          <span class="pill">C++17</span>
+          
+          <span class="pill">C</span>
+          
+          <span class="pill">CUDA</span>
+          
+          <span class="pill">Bash</span>
+          
+          <span class="pill">SQL</span>
           
         </div>
-        <span class="entry-dates">2024</span>
       </div>
       
-      <ul class="bullets">
-        
-        <li>Open-source real-time pedestrian detection node for ROS 2; runs at 60 fps on Jetson AGX Orin with YOLOv8-nano.</li>
-        
-        <li>340+ GitHub stars; cited in two academic papers on edge inference.</li>
-        
-      </ul>
-      
-    </div>
-    
-    <div class="entry">
-      <div class="entry-header">
-        <div>
-          <span class="entry-title">cv-automat</span>
+      <div class="skill-group">
+        <span class="skill-group-name">CV / ML</span>
+        <div class="skill-pills">
           
-          <span class="entry-sub"> &mdash; Python, LaTeX, Jinja2, GitHub Actions</span>
+          <span class="pill">OpenCV</span>
+          
+          <span class="pill">PyTorch</span>
+          
+          <span class="pill">ONNX Runtime</span>
+          
+          <span class="pill">TensorRT</span>
+          
+          <span class="pill">YOLOv8</span>
+          
+          <span class="pill">scikit-learn</span>
           
         </div>
-        <span class="entry-dates">2025</span>
       </div>
       
-      <ul class="bullets">
-        
-        <li>CI/CD pipeline that parses this <code>cv.tex</code>, generates a static HTML portfolio page, and deploys it to GitHub Pages on every push — single source of truth for both PDF and web CV.</li>
-        
-      </ul>
-      
-    </div>
-    
-  </section>
-  
-
-  <!-- ── Education ──────────────────────────────────────────────── -->
-  
-  <section>
-    <h2>Education</h2>
-    
-    <div class="entry">
-      <div class="entry-header">
-        <div>
-          <span class="entry-title">M.Sc. Robotics &amp; Computer Vision</span>
-          <span class="entry-sub"> &mdash; Universidad Politécnica de Madrid, Madrid, Spain</span>
+      <div class="skill-group">
+        <span class="skill-group-name">Embedded</span>
+        <div class="skill-pills">
+          
+          <span class="pill">Embedded Linux</span>
+          
+          <span class="pill">Jetson</span>
+          
+          <span class="pill">RTOS</span>
+          
+          <span class="pill">FreeRTOS</span>
+          
+          <span class="pill">CAN</span>
+          
+          <span class="pill">SPI</span>
+          
+          <span class="pill">I²C</span>
+          
         </div>
-        <span class="entry-dates">2017 – 2019</span>
       </div>
       
-      <div class="entry-details">GPA: 9.1/10 · Thesis: <em>Event-camera depth estimation on low-power SoCs</em></div>
-      
-    </div>
-    
-    <div class="entry">
-      <div class="entry-header">
-        <div>
-          <span class="entry-title">B.Eng. Telecommunications Engineering</span>
-          <span class="entry-sub"> &mdash; Universidad Autónoma de Madrid, Madrid, Spain</span>
+      <div class="skill-group">
+        <span class="skill-group-name">Infra &amp; Tools</span>
+        <div class="skill-pills">
+          
+          <span class="pill">Docker</span>
+          
+          <span class="pill">GitHub Actions</span>
+          
+          <span class="pill">CMake</span>
+          
+          <span class="pill">Git</span>
+          
+          <span class="pill">ROS 2</span>
+          
+          <span class="pill">Linux</span>
+          
         </div>
-        <span class="entry-dates">2013 – 2017</span>
       </div>
       
-      <div class="entry-details">Graduated with Honours (Matrícula de Honor)</div>
+      <div class="skill-group">
+        <span class="skill-group-name">Languages (human)</span>
+        <div class="skill-pills">
+          
+          <span class="pill">Spanish (native)</span>
+          
+          <span class="pill">English (C2)</span>
+          
+          <span class="pill">French (B2)</span>
+          
+        </div>
+      </div>
       
     </div>
-    
-  </section>
+  </div>
   
 
-  <!-- ── Skills ─────────────────────────────────────────────────── -->
+  <!-- Projects -->
   
-  <section>
-    <h2>Skills</h2>
-    <div class="skills-grid">
+  <div class="section">
+    <h2 class="section-title">Projects</h2>
+    <div class="proj-grid">
       
-      <div class="skill-category">Languages</div>
-      <div class="skill-items">
+      <div class="proj-card">
+        <div class="proj-card-meta">
+          <div class="proj-card-name">EdgeDet</div>
+          <div class="proj-card-date">2024</div>
+        </div>
         
-        <span class="skill-chip">Python</span>
+        <div class="proj-card-tech">C++, TensorRT, CUDA, ROS 2</div>
         
-        <span class="skill-chip">C++17</span>
         
-        <span class="skill-chip">C</span>
-        
-        <span class="skill-chip">CUDA</span>
-        
-        <span class="skill-chip">Bash</span>
-        
-        <span class="skill-chip">SQL</span>
+        <ul class="bullets">
+          <li>Open-source real-time pedestrian detection node for ROS 2; runs at 60 fps on Jetson AGX Orin with YOLOv8-nano.</li><li>340+ GitHub stars; cited in two academic papers on edge inference.</li>
+        </ul>
         
       </div>
       
-      <div class="skill-category">CV / ML</div>
-      <div class="skill-items">
+      <div class="proj-card">
+        <div class="proj-card-meta">
+          <div class="proj-card-name">cv-automat</div>
+          <div class="proj-card-date">2025</div>
+        </div>
         
-        <span class="skill-chip">OpenCV</span>
+        <div class="proj-card-tech">Python, LaTeX, Jinja2, GitHub Actions</div>
         
-        <span class="skill-chip">PyTorch</span>
         
-        <span class="skill-chip">ONNX Runtime</span>
-        
-        <span class="skill-chip">TensorRT</span>
-        
-        <span class="skill-chip">YOLOv8</span>
-        
-        <span class="skill-chip">scikit-learn</span>
-        
-      </div>
-      
-      <div class="skill-category">Embedded</div>
-      <div class="skill-items">
-        
-        <span class="skill-chip">Embedded Linux</span>
-        
-        <span class="skill-chip">Jetson</span>
-        
-        <span class="skill-chip">RTOS</span>
-        
-        <span class="skill-chip">FreeRTOS</span>
-        
-        <span class="skill-chip">CAN</span>
-        
-        <span class="skill-chip">SPI</span>
-        
-        <span class="skill-chip">I²C</span>
-        
-      </div>
-      
-      <div class="skill-category">Infra &amp; Tools</div>
-      <div class="skill-items">
-        
-        <span class="skill-chip">Docker</span>
-        
-        <span class="skill-chip">GitHub Actions</span>
-        
-        <span class="skill-chip">CMake</span>
-        
-        <span class="skill-chip">Git</span>
-        
-        <span class="skill-chip">ROS 2</span>
-        
-        <span class="skill-chip">Linux</span>
-        
-      </div>
-      
-      <div class="skill-category">Languages (human)</div>
-      <div class="skill-items">
-        
-        <span class="skill-chip">Spanish (native)</span>
-        
-        <span class="skill-chip">English (C2)</span>
-        
-        <span class="skill-chip">French (B2)</span>
+        <ul class="bullets">
+          <li>CI/CD pipeline that parses this <code>cv.tex</code>, generates a static HTML portfolio page, and deploys it to GitHub Pages on every push — single source of truth for both PDF and web CV.</li>
+        </ul>
         
       </div>
       
     </div>
-  </section>
+  </div>
   
 
-  <footer>
-    Generated from <a href="cv/cv.tex">cv.tex</a> &mdash; last built automatically by cv-automat.
-  </footer>
+  <!-- Experience -->
+  
+  <div class="section">
+    <h2 class="section-title">Experience</h2>
+    <ul class="timeline">
+      
+      <li class="tl-item">
+        <div class="tl-bar">
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-head">
+            <div class="tl-title">Senior Computer Vision Engineer</div>
+            <div class="tl-date">Jan 2023 – Present</div>
+          </div>
+          <div class="tl-company">
+            Wayve &middot; <span style="font-weight:400; color:var(--muted);">London, UK (Remote)</span>
+          </div>
+          
+          <ul class="bullets">
+            <li>Redesigned the on-device object-detection inference stack in C++17, reducing end-to-end latency by <strong>42%</strong> (120 ms → 70 ms) while maintaining 97.3% mAP on the internal benchmark.</li><li>Led migration from TensorFlow Lite to ONNX Runtime on Jetson Orin, cutting model-deployment effort from 3 weeks to 2 days per new model.</li><li>Mentored 3 junior engineers through fortnightly design-review sessions; two were promoted within a year.</li>
+          </ul>
+          
+        </div>
+      </li>
+      
+      <li class="tl-item">
+        <div class="tl-bar">
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-head">
+            <div class="tl-title">Computer Vision Engineer</div>
+            <div class="tl-date">Mar 2021 – Dec 2022</div>
+          </div>
+          <div class="tl-company">
+            Prophesee &middot; <span style="font-weight:400; color:var(--muted);">Paris, France</span>
+          </div>
+          
+          <ul class="bullets">
+            <li>Built a Python/C++ event-camera processing library (<em>evlib</em>) used by 12 enterprise customers; reduced integration time from weeks to hours.</li><li>Implemented a sparse optical-flow algorithm on FPGA logic, achieving 10× throughput improvement over the CPU baseline.</li><li>Authored the team's CI pipeline (GitHub Actions + Docker) that cut flaky-test failures by 85% and standardised cross-platform builds across Linux, macOS, and Windows.</li>
+          </ul>
+          
+        </div>
+      </li>
+      
+      <li class="tl-item">
+        <div class="tl-bar">
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-head">
+            <div class="tl-title">Embedded Software Engineer</div>
+            <div class="tl-date">Sep 2019 – Feb 2021</div>
+          </div>
+          <div class="tl-company">
+            SENER Aeroespacial &middot; <span style="font-weight:400; color:var(--muted);">Madrid, Spain</span>
+          </div>
+          
+          <ul class="bullets">
+            <li>Developed RTOS firmware in C for star-tracker attitude sensors aboard two ESA satellites; zero in-orbit anomalies after 18 months.</li><li>Reduced flash memory footprint by 30% through custom compression of telemetry buffers, enabling 6 additional instrument channels.</li>
+          </ul>
+          
+        </div>
+      </li>
+      
+    </ul>
+  </div>
+  
+
+  <!-- Education -->
+  
+  <div class="section">
+    <h2 class="section-title">Education</h2>
+    <ul class="edu-list">
+      
+      <li class="edu-item">
+        <div class="edu-dates">2017 – 2019</div>
+        <div>
+          <div class="edu-degree">M.Sc. Robotics &amp; Computer Vision</div>
+          <div class="edu-inst">Universidad Politécnica de Madrid &middot; Madrid, Spain</div>
+          <div class="edu-details">GPA: 9.1/10 · Thesis: <em>Event-camera depth estimation on low-power SoCs</em></div>
+        </div>
+      </li>
+      
+      <li class="edu-item">
+        <div class="edu-dates">2013 – 2017</div>
+        <div>
+          <div class="edu-degree">B.Eng. Telecommunications Engineering</div>
+          <div class="edu-inst">Universidad Autónoma de Madrid &middot; Madrid, Spain</div>
+          <div class="edu-details">Graduated with Honours (Matrícula de Honor)</div>
+        </div>
+      </li>
+      
+    </ul>
+  </div>
+  
+
+  <div id="footer">
+    built automatically from <a href="../cv/cv.tex">cv.tex</a> &mdash; cv-automat
+  </div>
 
 </div>
 </body>

@@ -1,0 +1,47 @@
+name: Build & Deploy CV
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "cv/cv.tex"
+      - "templates/index.html.j2"
+      - "scripts/build.py"
+      - ".github/workflows/build.yml"
+  workflow_dispatch:   # allow manual trigger from the Actions tab
+
+permissions:
+  contents: write      # needed to push the generated docs/index.html back
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build HTML
+        run: python scripts/build.py
+
+      - name: Commit & push generated output
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/index.html
+          # Only commit if the file actually changed
+          if git diff --cached --quiet; then
+            echo "No changes to docs/index.html — skipping commit."
+          else
+            git commit -m "chore: rebuild index.html from cv.tex [skip ci]"
+            git push
+          fi

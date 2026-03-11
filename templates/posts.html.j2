@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ person.name }} &mdash; Posts</title>
+  <style>
+    /* ── Reset & tokens ─────────────────────────────────────────── */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent:   #0ea5e9;
+      --accent-d: #0369a1;
+      --hero-bg:  #0f172a;
+      --hero-fg:  #f1f5f9;
+      --pill-bg:  #dbeafe;
+      --pill-fg:  #1e3a8a;
+      --body-bg:  #f8fafc;
+      --text:     #1e293b;
+      --muted:    #64748b;
+      --border:   #e2e8f0;
+    }
+
+    body {
+      font-family: sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--text);
+      background: var(--body-bg);
+    }
+
+    a { color: var(--accent-d); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Hero ───────────────────────────────────────────────────── */
+    #hero {
+      background: var(--hero-bg);
+      color: var(--hero-fg);
+      padding: 0 20px;
+    }
+
+    #hero-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 22px 0 36px;
+    }
+
+    #topnav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: .82rem;
+      color: #94a3b8;
+      margin-bottom: 32px;
+    }
+
+    #topnav .nav-links { display: flex; gap: 20px; }
+    #topnav a { color: #94a3b8; text-decoration: none; }
+    #topnav a:hover { color: #fff; }
+    #topnav a.active { color: #fff; font-weight: bold; }
+
+    #hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -.5px;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    #hero .sub {
+      font-size: .95rem;
+      color: #94a3b8;
+    }
+
+    /* ── Content ─────────────────────────────────────────────────── */
+    #content {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 44px 20px 64px;
+    }
+
+    .section-title {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Card grid ───────────────────────────────────────────────── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color .15s, box-shadow .15s;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 2px 12px rgba(14,165,233,.1);
+    }
+
+    /* colored accent bar on top */
+    .card-accent { height: 3px; background: var(--accent); flex-shrink: 0; }
+
+    /* image */
+    .card-img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .3s ease;
+    }
+
+    .card:hover .card-img img { transform: scale(1.03); }
+
+    .card-img.no-img {
+      font-size: .72rem;
+      letter-spacing: .08em;
+      color: #cbd5e1;
+    }
+
+    /* body */
+    .card-body {
+      padding: 16px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .card-date {
+      font-size: .72rem;
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+
+    .card-title {
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    .card-desc {
+      font-size: .82rem;
+      color: var(--muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .pill {
+      display: inline-block;
+      font-size: .72rem;
+      background: var(--pill-bg);
+      color: var(--pill-fg);
+      padding: .18em .6em;
+      border-radius: 999px;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    /* ── Footer ──────────────────────────────────────────────────── */
+    #footer {
+      font-size: .72rem;
+      color: #cbd5e1;
+      margin-top: 48px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    #footer a { color: #94a3b8; }
+
+    /* ── Responsive ──────────────────────────────────────────────── */
+    @media (max-width: 560px) {
+      .card-grid { grid-template-columns: 1fr; }
+      #topnav .site-name { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HERO ══════════════════════════════════════════════════════════ -->
+<div id="hero">
+  <div id="hero-inner">
+
+    <div id="topnav">
+      <span class="site-name">{{ person.name }}</span>
+      <div class="nav-links">
+        <a href="index.html">cv</a>
+        <a href="posts.html" class="active">posts</a>
+      </div>
+    </div>
+
+    <h1>Posts</h1>
+    <p class="sub">Writing, projects, and things worth sharing.</p>
+
+  </div>
+</div>
+
+<!-- ══ CONTENT ═══════════════════════════════════════════════════════ -->
+<div id="content">
+
+  {% if posts %}
+  <h2 class="section-title">All posts</h2>
+  <div class="card-grid">
+    {% for post in posts %}
+
+    {% if post.link %}
+    <a class="card" href="{{ post.link }}" target="_blank" rel="noopener">
+    {% else %}
+    <div class="card">
+    {% endif %}
+
+      <div class="card-accent"></div>
+
+      <div class="card-img{% if not post.image %} no-img{% endif %}">
+        {% if post.image %}
+        <img src="{{ post.image }}" alt="{{ post.title }}" loading="lazy" />
+        {% else %}
+        no image
+        {% endif %}
+      </div>
+
+      <div class="card-body">
+        {% if post.date %}<div class="card-date">{{ post.date }}</div>{% endif %}
+        <div class="card-title">{{ post.title }}</div>
+        {% if post.description %}<div class="card-desc">{{ post.description }}</div>{% endif %}
+        {% if post.tags %}
+        <div class="card-tags">
+          {% for tag in post.tags %}<span class="pill">{{ tag }}</span>{% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+    {% if post.link %}</a>{% else %}</div>{% endif %}
+
+    {% endfor %}
+  </div>
+  {% else %}
+  <p style="color:var(--muted); font-size:.9rem;">No posts yet.</p>
+  {% endif %}
+
+  <div id="footer">
+    built automatically from <a href="../data/posts.json">posts.json</a> &mdash; cv-automat
+  </div>
+
+</div>
+</body>
+</html>

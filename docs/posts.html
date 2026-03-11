@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ignacio Salgado &mdash; Posts</title>
+  <style>
+    /* ── Reset & tokens ─────────────────────────────────────────── */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent:   #0ea5e9;
+      --accent-d: #0369a1;
+      --hero-bg:  #0f172a;
+      --hero-fg:  #f1f5f9;
+      --pill-bg:  #dbeafe;
+      --pill-fg:  #1e3a8a;
+      --body-bg:  #f8fafc;
+      --text:     #1e293b;
+      --muted:    #64748b;
+      --border:   #e2e8f0;
+    }
+
+    body {
+      font-family: sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--text);
+      background: var(--body-bg);
+    }
+
+    a { color: var(--accent-d); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Hero ───────────────────────────────────────────────────── */
+    #hero {
+      background: var(--hero-bg);
+      color: var(--hero-fg);
+      padding: 0 20px;
+    }
+
+    #hero-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 22px 0 36px;
+    }
+
+    #topnav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: .82rem;
+      color: #94a3b8;
+      margin-bottom: 32px;
+    }
+
+    #topnav .nav-links { display: flex; gap: 20px; }
+    #topnav a { color: #94a3b8; text-decoration: none; }
+    #topnav a:hover { color: #fff; }
+    #topnav a.active { color: #fff; font-weight: bold; }
+
+    #hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -.5px;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    #hero .sub {
+      font-size: .95rem;
+      color: #94a3b8;
+    }
+
+    /* ── Content ─────────────────────────────────────────────────── */
+    #content {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 44px 20px 64px;
+    }
+
+    .section-title {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Card grid ───────────────────────────────────────────────── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color .15s, box-shadow .15s;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 2px 12px rgba(14,165,233,.1);
+    }
+
+    /* colored accent bar on top */
+    .card-accent { height: 3px; background: var(--accent); flex-shrink: 0; }
+
+    /* image */
+    .card-img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .3s ease;
+    }
+
+    .card:hover .card-img img { transform: scale(1.03); }
+
+    .card-img.no-img {
+      font-size: .72rem;
+      letter-spacing: .08em;
+      color: #cbd5e1;
+    }
+
+    /* body */
+    .card-body {
+      padding: 16px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .card-date {
+      font-size: .72rem;
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+
+    .card-title {
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    .card-desc {
+      font-size: .82rem;
+      color: var(--muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .pill {
+      display: inline-block;
+      font-size: .72rem;
+      background: var(--pill-bg);
+      color: var(--pill-fg);
+      padding: .18em .6em;
+      border-radius: 999px;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    /* ── Footer ──────────────────────────────────────────────────── */
+    #footer {
+      font-size: .72rem;
+      color: #cbd5e1;
+      margin-top: 48px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    #footer a { color: #94a3b8; }
+
+    /* ── Responsive ──────────────────────────────────────────────── */
+    @media (max-width: 560px) {
+      .card-grid { grid-template-columns: 1fr; }
+      #topnav .site-name { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HERO ══════════════════════════════════════════════════════════ -->
+<div id="hero">
+  <div id="hero-inner">
+
+    <div id="topnav">
+      <span class="site-name">Ignacio Salgado</span>
+      <div class="nav-links">
+        <a href="index.html">cv</a>
+        <a href="posts.html" class="active">posts</a>
+      </div>
+    </div>
+
+    <h1>Posts</h1>
+    <p class="sub">Writing, projects, and things worth sharing.</p>
+
+  </div>
+</div>
+
+<!-- ══ CONTENT ═══════════════════════════════════════════════════════ -->
+<div id="content">
+
+  
+  <h2 class="section-title">All posts</h2>
+  <div class="card-grid">
+    
+
+    
+    <a class="card" href="https://github.com/isalgado/edgedet" target="_blank" rel="noopener">
+    
+
+      <div class="card-accent"></div>
+
+      <div class="card-img">
+        
+        <img src="assets/17538.jpg" alt="Real-time Pedestrian Detection on Jetson AGX Orin" loading="lazy" />
+        
+      </div>
+
+      <div class="card-body">
+        <div class="card-date">2024-11</div>
+        <div class="card-title">Real-time Pedestrian Detection on Jetson AGX Orin</div>
+        <div class="card-desc">A deep dive into deploying YOLOv8-nano at 60 fps on edge hardware using TensorRT. Covers quantisation, layer-fusion tricks, and the ROS 2 node architecture that lets EdgeDet slot into any autonomous-vehicle stack.</div>
+        
+        <div class="card-tags">
+          <span class="pill">C++</span><span class="pill">TensorRT</span><span class="pill">ROS 2</span><span class="pill">CUDA</span>
+        </div>
+        
+      </div>
+
+    </a>
+
+    
+
+    
+    <div class="card">
+    
+
+      <div class="card-accent"></div>
+
+      <div class="card-img">
+        
+        <img src="assets/pytorch1.png" alt="PyTorch Internals: Custom CUDA Kernels for Computer Vision" loading="lazy" />
+        
+      </div>
+
+      <div class="card-body">
+        <div class="card-date">2023-09</div>
+        <div class="card-title">PyTorch Internals: Custom CUDA Kernels for Computer Vision</div>
+        <div class="card-desc">Writing custom CUDA extensions for PyTorch to speed up event-camera preprocessing. Walks through torch.utils.cpp_extension, memory layout considerations, and benchmarking against the naive Python baseline.</div>
+        
+        <div class="card-tags">
+          <span class="pill">PyTorch</span><span class="pill">CUDA</span><span class="pill">Python</span>
+        </div>
+        
+      </div>
+
+    </div>
+
+    
+
+    
+    <div class="card">
+    
+
+      <div class="card-accent"></div>
+
+      <div class="card-img">
+        
+        <img src="assets/ibm1.jpg" alt="Event Cameras Meet Enterprise: Lessons from 12 Deployments" loading="lazy" />
+        
+      </div>
+
+      <div class="card-body">
+        <div class="card-date">2022-06</div>
+        <div class="card-title">Event Cameras Meet Enterprise: Lessons from 12 Deployments</div>
+        <div class="card-desc">A retrospective on integrating event-based vision into enterprise robotics pipelines — packaging constraints, latency budgets, SDK design choices, and what actually breaks in production versus in the lab.</div>
+        
+        <div class="card-tags">
+          <span class="pill">Event cameras</span><span class="pill">Embedded</span><span class="pill">Computer Vision</span>
+        </div>
+        
+      </div>
+
+    </div>
+
+    
+
+    
+    <a class="card" href="https://github.com/isalgado/cv-automat" target="_blank" rel="noopener">
+    
+
+      <div class="card-accent"></div>
+
+      <div class="card-img">
+        
+        <img src="assets/image1.jpg" alt="Building a CI/CD Pipeline for Your LaTeX CV" loading="lazy" />
+        
+      </div>
+
+      <div class="card-body">
+        <div class="card-date">2025-03</div>
+        <div class="card-title">Building a CI/CD Pipeline for Your LaTeX CV</div>
+        <div class="card-desc">How this very site works: a single cv.tex is parsed by a Python script, rendered through Jinja2, and deployed to GitHub Pages on every push — no manual steps, no drift between your PDF and web CV.</div>
+        
+        <div class="card-tags">
+          <span class="pill">Python</span><span class="pill">LaTeX</span><span class="pill">GitHub Actions</span>
+        </div>
+        
+      </div>
+
+    </a>
+
+    
+  </div>
+  
+
+  <div id="footer">
+    built automatically from <a href="../data/posts.json">posts.json</a> &mdash; cv-automat
+  </div>
+
+</div>
+</body>
+</html>
