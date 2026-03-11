@@ -6,7 +6,9 @@ on:
     paths:
       - "cv/cv.tex"
       - "templates/index.html.j2"
+      - "templates/posts.html.j2"
       - "scripts/build.py"
+      - "data/posts.json"
       - ".github/workflows/build.yml"
   workflow_dispatch:   # allow manual trigger from the Actions tab
 
@@ -37,11 +39,11 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/index.html
-          # Only commit if the file actually changed
+          git add docs/index.html docs/posts.html
+          # Only commit if anything actually changed
           if git diff --cached --quiet; then
-            echo "No changes to docs/index.html — skipping commit."
+            echo "No changes — skipping commit."
           else
-            git commit -m "chore: rebuild index.html from cv.tex [skip ci]"
+            git commit -m "chore: rebuild docs/ from cv.tex [skip ci]"
             git push
           fi
