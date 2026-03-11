@@ -68,12 +68,9 @@
       \enspace\textbar\enspace
       #3
       \enspace\textbar\enspace
-      \href{https://www.linkedin.com/in/italo-salgado-910764192/}{linkedin.com/in/#4}
+      \href{https://www.linkedin.com/in/italo-salgado-910764192/}{linkedin.com/#4}
       \enspace\textbar\enspace
-      \href{https://github.com/#5}{github.com/#5}%
-      \ifx&#6&\else
-        \enspace\textbar\enspace\href{https://#6}{#6}%
-      \fi
+      \href{https://github.com/italosalgado14}{github.com/#5}%
     }
   \end{center}
 }
@@ -123,124 +120,157 @@
 
 %% ── Header ───────────────────────────────────────────────────
 \cvperson
-  {Ignacio Salgado}
-  {ignacio@example.com}
-  {+34 600 000 000}
-  {ignacio-salgado}
+  {Italo Salgado}
+  {italo.salgado.14@sansano.usm.cl}
+  {+569 595 750 75}
+  {italo-salgado}
   {isalgado}
   {isalgado.dev}
 
 %% ── Summary ──────────────────────────────────────────────────
 \section{Summary}
-Computer Vision and Embedded Systems Engineer with 6 years of experience
-building real-time perception pipelines for autonomous and industrial
-applications. Proven track record of shipping latency-critical software
-on resource-constrained hardware. Strong advocate of reproducible ML
-workflows and clean, well-tested C++/Python codebases.
+Ingeniero Civil Electrónico (UTFSM) con 5 años de experiencia en Ingenieria de Software y Machine Learning. Trayectoria en despliegue de modelos de visión por computador y de desarrollo backend.
+El dominio de las bases informática-electrónica permite demostrar aptitudes de manejo software y hardware a distintos niveles: desde microarquitecturas hasta aplicaciones de alto nivel.
+Con interés en trabajos de MLE y SWE, siempre vinculados a un ambiente de trabajo I+D dinámico.
 
 %% ── Experience ───────────────────────────────────────────────
 \section{Experience}
-
 \experience
-  {Senior Computer Vision Engineer}
-  {Wayve}
-  {London, UK (Remote)}
-  {Jan 2023 -- Present}
+  {Project Engineer II}
+  {Honeywell}
+  {Santiago, Chile (Híbrido)}
+  {Mayo 2023 -- Present}
   {
     \begin{itemize}
-      \item Redesigned the on-device object-detection inference stack in
-            C++17, reducing end-to-end latency by \textbf{42\%}
-            (120\,ms → 70\,ms) while maintaining 97.3\% mAP on the
-            internal benchmark.
-      \item Led migration from TensorFlow Lite to ONNX Runtime on
-            Jetson Orin, cutting model-deployment effort from 3 weeks
-            to 2 days per new model.
-      \item Mentored 3 junior engineers through fortnightly design-review
-            sessions; two were promoted within a year.
+      \item Integrante del equipo de Innovación de Honeywell Chile, parte del pilar de Data Science, que desempeña actividades principalmente como Machine Learning Engineer y Software Engineer.
+      \item Implementación del ciclo de vida de modelo detector de objetos: entrenamiento, tuning de parámetros, deployment en producción y monitoreo.
+      \item Implementación e integración de señales a sistemas de control Honeywell.
+      \item Desarrollo e implementación de pipelines de visión artificial combinando métodos tradicionales (feature-based) y basados en datos (DL y ML tradicional) para: monitoreo de salud de cámaras, reentrenamiento automático de modelos de clasificación, y evaluación de performance mediante interfaz CLI. Enfocado en Backend.
+      \item Diseño y configuración de pipelines de entrenamiento de modelos en Azure, necesario para modelos de Deep Learning.
     \end{itemize}
   }
-
 \experience
   {Computer Vision Engineer}
-  {Prophesee}
-  {Paris, France}
-  {Mar 2021 -- Dec 2022}
+  {Universidad Técnica Federico Santa María - Wildsense}
+  {Valparaíso, Chile (Presencial)}
+  {Enero 2023 -- Mayo 2023}
   {
     \begin{itemize}
-      \item Built a Python/C++ event-camera processing library
-            (\textit{evlib}) used by 12 enterprise customers;
-            reduced integration time from weeks to hours.
-      \item Implemented a sparse optical-flow algorithm on FPGA logic,
-            achieving 10$\times$ throughput improvement over the CPU baseline.
-      \item Authored the team's CI pipeline (GitHub Actions + Docker) that
-            cut flaky-test failures by 85\% and standardised cross-platform
-            builds across Linux, macOS, and Windows.
+        \item Uso de visión artificial para dar solución a problemas de diversa índole en la acuicultura. Spin-off con la empresa Wildsense Technologies \& Innovation.
+        \item Integración de módulos de visión de distinta índole: tracking, segmentación, etc.
+        \item Uso de nube de puntos para estimación de tamaño, usando filtrado, preprocesamiento y seleccionado de zonas de interés.
+        \item Manejo y gestión de célula de trabajo de visión artificial de 5 personas.
+        \item Generar dataset representativo de nube de puntos para iterar creación de modelos de acuicultura.
     \end{itemize}
   }
-
 \experience
-  {Embedded Software Engineer}
-  {SENER Aeroespacial}
-  {Madrid, Spain}
-  {Sep 2019 -- Feb 2021}
+  {Software Engineer}
+  {Aikologic Spa}
+  {Chile, Santiago (Remoto)}
+  {Noviembre 2022 -- Diciembre 2022}
   {
     \begin{itemize}
-      \item Developed RTOS firmware in C for star-tracker attitude sensors
-            aboard two ESA satellites; zero in-orbit anomalies after 18 months.
-      \item Reduced flash memory footprint by 30\% through custom compression
-            of telemetry buffers, enabling 6 additional instrument channels.
+        \item Desarrollo de hardware y software a distintos niveles, especialmente de implementaciones de Machine Learning.
+        \item Manejo de bases de datos a través de Python.
+        \item Evaluación y puesta en marcha de modelos de Machine Learning en operaciones. Evaluación de algoritmos para microcontroladores.
     \end{itemize}
   }
-
+\experience
+  {Computer Vision Engineer}
+  {Universidad Técnica Federico Santa María}
+  {Chile, Valparaíso (Presencial)}
+  {Abril 2022 -- Septiembre 2022}
+  {
+    \begin{itemize}
+        \item Estudio del estado del arte e implementación de algoritmos de estimación de los latidos del corazón, la respiración, la presión sanguínea, entre otros, que cubrían técnicas de Deep Learning y de procesamiento de imágenes.
+        \item Generación de dataset especializado para evaluación de bioindicadores en coordinación con hospital y médicos.
+        \item Manejo y gestión de una célula de trabajo de 3 personas encargada del área de visión. Coordinación con equipo Full Stack para integración.
+    \end{itemize}
+  }
+\experience
+  {Trainee Computer Vision Engineer}
+  {Nexar S.A.}
+  {Chile, Santiago (Remoto)}
+  {Abril 2021 -- Febrero 2022}
+  {
+    \begin{itemize}
+        \item Trabajo de título en visión artificial. Se capturan los movimientos 3D en un video corto. Se realiza segmentación del usuario y repintado del video original. Esto se importa hacia Unreal Engine.
+        \item Estudio e implementación de algoritmos de Body Tracking 3D, segmentación y repintado. Scripting con Python. Manejo de gestor de paquetes y sistema de gestión de entornos.
+        \item Manejo de Unreal Engine: construcción de \textit{Levels} con \textit{Blueprints}, animaciones, texturas, etc.
+    \end{itemize}
+  }
+\experience
+  {Trainee Computer Vision Engineer}
+  {TSF S.A}
+  {Chile, Santiago (Remoto)}
+  {Abril 2021 -- Septiembre 2021}
+  {
+    \begin{itemize}
+        \item Soporte en la detección de frutales con un enfoque Deep Learning.  
+        \item Generación de datos de segmentación a través de VIA.                                           
+        \item Programación Pytorch de modelos de detección basados en Detectron2 (Mask R-CNN).
+    \end{itemize}
+  }
+\experience
+  {Trainee Hardware Engineer}
+  {Wiseconn S.A.}
+  {Chile, Valparaíso (Remoto)}
+  {Abril 2021 -- Septiembre 2021}
+  {
+    \begin{itemize}
+        \item Integración de sistemas embebidos experimentales con la nube AWS IoT. Integración de nodos WiFi con la red interna de la empresa.
+        \item Relacionar un nodo XBee 3 Cellular con la red AWS IoT.
+        \item Integración de un nodo ESP8266 WiFi.
+    \end{itemize}
+  }
 %% ── Projects ─────────────────────────────────────────────────
-\section{Projects}
+% \section{Projects}
+% \project
+%   {EdgeDet}
+%   {C++, TensorRT, CUDA, ROS\,2}
+%   {2024}
+%   {
+%     \begin{itemize}
+%       \item Open-source real-time pedestrian detection node for ROS\,2;
+%             runs at 60\,fps on Jetson AGX Orin with YOLOv8-nano.
+%       \item 340+ GitHub stars; cited in two academic papers on edge inference.
+%     \end{itemize}
+%   }
 
-\project
-  {EdgeDet}
-  {C++, TensorRT, CUDA, ROS\,2}
-  {2024}
-  {
-    \begin{itemize}
-      \item Open-source real-time pedestrian detection node for ROS\,2;
-            runs at 60\,fps on Jetson AGX Orin with YOLOv8-nano.
-      \item 340+ GitHub stars; cited in two academic papers on edge inference.
-    \end{itemize}
-  }
-
-\project
-  {cv-automat}
-  {Python, LaTeX, Jinja2, GitHub Actions}
-  {2025}
-  {
-    \begin{itemize}
-      \item CI/CD pipeline that parses this \texttt{cv.tex}, generates a
-            static HTML portfolio page, and deploys it to GitHub Pages on
-            every push — single source of truth for both PDF and web CV.
-    \end{itemize}
-  }
+% \project
+%   {cv-automat}
+%   {Python, LaTeX, Jinja2, GitHub Actions}
+%   {2025}
+%   {
+%     \begin{itemize}
+%       \item CI/CD pipeline that parses this \texttt{cv.tex}, generates a
+%             static HTML portfolio page, and deploys it to GitHub Pages on
+%             every push — single source of truth for both PDF and web CV.
+%     \end{itemize}
+%   }
 
 %% ── Education ────────────────────────────────────────────────
 \section{Education}
 
 \education
-  {M.Sc. Robotics \& Computer Vision}
-  {Universidad Politécnica de Madrid}
-  {Madrid, Spain}
-  {2017 -- 2019}
-  {GPA: 9.1/10 · Thesis: \textit{Event-camera depth estimation on low-power SoCs}}
+  {Ingeniería Civil Electrónica}
+  {Universidad Técnica Federico Santa María, Casa Central}
+  {Valparaíso, Chile}
+  {2018 -- 2022}
+  %{GPA: 9.1/10 · Thesis: \textit{Event-camera depth estimation on low-power SoCs}}
 
 \education
-  {B.Eng. Telecommunications Engineering}
-  {Universidad Autónoma de Madrid}
-  {Madrid, Spain}
-  {2013 -- 2017}
-  {Graduated with Honours (Matrícula de Honor)}
+  {Ingeniería Civil Informática}
+  {Universidad Técnica Federico Santa María, Casa Central}
+  {Valparaíso, Chile}
+  {2014 -- 2017}
+  %{Graduated with Honours (Matrícula de Honor)}
 
 %% ── Skills ───────────────────────────────────────────────────
 \section{Skills}
 
-\skillgroup{Languages}{Python, C++17, C, CUDA, Bash, SQL}
-\skillgroup{CV / ML}{OpenCV, PyTorch, ONNX Runtime, TensorRT, YOLOv8, scikit-learn}
+\skillgroup{Languages}{Python, C++, C#, Bash, SQL}
+\skillgroup{CV / ML}{OpenCV, PyTorch, ONNX Runtime, YOLO, scikit-learn, MLFlow}
 \skillgroup{Embedded}{Embedded Linux, Jetson, RTOS, FreeRTOS, CAN, SPI, I²C}
 \skillgroup{Infra \& Tools}{Docker, GitHub Actions, CMake, Git, ROS\,2, Linux}
 \skillgroup{Languages (human)}{Spanish (native), English (C2), French (B2)}
