@@ -482,13 +482,13 @@
         <a href="mailto:{{ person.email }}">{{ person.email }}</a>
       {% endif %}
       {% if person.linkedin %}
-        <a href="https://linkedin.com/in/{{ person.linkedin }}" target="_blank">LinkedIn</a>
+        <a href="{{ person.linkedin }}" target="_blank">LinkedIn</a>
       {% endif %}
       {% if person.github %}
-        <a href="https://github.com/{{ person.github }}" target="_blank">GitHub</a>
+        <a href="{{ person.github }}" target="_blank">GitHub</a>
       {% endif %}
       {% if person.website %}
-        <a href="https://{{ person.website }}" target="_blank">{{ person.website }}</a>
+        <a href="{{ person.website }}" target="_blank">{{ person.website }}</a>
       {% endif %}
       {% if person.phone %}
         <span class="ph">{{ person.phone }}</span>
@@ -561,7 +561,7 @@
           {% else %}
           <span class="cert-title">{{ cert.title }}</span>
           {% endif %}
-          <div class="cert-meta">{{ cert.provider }}</div>
+          <div class="cert-meta">{{ cert.provider }}{% if cert.comment %} &mdash; <span style="font-style:italic;">{{ cert.comment }}</span>{% endif %}</div>
         </div>
         <span class="cert-year">{{ cert.year }}</span>
       </div>
