@@ -1,4 +1,12 @@
 [
+    {
+    "title": "Froth bubbles detection over an infrastructure",
+    "date": "2025-11",
+    "image": "assets/bubbles1.png",
+    "description": "Build an end-to-end platform that receives images, runs YOLO-seg inference, stores results, monitors performance, and is fully deployed with Infrastructure as Code and CI/CD.",
+    "link": "https://github.com/italosalgado14/yolo-seg-platform",
+    "tags": ["FastAPI", "Docker", "PostgreSQL", "Prometheus" ]
+  },
   {
     "title": "Code RAG prototipe with UTFSM documents",
     "date": "2026-03",
@@ -6,6 +14,14 @@
     "description": "Conversational application to talk about the courses of UTFSM 2014 to 2022 recopilation.",
     "link": "https://github.com/italosalgado14/usm-docs",
     "tags": ["Python", "RAG"]
+  },
+    {
+    "title": "Nanochat from karpathy: Ingestion",
+    "date": "2026-01",
+    "image": "assets/nanochat.png",
+    "description": "Im trying to ingest one of the most valuable repos to train LLM from scratch.",
+    "link": "https://github.com/italosalgado14/nanochat",
+    "tags": ["LLM"]
   },
   {
     "title": "System Dynamics application over Economy",
@@ -26,9 +42,14 @@
   {
     "title": "Personal Blog",
     "date": "2026-03",
-    "image": "assets/bear1.png",
-    "description": "Personal Blog. A privacy-first, no-nonsense, super-fast blogging platform.",
-    "link": "https://salgado.bearblog.dev/blog/",
+    "image": "assets/image1.png",
+    "description": "Personal Blog, writing about IA, random_topics(), Books and SC or AoE II. A privacy-first, no-nonsense, super-fast blogging platform.",
+    "link": "https://salsep.bearblog.dev/blog/",
     "tags": ["Blog"]
   }
 ]
+
+
+
+
+
