@@ -1,34 +1,34 @@
 [
   {
-    "title": "Real-time Pedestrian Detection on Jetson AGX Orin",
-    "date": "2024-11",
-    "image": "assets/17538.jpg",
-    "description": "A deep dive into deploying YOLOv8-nano at 60 fps on edge hardware using TensorRT. Covers quantisation, layer-fusion tricks, and the ROS 2 node architecture that lets EdgeDet slot into any autonomous-vehicle stack.",
-    "link": "https://github.com/isalgado/edgedet",
-    "tags": ["C++", "TensorRT", "ROS 2", "CUDA"]
+    "title": "Code RAG prototipe with UTFSM documents",
+    "date": "2026-03",
+    "image": "assets/rag1.jpg",
+    "description": "Conversational application to talk about the courses of UTFSM 2014 to 2022 recopilation.",
+    "link": "https://github.com/italosalgado14/usm-docs",
+    "tags": ["Python", "RAG"]
   },
   {
-    "title": "PyTorch Internals: Custom CUDA Kernels for Computer Vision",
-    "date": "2023-09",
-    "image": "assets/pytorch1.png",
-    "description": "Writing custom CUDA extensions for PyTorch to speed up event-camera preprocessing. Walks through torch.utils.cpp_extension, memory layout considerations, and benchmarking against the naive Python baseline.",
-    "link": "",
-    "tags": ["PyTorch", "CUDA", "Python"]
+    "title": "System Dynamics application over Economy",
+    "date": "2021-03",
+    "image": "assets/bond1.jpg",
+    "description": "Hamiltonian ports and the alternative application in economy.",
+    "link": "https://github.com/italosalgado14/systems-dynamics",
+    "tags": ["Python", "Hamiltonian Ports", "Control Systems Simulation"]
   },
   {
-    "title": "Event Cameras Meet Enterprise: Lessons from 12 Deployments",
+    "title": "Plataform for YOLO-seg with save results and shows results",
     "date": "2022-06",
     "image": "assets/ibm1.jpg",
     "description": "A retrospective on integrating event-based vision into enterprise robotics pipelines — packaging constraints, latency budgets, SDK design choices, and what actually breaks in production versus in the lab.",
-    "link": "",
+    "link": "https://github.com/italosalgado14/yolo-seg-platform",
     "tags": ["Event cameras", "Embedded", "Computer Vision"]
   },
   {
-    "title": "Building a CI/CD Pipeline for Your LaTeX CV",
-    "date": "2025-03",
-    "image": "assets/image1.jpg",
-    "description": "How this very site works: a single cv.tex is parsed by a Python script, rendered through Jinja2, and deployed to GitHub Pages on every push — no manual steps, no drift between your PDF and web CV.",
-    "link": "https://github.com/isalgado/cv-automat",
-    "tags": ["Python", "LaTeX", "GitHub Actions"]
+    "title": "Personal Blog",
+    "date": "2026-03",
+    "image": "assets/bear1.png",
+    "description": "Personal Blog. A privacy-first, no-nonsense, super-fast blogging platform.",
+    "link": "https://salgado.bearblog.dev/blog/",
+    "tags": ["Blog"]
   }
 ]
