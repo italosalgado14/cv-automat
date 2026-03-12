@@ -1,11 +1,16 @@
 [
-    {
+  {
     "title": "Froth bubbles detection over an infrastructure",
     "date": "2025-11",
     "image": "assets/bubbles1.png",
     "description": "Build an end-to-end platform that receives images, runs YOLO-seg inference, stores results, monitors performance, and is fully deployed with Infrastructure as Code and CI/CD.",
     "link": "https://github.com/italosalgado14/yolo-seg-platform",
-    "tags": ["FastAPI", "Docker", "PostgreSQL", "Prometheus" ]
+    "tags": [
+      "FastAPI",
+      "Docker",
+      "PostgreSQL",
+      "Prometheus"
+    ]
   },
   {
     "title": "Code RAG prototipe with UTFSM documents",
@@ -13,31 +18,43 @@
     "image": "assets/rag1.jpg",
     "description": "Conversational application to talk about the courses of UTFSM 2014 to 2022 recopilation.",
     "link": "https://github.com/italosalgado14/usm-docs",
-    "tags": ["Python", "RAG"]
+    "tags": [
+      "Python",
+      "RAG"
+    ]
   },
-    {
+  {
     "title": "Nanochat from karpathy: Ingestion",
     "date": "2026-01",
     "image": "assets/nanochat.png",
     "description": "Im trying to ingest one of the most valuable repos to train LLM from scratch.",
     "link": "https://github.com/italosalgado14/nanochat",
-    "tags": ["LLM"]
+    "tags": [
+      "LLM"
+    ]
   },
   {
     "title": "System Dynamics application over Economy",
     "date": "2021-03",
-    "image": "assets/bond1.jpg",
+    "image": "assets/bond1.png",
     "description": "Hamiltonian ports and the alternative application in economy.",
     "link": "https://github.com/italosalgado14/systems-dynamics",
-    "tags": ["Python", "Hamiltonian Ports", "Control Systems Simulation"]
+    "tags": [
+      "Python",
+      "Hamiltonian Ports",
+      "Control Systems Simulation"
+    ]
   },
   {
-    "title": "Plataform for YOLO-seg with save results and shows results",
-    "date": "2022-06",
-    "image": "assets/ibm1.jpg",
-    "description": "A retrospective on integrating event-based vision into enterprise robotics pipelines — packaging constraints, latency budgets, SDK design choices, and what actually breaks in production versus in the lab.",
-    "link": "https://github.com/italosalgado14/yolo-seg-platform",
-    "tags": ["Event cameras", "Embedded", "Computer Vision"]
+    "title": "Froth Simulation Bubbles",
+    "date": "2026-03",
+    "image": "assets/ibm1.png",
+    "description": "Open source version proyect of generation of bubbles to generate syntetic data.",
+    "link": "https://github.com/italosalgado14/froth-simulation",
+    "tags": [
+      "Generated data",
+      "Computer Vision"
+    ]
   },
   {
     "title": "Personal Blog",
@@ -45,11 +62,8 @@
     "image": "assets/image1.png",
     "description": "Personal Blog, writing about IA, random_topics(), Books and SC or AoE II. A privacy-first, no-nonsense, super-fast blogging platform.",
     "link": "https://salsep.bearblog.dev/blog/",
-    "tags": ["Blog"]
+    "tags": [
+      "Blog"
+    ]
   }
 ]
-
-
-
-
-
