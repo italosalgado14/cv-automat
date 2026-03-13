@@ -1,4 +1,15 @@
 [
+    {
+    "title": "Causal Effects of Tobacco Control Policies",
+    "date": "2025-12",
+    "image": "assets/tobacco.jpg",
+    "description": "A comprehensive causal inference project analyzing the effect of tobacco control policies on smoking prevalence and health outcomes using panel data from 150+ countries over 20+ years.",
+    "link": "https://github.com/italosalgado14/yolo-seg-platform",
+    "tags": [
+      "Causal Inference",
+      "Python"
+    ]
+  },
   {
     "title": "Froth bubbles detection over an infrastructure",
     "date": "2025-11",
