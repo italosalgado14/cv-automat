@@ -55,14 +55,29 @@
       margin-bottom: 32px;
     }
 
-    #topnav .nav-links { display: flex; gap: 20px; }
+    #topnav .nav-links { display: flex; gap: 10px; }
 
     #topnav a {
       color: #94a3b8;
       text-decoration: none;
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: color .15s, border-color .15s, background .15s;
     }
-    #topnav a:hover { color: #fff; }
-    #topnav a.active { color: #fff; font-weight: bold; }
+    #topnav a:hover {
+      color: #fff;
+      border-color: #475569;
+    }
+    #topnav a.active {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: rgba(14,165,233,.08);
+    }
 
     /* name */
     #hero h1 {
@@ -473,10 +488,6 @@
 
     <h1>Italo Salgado</h1>
 
-    
-    <p class="tagline">Ingeniero Civil Electrónico (UTFSM) con 5 años de experiencia en Ingenieria de Software y Machine Learning. Trayectoria en despliegue de modelos de visión por computador y de desa…</p>
-    
-
     <div class="contacts">
       
         <a href="mailto:italo.salgado.14@sansano.usm.cl">italo.salgado.14@sansano.usm.cl</a>
@@ -608,12 +619,12 @@
       
       <div class="lang-pill">
         <span class="lang-name">English</span>
-        <span class="lang-level">C2</span>
+        <span class="lang-level">B1</span>
       </div>
       
       <div class="lang-pill">
-        <span class="lang-name">French</span>
-        <span class="lang-level">B2</span>
+        <span class="lang-name">German</span>
+        <span class="lang-level">B1</span>
       </div>
       
     </div>

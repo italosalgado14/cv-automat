@@ -48,7 +48,7 @@
   {
     "title": "Froth Simulation Bubbles",
     "date": "2026-03",
-    "image": "assets/ibm1.png",
+    "image": "assets/simulated_bubbles1.png",
     "description": "Open source version proyect of generation of bubbles to generate syntetic data.",
     "link": "https://github.com/italosalgado14/froth-simulation",
     "tags": [
