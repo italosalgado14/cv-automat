@@ -55,14 +55,29 @@
       margin-bottom: 32px;
     }
 
-    #topnav .nav-links { display: flex; gap: 20px; }
+    #topnav .nav-links { display: flex; gap: 10px; }
 
     #topnav a {
       color: #94a3b8;
       text-decoration: none;
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: color .15s, border-color .15s, background .15s;
     }
-    #topnav a:hover { color: #fff; }
-    #topnav a.active { color: #fff; font-weight: bold; }
+    #topnav a:hover {
+      color: #fff;
+      border-color: #475569;
+    }
+    #topnav a.active {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: rgba(14,165,233,.08);
+    }
 
     /* name */
     #hero h1 {
@@ -472,10 +487,6 @@
     </div>
 
     <h1>{{ person.name }}</h1>
-
-    {% if summary %}
-    <p class="tagline">{{ summary | truncate(180, True, '…') }}</p>
-    {% endif %}
 
     <div class="contacts">
       {% if person.email %}
