@@ -38,8 +38,8 @@
 \titleformat{\section}
   {\large\bfseries\color{accent}}
   {}{0em}{}
-  [\vspace{-4pt}\rule{\linewidth}{0.6pt}\vspace{2pt}]
-\titlespacing*{\section}{0pt}{10pt}{4pt}
+  [\vspace{-14pt}\rule{\linewidth}{0.6pt}\vspace{4pt}]
+\titlespacing*{\section}{0pt}{10pt}{0pt}
 
 %% ── List style ───────────────────────────────────────────────
 \setlist[itemize]{
@@ -85,9 +85,9 @@
   \begin{tabularx}{\linewidth}{@{}X r@{}}
     \textbf{#1} \textit{at} \textbf{#2}, #3 & \textit{#4}
   \end{tabularx}
-  \vspace{1pt}
+  \vspace{-10pt}
   #5
-  \vspace{4pt}
+  \vspace{2pt}
 }
 
 %%  \project{Project Name}{Tech Stack}{Date Range}{Description bullet list}
@@ -96,9 +96,9 @@
   \begin{tabularx}{\linewidth}{@{}X r@{}}
     \textbf{#1} \hspace{4pt}{\small\textit{#2}} & \textit{#3}
   \end{tabularx}
-  \vspace{1pt}
+  \vspace{0pt}
   #4
-  \vspace{4pt}
+  \vspace{0pt}
 }
 
 %%  \education{Degree}{Institution}{Location}{Date Range}{Details / GPA / honours}
@@ -108,19 +108,18 @@
     \textbf{#1} — \textit{#2}, #3 & \textit{#4}
   \end{tabularx}
   \ifx&#5&\else{\small #5}\fi
-  \vspace{4pt}
+  \vspace{0pt}
 }
 
 %%  \skillgroup{Category}{Comma-separated skill list}
 \newcommand{\skillgroup}[2]{%
-  \noindent\textbf{#1:} #2\par\vspace{2pt}
+  \noindent\textbf{#1:} #2\par\vspace{0pt}
 }
 
 %% ============================================================
 %%  DOCUMENT BODY
 %% ============================================================
 \begin{document}
-
 %% ── Header ───────────────────────────────────────────────────
 \cvperson
   {Italo Salgado}
@@ -129,23 +128,24 @@
   {https://www.linkedin.com/in/italo-salgado-910764192/}
   {https://github.com/italosalgado14}
   {https://italosalgado14.github.io/cv-automat/}
-
 %% ── Summary ──────────────────────────────────────────────────
 \section{Summary}
-Ingeniero Civil Electrónico (UTFSM) con 5 años de experiencia en Ingenieria de Software y Machine Learning. Trayectoria en despliegue de modelos de visión por computador y de desarrollo backend.
-El dominio de las bases informática-electrónica permite demostrar aptitudes de manejo software y hardware a distintos niveles: desde microarquitecturas hasta aplicaciones de alto nivel.
-Con interés en trabajos de MLE y SWE, siempre vinculados a un ambiente de trabajo I+D dinámico.
-
+Machine Learning Engineer con fuerte background de Ingenieria de Software con 5 años de experiencia, 
+titulado de Ingeniería Civil Electrónica (UTFSM). 
+Trayectoria en entrenamiento y despliegue de modelos de visión por computador y de desarrollo backend.
+El dominio de las bases informática-electrónica permite demostrar aptitudes de manejo software y 
+hardware a distintos niveles: desde microarquitecturas hasta aplicaciones de alto nivel.
+Con interés en trabajos de MLE y SWE vinculados a aplicaciones de minería, salud, aquicultura y economía.
 %% ── Experience ───────────────────────────────────────────────
 \section{Experience}
 \experience
   {Project Engineer II}
   {Honeywell}
   {Santiago, Chile (Híbrido)}
-  {Mayo 2023 -- Presente}
+  {Mayo 2023 - Presente}
   {
     \begin{itemize}
-      \item Integrante del equipo de Innovación como Machine Learning Engineer.
+      \item Integrante del equipo de Innovación como Senior Machine Learning Engineer.
       \item Implementación del ciclo de vida de modelo detector de objetos: entrenamiento, tuning de parámetros, deployment en producción y monitoreo.
       \item Implementación e integración de señales a sistemas de control Honeywell.
       \item Desarrollo e implementación de pipelines de visión artificial combinando métodos tradicionales (feature-based) y basados en datos (DL y ML tradicional) para: monitoreo de salud de cámaras, reentrenamiento automático de modelos de clasificación, y evaluación de performance mediante interfaz CLI.
@@ -156,21 +156,20 @@ Con interés en trabajos de MLE y SWE, siempre vinculados a un ambiente de traba
   {Computer Vision Engineer}
   {Universidad Técnica Federico Santa María - Wildsense Technologies \& Innovation}
   {Valparaíso, Chile (Presencial)}
-  {Enero 2023 -- Mayo 2023}
+  {Enero 2023 - Mayo 2023}
   {
     \begin{itemize}
-        \item Spin-off con la empresa Wildsense, ejerciendo como Computer Vision Engineer.
-        \item Uso de visión artificial para dar solución a problemas de diversa índole en la acuicultura implementado tracking, segmentación, clasificación.
-        \item Uso de nube de puntos para estimación de tamaño, usando filtrado, preprocesamiento y seleccionado de zonas de interés.
+        \item Spin-off con la empresa Wildsense, ejerciendo como Mid level Computer Vision Engineer.
+        \item Uso de visión artificial para solucionar problemas de diversa índole en la acuicultura implementado tracking, segmentación, clasificación.
+        \item Uso de nube de puntos para estimación de tamaño, usando filtrado, preprocesamiento y seleccionado de zonas de interés. Generar dataset representativo de nube de puntos para iterar creación de modelos.
         \item Manejo y gestión de célula de trabajo de visión artificial de 5 personas.
-        \item Generar dataset representativo de nube de puntos para iterar creación de modelos.
     \end{itemize}
   }
 \experience
   {Software Engineer}
   {Aikologic Spa}
   {Chile, Santiago (Remoto)}
-  {Noviembre 2022 -- Diciembre 2022}
+  {Noviembre 2022 - Diciembre 2022}
   {
     \begin{itemize}
         \item Manejo de bases de datos a través de Python con mySQL.
@@ -182,10 +181,10 @@ Con interés en trabajos de MLE y SWE, siempre vinculados a un ambiente de traba
   {Computer Vision Engineer}
   {Universidad Técnica Federico Santa María}
   {Chile, Valparaíso (Presencial)}
-  {Abril 2022 -- Septiembre 2022}
+  {Abril 2022 - Septiembre 2022}
   {
     \begin{itemize}
-        \item Estudio del estado del arte e implementación de algoritmos de estimación de los latidos del corazón, la respiración, la presión sanguínea, entre otros, que cubrían técnicas de Deep Learning y de procesamiento de imágenes.
+      \item Proyecto Foncedyt (ID: NAM21I0056) sobre estudio del estado del arte e implementación de algoritmos de estimación de los latidos del corazón, la respiración, la presión sanguínea, entre otros, cubriendo técnicas de Deep Learning y de procesamiento de imágenes.
         \item Generación de dataset especializado para evaluación de bioindicadores en coordinación con hospital y médicos.
         \item Manejo y gestión de una célula de trabajo de 3 personas encargada del área de visión. Coordinación con equipo Full Stack para integración.
     \end{itemize}
@@ -194,7 +193,7 @@ Con interés en trabajos de MLE y SWE, siempre vinculados a un ambiente de traba
   {Trainee Computer Vision Engineer}
   {Nexar S.A.}
   {Chile, Santiago (Remoto)}
-  {Abril 2021 -- Febrero 2022}
+  {Abril 2021 - Febrero 2022}
   {
     \begin{itemize}
         \item Trabajo de título en visión artificial. Se capturan los movimientos 3D en un video corto. Se realiza segmentación del usuario y repintado del video original. Esto se importa hacia Unreal Engine.
@@ -203,10 +202,10 @@ Con interés en trabajos de MLE y SWE, siempre vinculados a un ambiente de traba
     \end{itemize}
   }
 \experience
-  {Trainee Computer Vision Engineer}
+  {Intern Computer Vision Engineer}
   {TSF S.A}
   {Chile, Santiago (Remoto)}
-  {Abril 2021 -- Septiembre 2021}
+  {Abril 2021 - Septiembre 2021}
   {
     \begin{itemize}
         \item Soporte en la detección de frutales con un enfoque Deep Learning. Generación de datos de segmentación a través de VIA.                                            
@@ -214,10 +213,10 @@ Con interés en trabajos de MLE y SWE, siempre vinculados a un ambiente de traba
     \end{itemize}
   }
 \experience
-  {Trainee Hardware Engineer}
+  {Intern Hardware Engineer}
   {Wiseconn S.A.}
   {Chile, Valparaíso (Remoto)}
-  {Abril 2021 -- Septiembre 2021}
+  {Abril 2021 - Septiembre 2021}
   {
     \begin{itemize}
         \item Integración de sistemas embebidos experimentales con la nube AWS IoT. Integración de nodos WiFi con la red interna de la empresa.
@@ -257,21 +256,20 @@ Con interés en trabajos de MLE y SWE, siempre vinculados a un ambiente de traba
   {Ingeniería Civil Electrónica}
   {Universidad Técnica Federico Santa María, Casa Central}
   {Valparaíso, Chile}
-  {2018 -- 2022}
+  {2018 - 2022}
   %{GPA: 9.1/10 · Thesis: \textit{Event-camera depth estimation on low-power SoCs}}
 
 \education
   {Ingeniería Civil Informática}
   {Universidad Técnica Federico Santa María, Casa Central}
   {Valparaíso, Chile}
-  {2014 -- 2017}
+  {2014 - 2017}
   %{Graduated with Honours (Matrícula de Honor)}
 
 %% ── Skills ───────────────────────────────────────────────────
 \section{Skills}
-
 \skillgroup{Programación}{Python, C++, C#, SQL}
-\skillgroup{SWE}{Metodologías ágiles. DevOps (IaC with Docker). Git for Development.}
+\skillgroup{SWE}{Metodologías ágiles. DevOps, Docker. Git Actions.}
 \skillgroup{ML}{PyTorch, ONNX Runtime, scikit-learn, MLFlow}
 \skillgroup{CV}{Procesamiento de imágenes con OpenCV, YOLO, manejo de cámaras, tracking, Unreal Engine y Blender}
 \skillgroup{HW}{Jetson, ZED y manejo de nube de puntos}
