@@ -1,19 +1,27 @@
 [
+    {
+    "title": "Unreal: Fundamentals",
+    "platform": "CRTIC",
+    "provider": "",
+    "year": "2022",
+    "url": "",
+    "comment": "Finished: 40H."
+  },
   {
     "title": "IBM DevOps and Software Engineering",
     "platform": "Coursera",
     "provider": "IBM",
     "year": "2025",
     "url": "https://www.coursera.org/professional-certificates/devops-and-software-engineering",
-    "comment": ""
+    "comment": "on-going"
   },
   {
-    "title": "DeepLearning to Data Engineering",
+    "title": "DeepLearning.AI Data Engineering",
     "platform": "Coursera",
     "provider": "DeepLearning.AI",
     "year": "2026",
     "url": "https://www.coursera.org/professional-certificates/data-engineering",
-    "comment": ""
+    "comment": "on-going"
   },
   {
     "title": "Preparing for Google Cloud Certification: Machine Learning Engineer",
@@ -21,7 +29,7 @@
     "provider": "Google",
     "year": "2026",
     "url": "https://www.coursera.org/professional-certificates/preparing-for-google-cloud-machine-learning-engineer-professional-certificate",
-    "comment": ""
+    "comment": "on-going"
   },
   {
     "title": "MLOps | Machine Learning Operations",
@@ -29,6 +37,6 @@
     "provider": "Duke University",
     "year": "2025",
     "url": "https://www.coursera.org/specializations/mlops-machine-learning-duke",
-    "comment": ""
+    "comment": "on-going"
   }
 ]
