@@ -1,18 +1,10 @@
 [
   {
-    "title": "Deep Learning Specialization",
-    "platform": "Coursera",
-    "provider": "DeepLearning.AI",
-    "year": "2026",
-    "url": "",
-    "comment": ""
-  },
-  {
     "title": "IBM DevOps and Software Engineering",
     "platform": "Coursera",
     "provider": "IBM",
     "year": "2025",
-    "url": "",
+    "url": "https://www.coursera.org/professional-certificates/devops-and-software-engineering",
     "comment": ""
   },
   {
@@ -20,7 +12,7 @@
     "platform": "Coursera",
     "provider": "DeepLearning.AI",
     "year": "2026",
-    "url": "",
+    "url": "https://www.coursera.org/professional-certificates/data-engineering",
     "comment": ""
   },
   {
@@ -28,7 +20,7 @@
     "platform": "Coursera",
     "provider": "Google",
     "year": "2026",
-    "url": "",
+    "url": "https://www.coursera.org/professional-certificates/preparing-for-google-cloud-machine-learning-engineer-professional-certificate",
     "comment": ""
   },
   {
