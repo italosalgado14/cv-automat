@@ -70,11 +70,11 @@
   {
     "title": "Personal Blog",
     "date": "2026-03",
-    "image": "assets/image1.png",
+    "image": "assets/bear1.png",
     "description": "Personal Blog, writing about IA, random_topics(), Books and SC or AoE II. A privacy-first, no-nonsense, super-fast blogging platform.",
     "link": "https://salsep.bearblog.dev/blog/",
     "tags": [
-      "Blog"
+      "BearBlog"
     ]
   }
 ]
