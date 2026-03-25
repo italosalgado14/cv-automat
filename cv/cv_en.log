@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.3.10)  12 MAR 2026 23:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.3.22)  24 MAR 2026 23:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**cv/cv.tex
-(./cv/cv.tex
+**cv/cv_en.tex
+(./cv/cv_en.tex
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
@@ -306,8 +306,8 @@ File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count279
 \l__pdf_internal_box=\box55
 )
-(./cv.aux)
-\openout1 = `cv.aux'.
+(cv/cv_en.aux)
+\openout1 = `cv_en.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 122.
 LaTeX Font Info:    ... okay on input line 122.
@@ -363,9 +363,9 @@ LaTeX Font Info:    ... okay on input line 122.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 Package hyperref Info: Link coloring OFF on input line 122.
-(./cv.out) (./cv.out)
+(cv/cv_en.out) (cv/cv_en.out)
 \@outlinefile=\write3
-\openout3 = `cv.out'.
+\openout3 = `cv_en.out'.
 
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
@@ -393,33 +393,27 @@ File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/
-dvips/lm/lm-ec.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}]
-! You can't use `macro parameter character #' in horizontal mode.
-<argument> Python, C++, C##
-                           , SQL
-l.270 ...roup{Programación}{Python, C++, C#, SQL}
-                                                  
-? 
-[2] (./cv.aux)
+dvips/lm/lm-ec.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}] [2] (cv/cv
+_en.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
-Package rerunfilecheck Info: File `cv.out' has not changed.
+Package rerunfilecheck Info: File `cv_en.out' has not changed.
 (rerunfilecheck)             Checksum: 1EAF8FEE57003E8CD7FA6A05A2274753;332.
  ) 
 Here is how much of TeX's memory you used:
- 10099 strings out of 476182
- 155506 string characters out of 5795595
+ 10100 strings out of 476182
+ 155599 string characters out of 5795595
  1942975 words of memory out of 5000000
- 31975 multiletter control sequences out of 15000+600000
- 595772 words of font info for 57 fonts, out of 8000000 for 9000
+ 31976 multiletter control sequences out of 15000+600000
+ 600035 words of font info for 58 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 75i,9n,79p,1194b,549s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,9n,79p,1197b,549s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf/fonts/ty
 pe1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></us
 r/share/texmf/fonts/type1/public/lm/lmri10.pfb>
-Output written on cv.pdf (2 pages, 120184 bytes).
+Output written on cv/cv_en.pdf (2 pages, 121510 bytes).
 PDF statistics:
  65 PDF objects out of 1000 (max. 8388607)
  51 compressed objects within 1 object stream

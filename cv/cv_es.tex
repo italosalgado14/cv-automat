@@ -1,0 +1,278 @@
+%% ============================================================
+%%  cv.tex  —  Reverse-chronological, ATS-friendly LaTeX CV
+%%  Compile:  pdflatex cv.tex
+%%
+%%  DESIGN CONTRACT
+%%  All semantic data lives in custom commands defined below.
+%%  The build pipeline parses ONLY these commands — never freeform text.
+%%  Keep every \experience / \project / \education / \skill call intact.
+%% ============================================================
+
+\documentclass[11pt, letterpaper]{article}
+
+%% ── Packages ─────────────────────────────────────────────────
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=0.75in, top=0.6in, bottom=0.6in]{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{array}
+
+%% ── Colour palette ───────────────────────────────────────────
+\definecolor{accent}{HTML}{2C3E50}   % dark blue-grey for headings
+\definecolor{link}{HTML}{2980B9}     % blue for hyperlinks
+
+%% ── Hyperlinks ───────────────────────────────────────────────
+\hypersetup{
+  colorlinks=true,
+  urlcolor=link,
+  hidelinks
+}
+
+%% ── Section style ────────────────────────────────────────────
+\titleformat{\section}
+  {\large\bfseries\color{accent}}
+  {}{0em}{}
+  [\vspace{-14pt}\rule{\linewidth}{0.6pt}\vspace{4pt}]
+\titlespacing*{\section}{0pt}{10pt}{0pt}
+
+%% ── List style ───────────────────────────────────────────────
+\setlist[itemize]{
+  noitemsep,
+  topsep=1pt,
+  parsep=0pt,
+  leftmargin=1.2em,
+  label=\textbullet
+}
+
+%% ── No page numbers ──────────────────────────────────────────
+\pagestyle{empty}
+
+%% ============================================================
+%%  PARSE-TARGET CUSTOM COMMANDS
+%%  The Python build script extracts data from these calls.
+%%  Argument contracts are fixed — do not reorder args.
+%% ============================================================
+
+%%  \cvperson{Full Name}{Email}{Phone}{LinkedIn handle}{GitHub handle}{Website}
+\newcommand{\cvperson}[6]{%
+  \begin{center}
+    {\LARGE\bfseries\color{accent} #1}\\[4pt]
+    {\small
+      \href{mailto:#2}{#2}
+      \enspace\textbar\enspace
+      #3
+      \enspace\textbar\enspace
+      \href{#4}{LinkedIn}
+      \enspace\textbar\enspace
+      \href{#5}{GitHub}%
+      \ifx&#6&\else
+        \enspace\textbar\enspace\href{#6}{Website}%
+      \fi
+    }
+  \end{center}
+}
+
+%%  \experience{Job Title}{Company}{Location}{Date Range}{Bullet list of achievements}
+%%  Achievements: use \item inside a standard itemize (see examples below).
+\newcommand{\experience}[5]{%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}X r@{}}
+    \textbf{#1} \textit{at} \textbf{#2}, #3 & \textit{#4}
+  \end{tabularx}
+  \vspace{-10pt}
+  #5
+  \vspace{2pt}
+}
+
+%%  \project{Project Name}{Tech Stack}{Date Range}{Description bullet list}
+\newcommand{\project}[4]{%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}X r@{}}
+    \textbf{#1} \hspace{4pt}{\small\textit{#2}} & \textit{#3}
+  \end{tabularx}
+  \vspace{0pt}
+  #4
+  \vspace{0pt}
+}
+
+%%  \education{Degree}{Institution}{Location}{Date Range}{Details / GPA / honours}
+\newcommand{\education}[5]{%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}X r@{}}
+    \textbf{#1} — \textit{#2}, #3 & \textit{#4}
+  \end{tabularx}
+  \ifx&#5&\else{\small #5}\fi
+  \vspace{0pt}
+}
+
+%%  \skillgroup{Category}{Comma-separated skill list}
+\newcommand{\skillgroup}[2]{%
+  \noindent\textbf{#1:} #2\par\vspace{0pt}
+}
+
+%% ============================================================
+%%  DOCUMENT BODY
+%% ============================================================
+\begin{document}
+%% ── Header ───────────────────────────────────────────────────
+\cvperson
+  {Italo Salgado}
+  {italo.salgado.14@sansano.usm.cl}
+  {+569 595 750 75}
+  {https://www.linkedin.com/in/italo-salgado-910764192/}
+  {https://github.com/italosalgado14}
+  {https://italosalgado14.github.io/cv-automat/}
+%% ── Summary ──────────────────────────────────────────────────
+\section{Summary}
+Machine Learning Engineer con fuerte background de Ingenieria de Software con 5 años de experiencia, 
+titulado de Ingeniería Civil Electrónica (UTFSM). 
+Trayectoria en entrenamiento y despliegue de modelos de visión por computador y de desarrollo backend.
+El dominio de las bases informática-electrónica permite demostrar aptitudes de manejo software y 
+hardware a distintos niveles: desde microarquitecturas hasta aplicaciones de alto nivel.
+Con interés en trabajos de MLE y SWE vinculados a aplicaciones de minería, salud, aquicultura y economía.
+%% ── Experience ───────────────────────────────────────────────
+\section{Experience}
+\experience
+  {Project Engineer II}
+  {Honeywell}
+  {Santiago, Chile (Híbrido)}
+  {Mayo 2023 - Presente}
+  {
+    \begin{itemize}
+      \item Integrante del equipo de Innovación como Senior Machine Learning Engineer.
+      \item Implementación del ciclo de vida de modelo detector de objetos: entrenamiento, tuning de parámetros, deployment en producción y monitoreo.
+      \item Implementación e integración de señales a sistemas de control Honeywell.
+      \item Desarrollo e implementación de pipelines de visión artificial combinando métodos tradicionales (feature-based) y basados en datos (DL y ML tradicional) para: monitoreo de salud de cámaras, reentrenamiento automático de modelos de clasificación, y evaluación de performance mediante interfaz CLI.
+      \item Diseño y configuración de pipelines de entrenamiento de modelos Deep Learning, usando Azure.
+    \end{itemize}
+  }
+\experience
+  {Computer Vision Engineer}
+  {Universidad Técnica Federico Santa María - Wildsense Technologies \& Innovation}
+  {Valparaíso, Chile (Presencial)}
+  {Enero 2023 - Mayo 2023}
+  {
+    \begin{itemize}
+        \item Spin-off con la empresa Wildsense, ejerciendo como Mid level Computer Vision Engineer. Uso de visión artificial para solucionar problemas de diversa índole en la acuicultura implementado tracking, segmentación, clasificación.
+        \item Uso de nube de puntos para estimación de tamaño, usando filtrado, preprocesamiento y seleccionado de zonas de interés. Generar dataset representativo de nube de puntos para iterar creación de modelos.
+        \item Manejo y gestión de célula de trabajo de visión artificial de 5 personas.
+    \end{itemize}
+  }
+\experience
+  {Software Engineer}
+  {Aikologic Spa}
+  {Chile, Santiago (Remoto)}
+  {Noviembre 2022 - Diciembre 2022}
+  {
+    \begin{itemize}
+        \item Manejo de bases de datos a través de Python con mySQL.
+        \item Evaluación y puesta en marcha de modelos de Machine Learning en operaciones. 
+        \item Evaluación de algoritmos para microcontroladores.
+    \end{itemize}
+  }
+\experience
+  {Computer Vision Engineer}
+  {Universidad Técnica Federico Santa María}
+  {Chile, Valparaíso (Presencial)}
+  {Abril 2022 - Septiembre 2022}
+  {
+    \begin{itemize}
+      \item Proyecto Foncedyt (ID: NAM21I0056) sobre estudio del estado del arte e implementación de algoritmos de estimación de los latidos del corazón, la respiración, la presión sanguínea, entre otros, cubriendo técnicas de Deep Learning y de procesamiento de imágenes.
+        \item Generación de dataset especializado para evaluación de bioindicadores en coordinación con hospital y médicos.
+        \item Manejo y gestión de una célula de trabajo de 3 personas encargada del área de visión. Coordinación con equipo Full Stack para integración.
+    \end{itemize}
+  }
+\experience
+  {Trainee Computer Vision Engineer}
+  {Nexar S.A.}
+  {Chile, Santiago (Remoto)}
+  {Abril 2021 - Febrero 2022}
+  {
+    \begin{itemize}
+        \item Trabajo de título en visión artificial. Se capturan los movimientos 3D en un video corto. Se realiza segmentación del usuario y repintado del video original. Esto se importa hacia Unreal Engine.
+        \item Estudio e implementación de algoritmos de Body Tracking 3D, segmentación y repintado. Scripting con Python. 
+        \item Manejo de Unreal Engine: construcción de \textit{Levels} con \textit{Blueprints}, animaciones, texturas, etc.
+    \end{itemize}
+  }
+\experience
+  {Intern Computer Vision Engineer}
+  {TSF S.A}
+  {Chile, Santiago (Remoto)}
+  {Abril 2021 - Septiembre 2021}
+  {
+    \begin{itemize}
+        \item Soporte en la detección de frutales con un enfoque Deep Learning. Generación de datos de segmentación a través de VIA.                                            
+        \item Programación Pytorch de modelos de detección basados en Detectron2 (Mask R-CNN).
+    \end{itemize}
+  }
+\experience
+  {Intern Hardware Engineer}
+  {Wiseconn S.A.}
+  {Chile, Valparaíso (Remoto)}
+  {Abril 2021 - Septiembre 2021}
+  {
+    \begin{itemize}
+        \item Integración de sistemas embebidos experimentales con la nube AWS IoT. Integración de nodos WiFi con la red interna de la empresa.
+        \item Relacionar un nodo XBee 3 Cellular con nodo ESP8266 WiFi a la red AWS IoT.
+    \end{itemize}
+  }
+%% ── Projects ─────────────────────────────────────────────────
+% \section{Projects}
+% \project
+%   {EdgeDet}
+%   {C++, TensorRT, CUDA, ROS\,2}
+%   {2024}
+%   {
+%     \begin{itemize}
+%       \item Open-source real-time pedestrian detection node for ROS\,2;
+%             runs at 60\,fps on Jetson AGX Orin with YOLOv8-nano.
+%       \item 340+ GitHub stars; cited in two academic papers on edge inference.
+%     \end{itemize}
+%   }
+%
+% \project
+%   {cv-automat}
+%   {Python, LaTeX, Jinja2, GitHub Actions}
+%   {2025}
+%   {
+%     \begin{itemize}
+%       \item CI/CD pipeline that parses this \texttt{cv.tex}, generates a
+%             static HTML portfolio page, and deploys it to GitHub Pages on
+%             every push — single source of truth for both PDF and web CV.
+%     \end{itemize}
+%   }
+
+%% ── Education ────────────────────────────────────────────────
+\section{Education}
+
+\education
+  {Ingeniería Civil Electrónica}
+  {Universidad Técnica Federico Santa María, Casa Central}
+  {Valparaíso, Chile}
+  {2018 - 2022}
+  {Titulado — Tesis: \textit{Simulación de prendas en la dinámica corporal computada en la nube sobre videos monoculares RGB}}
+
+\education
+  {Ingeniería Civil Informática}
+  {Universidad Técnica Federico Santa María, Casa Central}
+  {Valparaíso, Chile}
+  {2014 - 2017}
+  {4 de 6 años completados}
+
+%% ── Skills ───────────────────────────────────────────────────
+\section{Skills}
+\skillgroup{Programación}{Python, C++, C#, SQL}
+\skillgroup{SWE}{Metodologías ágiles, DevOps, Docker, GitHub Actions}
+\skillgroup{ML}{PyTorch, ONNX Runtime, Scikit-learn, MLFlow}
+\skillgroup{CV}{Procesamiento de imágenes con OpenCV, YOLO, Manejo de cámaras, Tracking, Unreal Engine y Blender}
+\skillgroup{HW}{Jetson, ZED y Manejo de nube de puntos}
+\skillgroup{Cloud}{Google, AWS(con uC), Azure (entrenamiento DL)}
+\skillgroup{Idiomas}{Español (nativo), Inglés (B1 — Instituto Chileno Norteamericano), Alemán (B1 — Deutsch Akademie)}
+
+\end{document}
