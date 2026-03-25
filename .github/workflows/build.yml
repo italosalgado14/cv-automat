@@ -4,7 +4,8 @@ on:
   push:
     branches: [main]
     paths:
-      - "cv/cv.tex"
+      - "cv/cv_en.tex"
+      - "cv/cv_es.tex"
       - "templates/index.html.j2"
       - "templates/posts.html.j2"
       - "scripts/build.py"
@@ -45,7 +46,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/index.html docs/posts.html docs/assets/ data/posts.json
+          git add docs/index.html docs/es.html docs/posts.html docs/assets/ data/posts.json
           # Only commit if anything actually changed
           if git diff --cached --quiet; then
             echo "No changes — skipping commit."

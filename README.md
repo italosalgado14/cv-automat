@@ -5,7 +5,7 @@ Generate a static page with a CV in one repo
 Compiled PDF with:
 
 ```
-pdflatex cv/cv.tex
+pdflatex -output-directory=cv cv/cv_en.tex && pdflatex -output-directory=cv cv/cv_es.tex
 ```
 
 # URLs

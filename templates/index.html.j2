@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ lang | default('en') }}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -479,9 +479,12 @@
   <div id="hero-inner">
 
     <div id="topnav">
-      <span class="site-name">{{ person.name }}</span>
       <div class="nav-links">
-        <a href="index.html" class="active">cv</a>
+        <a href="index.html" class="{{ 'active' if lang == 'en' else '' }}">EN</a>
+        <a href="es.html" class="{{ 'active' if lang == 'es' else '' }}">ES</a>
+      </div>
+      <div class="nav-links">
+        <a href="{{ 'index.html' if lang == 'en' else 'es.html' }}" class="active">cv</a>
         <a href="posts.html">posts</a>
       </div>
     </div>

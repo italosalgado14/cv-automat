@@ -25,15 +25,23 @@ except ImportError:
 
 def cli() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--cv",             default="cv/cv.tex",                  help="Path to cv.tex")
+    p.add_argument("--cv",             default=None,                         help="Path to cv.tex (overrides multi-lang)")
     p.add_argument("--template",       default="templates/index.html.j2",    help="Path to CV Jinja2 template")
-    p.add_argument("--out",            default="docs/index.html",            help="Output CV HTML path")
+    p.add_argument("--out",            default=None,                         help="Output CV HTML path (overrides multi-lang)")
     p.add_argument("--posts-data",     default="data/posts.json",            help="Path to posts JSON")
     p.add_argument("--posts-template", default="templates/posts.html.j2",   help="Path to posts Jinja2 template")
     p.add_argument("--posts-out",      default="docs/posts.html",            help="Output posts HTML path")
     p.add_argument("--certs-data",     default="data/certifications.json",   help="Path to certifications JSON")
     p.add_argument("--dump-json",      action="store_true",                  help="Print extracted JSON and exit")
     return p.parse_args()
+
+
+# ── Multi-language CV definitions ─────────────────────────────────────────────
+
+CV_LANGS = [
+    {"lang": "en", "cv": "cv/cv_en.tex", "out": "docs/index.html"},
+    {"lang": "es", "cv": "cv/cv_es.tex", "out": "docs/es.html"},
+]
 
 
 # ── Brace-balanced argument extractor ─────────────────────────────────────────
@@ -244,38 +252,31 @@ def render(data: dict, template_path: Path) -> str:
 
 # ── Entry point ────────────────────────────────────────────────────────────────
 
-def main() -> None:
-    args = cli()
-
-    # Resolve paths relative to the repo root (one level up from scripts/)
-    repo_root = Path(__file__).parent.parent
-    cv_path            = repo_root / args.cv
-    template_path      = repo_root / args.template
-    out_path           = repo_root / args.out
-    posts_data_path    = repo_root / args.posts_data
-    posts_tmpl_path    = repo_root / args.posts_template
-    posts_out_path     = repo_root / args.posts_out
-    certs_data_path    = repo_root / args.certs_data
+def build_cv(repo_root: Path, cv_rel: str, template_path: Path,
+             out_rel: str, certs_data_path: Path, lang: str,
+             dump_json: bool = False) -> dict | None:
+    """Build a single CV variant. Returns parsed data (for reuse in posts)."""
+    cv_path  = repo_root / cv_rel
+    out_path = repo_root / out_rel
 
     if not cv_path.exists():
-        sys.exit(f"ERROR: CV file not found: {cv_path}")
+        print(f"SKIP: CV file not found: {cv_path}")
+        return None
     if not template_path.exists():
         sys.exit(f"ERROR: Template not found: {template_path}")
 
     tex  = cv_path.read_text(encoding="utf-8")
     data = parse_cv(tex)
 
-    if args.dump_json:
+    if dump_json:
         print(json.dumps(data, indent=2, ensure_ascii=False))
-        return
+        return data
 
     # ── Split skills → tech_skills + languages ─────────────────────
     all_skills  = data.get("skills", [])
     tech_skills = [s for s in all_skills if "human" not in s["category"].lower()]
     languages   = [s for s in all_skills if "human"     in s["category"].lower()]
-
-    # Flatten languages into a single tag list (one \skillgroup "Languages (human)")
-    lang_tags = languages[0]["tags"] if languages else []
+    lang_tags   = languages[0]["tags"] if languages else []
 
     # ── Load certifications ────────────────────────────────────────
     certifications = (
@@ -283,20 +284,54 @@ def main() -> None:
         if certs_data_path.exists() else []
     )
 
+    # ── Determine the other language link ──────────────────────────
+    lang_switch = {"en": "es.html", "es": "index.html"}
+
     # ── Build CV page ──────────────────────────────────────────────
     index_ctx = {**data,
                  "tech_skills":    tech_skills,
                  "lang_tags":      lang_tags,
-                 "certifications": certifications}
+                 "certifications": certifications,
+                 "lang":           lang,
+                 "lang_switch_url": lang_switch.get(lang, "")}
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(render(index_ctx, template_path), encoding="utf-8")
-    print(f"Built: {out_path}")
+    print(f"Built: {out_path} [{lang}]")
+    return data
+
+
+def main() -> None:
+    args = cli()
+
+    repo_root       = Path(__file__).parent.parent
+    template_path   = repo_root / args.template
+    posts_data_path = repo_root / args.posts_data
+    posts_tmpl_path = repo_root / args.posts_template
+    posts_out_path  = repo_root / args.posts_out
+    certs_data_path = repo_root / args.certs_data
+
+    # ── Build CV(s) ────────────────────────────────────────────────
+    if args.cv and args.out:
+        # Single-file mode (backward compat)
+        person_data = build_cv(repo_root, args.cv, template_path, args.out,
+                               certs_data_path, lang="en", dump_json=args.dump_json)
+    else:
+        # Multi-language mode (default)
+        person_data = None
+        for entry in CV_LANGS:
+            d = build_cv(repo_root, entry["cv"], template_path, entry["out"],
+                         certs_data_path, lang=entry["lang"], dump_json=args.dump_json)
+            if d and person_data is None:
+                person_data = d
+
+    if args.dump_json:
+        return
 
     # ── Build posts page ───────────────────────────────────────────
-    if posts_tmpl_path.exists():
+    if posts_tmpl_path.exists() and person_data:
         posts = json.loads(posts_data_path.read_text(encoding="utf-8")) \
                 if posts_data_path.exists() else []
-        posts_html = render({"person": data["person"], "posts": posts}, posts_tmpl_path)
+        posts_html = render({"person": person_data["person"], "posts": posts}, posts_tmpl_path)
         posts_out_path.write_text(posts_html, encoding="utf-8")
         print(f"Built: {posts_out_path}")
     else:
