@@ -107,6 +107,20 @@ def clean_latex(text: str) -> str:
     # narrow no-break space  (\,)
     text = re.sub(r"\\,", "\u202f", text)
 
+    # 3.5  LaTeX accent commands → Unicode  (handles {\'e} and \'e forms)
+    _ACCENTS = {
+        "'": {'a':'á','e':'é','i':'í','o':'ó','u':'ú','A':'Á','E':'É','I':'Í','O':'Ó','U':'Ú'},
+        '`': {'a':'à','e':'è','i':'ì','o':'ò','u':'ù'},
+        '"': {'a':'ä','e':'ë','i':'ï','o':'ö','u':'ü','A':'Ä','E':'Ë','O':'Ö','U':'Ü'},
+        '^': {'a':'â','e':'ê','i':'î','o':'ô','u':'û'},
+        '~': {'a':'ã','n':'ñ','o':'õ','A':'Ã','N':'Ñ','O':'Õ'},
+    }
+    def _accent_sub(m):
+        mark = m.group(1) or m.group(3)
+        char = m.group(2) or m.group(4)
+        return _ACCENTS.get(mark, {}).get(char, char)
+    text = re.sub(r"\{\\(['\"`^~])([a-zA-Z])\}|\\(['\"`^~])([a-zA-Z])", _accent_sub, text)
+
     # 4. Inline math
     text = re.sub(r"\$\\times\$", "\u00d7", text)          # $\times$ → ×
     text = re.sub(r"\$10\^\\times\$", "10\u00d7", text)
