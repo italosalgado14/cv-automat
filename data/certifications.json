@@ -1,19 +1,19 @@
 [
-    {
+  {
     "title": "Unreal: Fundamentals",
     "platform": "CRTIC",
     "provider": "CRTIC",
     "year": "2022",
     "url": "",
-    "comment": "Finished: 40H."
+    "comment": "UE classes, 40HH synchronous online lectures."
   },
   {
-    "title": "IBM DevOps and Software Engineering",
+    "title": "Introduction to DevOps",
     "platform": "Coursera",
     "provider": "IBM",
     "year": "2025",
     "url": "https://www.coursera.org/professional-certificates/devops-and-software-engineering",
-    "comment": "on-going"
+    "comment": "10 HH asynchronous"
   },
   {
     "title": "DeepLearning.AI Data Engineering",
@@ -37,6 +37,6 @@
     "provider": "Duke University",
     "year": "2025",
     "url": "https://www.coursera.org/specializations/mlops-machine-learning-duke",
-    "comment": "on-going"
+    "comment": "Master the end-to-end machine learning lifecycle by building, deploying, and monitoring production-ready models and industry-standard cloud platforms like AWS and Azure. 145HH asynchronous classes."
   }
 ]
