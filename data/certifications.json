@@ -4,8 +4,8 @@
     "platform": "CRTIC",
     "provider": "CRTIC",
     "year": "2022",
-    "url": "",
-    "comment": "UE classes, 40HH synchronous online lectures."
+    "url": "https://www.crtic.cl/formacion/",
+    "comment": "UE classes, 40HH synchronous online lectures, plus extra homework."
   },
   {
     "title": "Introduction to DevOps",
@@ -30,6 +30,14 @@
     "year": "2026",
     "url": "https://www.coursera.org/professional-certificates/preparing-for-google-cloud-machine-learning-engineer-professional-certificate",
     "comment": "on-going"
+  },
+    {
+    "title": "Machine Learning in Production",
+    "platform": "Coursera",
+    "provider": "DeepLearning.AI",
+    "year": "2026",
+    "url": "https://www.deeplearning.ai/courses/machine-learning-in-production/",
+    "comment": "Overview of Machine Learning in productions problems and solutions. 15HH asynchronous classes."
   },
   {
     "title": "MLOps | Machine Learning Operations",
