@@ -90,7 +90,7 @@ def clean_latex(text: str) -> str:
     text = re.sub(r"(?<!\\)%[^\n]*", "", text)
 
     # 2. Typographic dashes  (must come before \% handling)
-    text = text.replace("---", "\u2014")   # em-dash
+    text = text.replace("---", "-")
     text = text.replace("--",  "\u2013")   # en-dash
 
     # 3. LaTeX special-character escapes
