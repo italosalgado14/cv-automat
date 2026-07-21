@@ -1,5 +1,16 @@
 [
     {
+    "title": "",
+    "date": "2025-12",
+    "image": "assets/tobacco.jpg",
+    "description": "Simple standalone board for Scrum/Agile for personal use. I dont want to pay more suscriptions, this is a solution for that.",
+    "link": "https://codeberg.org/isalgado/boardstiff",
+    "tags": [
+      "Agile Board",
+      "JS"
+    ]
+  },
+  {
     "title": "Causal Effects of Tobacco Control Policies",
     "date": "2025-12",
     "image": "assets/tobacco.jpg",

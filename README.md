@@ -7,6 +7,9 @@ Compiled PDF with:
 ```
 pdflatex -output-directory=cv cv/cv_en.tex && pdflatex -output-directory=cv cv/cv_es.tex
 ```
+# Based on
+
+https://owickstrom.github.io/the-monospace-web/
 
 # URLs
 

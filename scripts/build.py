@@ -243,7 +243,7 @@ def parse_cv(tex: str) -> dict:
         raw_items = re.sub(r"\\,", "\u202f", args[1])   # \, → narrow space before split
         data["skills"].append({
             "category": clean_latex(args[0]),
-            "tags":     [s.strip() for s in raw_items.split(",") if s.strip()],
+            "tags":     [clean_latex(s) for s in raw_items.split(",") if s.strip()],
         })
 
     return data

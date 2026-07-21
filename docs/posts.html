@@ -5,464 +5,377 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Italo Salgado &mdash; Posts</title>
   <style>
-    /* ── Reset & tokens ─────────────────────────────────────────── */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ══════════════════════════════════════════════════════════════════
+       THE MONOSPACE WEB — brutalist design system
+       Adapted from Oskar Wickström's "The Monospace Web" (MIT).
+       Everything snaps to a character grid: 1ch wide x --line-height tall.
+       ══════════════════════════════════════════════════════════════════ */
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
 
     :root {
-      --accent:   #0ea5e9;
-      --accent-d: #0369a1;
-      --hero-bg:  #0f172a;
-      --hero-fg:  #f1f5f9;
-      --pill-bg:  #dbeafe;
-      --pill-fg:  #1e3a8a;
-      --body-bg:  #f8fafc;
-      --text:     #1e293b;
-      --muted:    #64748b;
-      --border:   #e2e8f0;
+      --font-family: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+      --line-height: 1.20rem;
+      --border-thickness: 2px;
+
+      --text-color:           #000;
+      --text-color-alt:       #666;
+      --background-color:      #fff;
+      --background-color-alt:  #eee;
+
+      --font-weight-normal: 500;
+      --font-weight-medium: 600;
+      --font-weight-bold:   800;
+
+      font-family: var(--font-family);
+      font-optical-sizing: auto;
+      font-weight: var(--font-weight-normal);
+      font-style: normal;
+      font-variant-numeric: tabular-nums lining-nums;
+      font-size: 16px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text-color:          #fff;
+        --text-color-alt:      #aaa;
+        --background-color:     #000;
+        --background-color-alt: #111;
+      }
+    }
+
+    /* ── Reset + the "owl" vertical rhythm ──────────────────────────── */
+    *          { box-sizing: border-box; }
+    * + *      { margin-top: var(--line-height); }   /* one line of rhythm between siblings */
+
+    html {
+      background: var(--background-color);
+      color: var(--text-color);
+      -webkit-text-size-adjust: 100%;
     }
 
     body {
-      font-family: sans-serif;
-      font-size: 16px;
-      line-height: 1.55;
-      color: var(--text);
-      background: var(--body-bg);
-    }
-
-    a { color: var(--accent-d); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    /* ── Hero ───────────────────────────────────────────────────── */
-    #hero {
-      background: var(--hero-bg);
-      color: var(--hero-fg);
-      padding: 0 20px;
-    }
-
-    #hero-inner {
-      max-width: 860px;
+      position: relative;
+      width: 100%;
       margin: 0 auto;
-      padding: 22px 0 36px;
+      padding: var(--line-height) 2ch;
+      max-width: 80ch;                                   /* fallback for no round() */
+      max-width: calc(min(80ch, round(down, 100%, 1ch)));
+      line-height: var(--line-height);
+      overflow-x: hidden;
     }
 
-    #topnav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: .82rem;
-      color: #94a3b8;
-      margin-bottom: 32px;
+    @media screen and (max-width: 480px) {
+      :root { font-size: 14px; }
+      body  { padding: var(--line-height) 1ch; }
     }
 
-    #topnav .nav-links { display: flex; gap: 10px; }
-
-    #topnav a {
-      color: #94a3b8;
-      text-decoration: none;
-      font-size: .78rem;
-      font-weight: 600;
-      letter-spacing: .1em;
+    /* ── Headings ───────────────────────────────────────────────────── */
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: var(--font-weight-bold);
+      line-height: var(--line-height);
+      margin: calc(var(--line-height) * 2) 0 var(--line-height);
+    }
+    h1 {
+      font-size: 2rem;
+      line-height: calc(2 * var(--line-height));
       text-transform: uppercase;
-      padding: 5px 14px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      transition: color .15s, border-color .15s, background .15s;
+      letter-spacing: -0.03em;
     }
-    #topnav a:hover {
-      color: #fff;
-      border-color: #475569;
-    }
-    #topnav a.active {
-      color: var(--accent);
-      border-color: var(--accent);
-      background: rgba(14,165,233,.08);
-    }
+    h2 { font-size: 1rem; text-transform: uppercase; }
+    h3 { font-size: 1rem; text-transform: uppercase; color: var(--text-color-alt); }
 
-    #hero h1 {
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: -.5px;
-      line-height: 1.1;
-      margin-bottom: 8px;
-    }
-
-    #hero .sub {
-      font-size: .95rem;
-      color: #94a3b8;
-    }
-
-    /* ── Content ─────────────────────────────────────────────────── */
-    #content {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 44px 20px 64px;
-    }
-
+    /* Section headers rendered like markdown "## TITLE" */
+    .section       { margin-top: calc(var(--line-height) * 2); }
     .section-title {
-      font-size: .72rem;
-      font-weight: 700;
-      letter-spacing: .16em;
+      font-size: 1rem;
       text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 22px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      font-weight: var(--font-weight-bold);
+      margin: 0 0 var(--line-height);
+      border-bottom: var(--border-thickness) solid var(--text-color);
+      padding-bottom: calc(var(--line-height) / 2 - var(--border-thickness));
+    }
+    .section-title::before {
+      content: "## ";
+      color: var(--text-color-alt);
+      font-weight: var(--font-weight-medium);
     }
 
-    .section-title::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: var(--border);
+    /* ── Links ──────────────────────────────────────────────────────── */
+    a {
+      color: var(--text-color);
+      text-decoration: underline;
+      text-decoration-thickness: var(--border-thickness);
+      text-underline-offset: 2px;
+    }
+    a:hover { background: var(--text-color); color: var(--background-color); text-decoration: none; }
+
+    strong { font-weight: var(--font-weight-bold); }
+    em     { font-style: italic; }
+
+    p { margin-bottom: var(--line-height); word-wrap: break-word; overflow-wrap: break-word; }
+
+    code {
+      font-family: var(--font-family);
+      font-weight: var(--font-weight-medium);
+      background: var(--background-color-alt);
+      padding: 0 0.4ch;
     }
 
-    /* ── Card grid ───────────────────────────────────────────────── */
-    .card-grid {
+    /* ── Horizontal rule (double bar) ───────────────────────────────── */
+    hr {
+      position: relative; display: block;
+      height: var(--line-height);
+      margin: calc(var(--line-height) * 1.5) 0;
+      border: none; color: var(--text-color);
+    }
+    hr:after {
+      content: ""; display: block; position: absolute;
+      top: calc(var(--line-height) / 2 - var(--border-thickness));
+      left: 0; width: 100%; height: 0;
+      border-top: calc(var(--border-thickness) * 3) double var(--text-color);
+    }
+
+    /* ── Tables (the signature look) ────────────────────────────────── */
+    table {
+      position: relative;
+      width: 100%;
+      width: calc(round(down, 100%, 1ch));
+      border-collapse: collapse;
+      margin: 0 0 var(--line-height);
+    }
+    th, td {
+      border: var(--border-thickness) solid var(--text-color);
+      padding: calc(var(--line-height) / 2) 1ch;
+      line-height: var(--line-height);
+      vertical-align: top;
+      text-align: left;
+    }
+    th { font-weight: var(--font-weight-bold); text-transform: uppercase; }
+    thead th { background: var(--background-color-alt); }
+    .width-min  { width: 0%; white-space: nowrap; }
+    .width-auto { width: 100%; }
+    td a, th a { text-decoration-thickness: var(--border-thickness); }
+
+    /* ── Lists ──────────────────────────────────────────────────────── */
+    ul, ol { padding: 0; margin: 0 0 var(--line-height); }
+    ul { list-style-type: square; padding-left: 2ch; }
+    ol { list-style-type: decimal; padding-left: 3ch; }
+    li { margin: 0; }               /* kills the owl margin so bullets pack tight */
+    li::marker { line-height: 0; }
+    ul ul, ul ol, ol ul, ol ol { margin: 0; padding-left: 3ch; }
+
+    /* ── Header / masthead ──────────────────────────────────────────── */
+    .header      { margin-bottom: calc(var(--line-height) * 2); }
+    .header h1   { margin: 0; }
+    .subtitle    { color: var(--text-color-alt); font-weight: var(--font-weight-medium); margin: calc(var(--line-height) / 2) 0 0; }
+    .header table, .header .subtitle { margin-bottom: 0; }
+    .header .contacts { margin-top: var(--line-height); }
+    .header .contacts th { width: 0%; white-space: nowrap; }
+
+    /* ── Nav (bracketed, inverts when active) ───────────────────────── */
+    .nav {
+      display: flex; flex-wrap: wrap; gap: 0 3ch;
+      justify-content: space-between;
+      margin: 0 0 var(--line-height);
+    }
+    .nav .group { display: flex; gap: 1ch; margin: 0; }
+    .nav a { margin: 0; text-decoration: none; }
+    .nav a::before { content: "["; color: var(--text-color-alt); }
+    .nav a::after  { content: "]"; color: var(--text-color-alt); }
+    .nav a:hover              { background: var(--text-color); color: var(--background-color); }
+    .nav a.active             { background: var(--text-color); color: var(--background-color); text-decoration: none; }
+    .nav a.active::before,
+    .nav a.active::after      { color: var(--background-color); }
+
+    /* ── Tags / chips (bordered, square, brutalist) ─────────────────── */
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5ch; margin: 0; }
+    .tag {
+      display: inline-block; margin: 0;
+      border: var(--border-thickness) solid var(--text-color);
+      padding: 0 0.5ch;
+      font-size: 0.8rem;
+      font-weight: var(--font-weight-medium);
+      line-height: calc(var(--line-height) - var(--border-thickness));
+      white-space: nowrap;
+    }
+
+    /* ── CV entries (experience / projects) ─────────────────────────── */
+    .entry      { margin-top: calc(var(--line-height) * 1.5); }
+    .entry-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      flex-wrap: wrap; gap: 0 1ch; margin: 0;
+      border-bottom: var(--border-thickness) solid var(--text-color);
+      padding-bottom: calc(var(--line-height) / 2 - var(--border-thickness));
+    }
+    .entry-title { font-weight: var(--font-weight-bold); margin: 0; }
+    .entry-date  { color: var(--text-color-alt); white-space: nowrap; margin: 0; }
+    .entry-sub   { color: var(--text-color-alt); font-weight: var(--font-weight-medium); margin: calc(var(--line-height) / 2) 0 0; }
+    .entry ul    { margin-top: calc(var(--line-height) / 2); }
+
+    .muted { color: var(--text-color-alt); }
+
+    /* ── Posts grid (bordered cards, no radius, no shadow) ──────────── */
+    .posts {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
+      gap: var(--line-height) 2ch;
+      margin: 0;
     }
+    @media (max-width: 640px) { .posts { grid-template-columns: 1fr; } }
 
-    .card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
+    .post {
+      display: flex; flex-direction: column;
+      border: var(--border-thickness) solid var(--text-color);
+      margin: 0;
+      color: var(--text-color);
       text-decoration: none;
-      color: inherit;
-      transition: border-color .15s, box-shadow .15s;
     }
+    .post:hover { background: var(--background-color-alt); color: var(--text-color); }
+    .post:hover .post-title { text-decoration: underline; text-decoration-thickness: var(--border-thickness); }
 
-    .card:hover {
-      border-color: var(--accent);
-      box-shadow: 0 2px 12px rgba(14,165,233,.1);
+    .post-img {
+      margin: 0; aspect-ratio: 16 / 9; overflow: hidden;
+      border-bottom: var(--border-thickness) solid var(--text-color);
+      background: var(--background-color-alt);
     }
-
-    /* colored accent bar on top */
-    .card-accent { height: 3px; background: var(--accent); flex-shrink: 0; }
-
-    /* image */
-    .card-img {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-      background: #e2e8f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .post-img img { display: block; width: 100%; height: 100%; object-fit: cover; margin: 0; }
+    .post-noimg {
+      margin: 0; aspect-ratio: 16 / 9;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-color-alt); font-size: 0.8rem; letter-spacing: 0.1em;
+      border-bottom: var(--border-thickness) solid var(--text-color);
+      background: var(--background-color-alt);
     }
-
-    .card-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform .3s ease;
+    .post-body {
+      flex: 1; margin: 0;
+      padding: calc(var(--line-height) / 2) 1ch var(--line-height);
+      display: flex; flex-direction: column; gap: calc(var(--line-height) / 2);
     }
+    .post-date  { color: var(--text-color-alt); font-size: 0.8rem; margin: 0; }
+    .post-title { font-weight: var(--font-weight-bold); margin: 0; }
+    .post-desc  { margin: 0; flex: 1; font-size: 0.9rem; }
+    .post-body .tags { margin: 0; }
 
-    .card:hover .card-img img { transform: scale(1.03); }
-
-    .card-img.no-img {
-      font-size: .72rem;
-      letter-spacing: .08em;
-      color: #cbd5e1;
+    /* ── Footer ─────────────────────────────────────────────────────── */
+    .footer {
+      margin-top: calc(var(--line-height) * 2);
+      padding-top: var(--line-height);
+      border-top: var(--border-thickness) solid var(--text-color);
+      color: var(--text-color-alt);
+      font-size: 0.85rem;
     }
+    .footer a { color: var(--text-color-alt); }
 
-    /* body */
-    .card-body {
-      padding: 16px 18px 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      flex: 1;
-    }
-
-    .card-date {
-      font-size: .72rem;
-      color: #cbd5e1;
-      font-weight: 500;
-    }
-
-    .card-title {
-      font-size: .95rem;
-      font-weight: 700;
-      color: var(--text);
-      line-height: 1.35;
-    }
-
-    .card-desc {
-      font-size: .82rem;
-      color: var(--muted);
-      line-height: 1.6;
-      flex: 1;
-    }
-
-    .card-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 4px;
-    }
-
-    .pill {
-      display: inline-block;
-      font-size: .72rem;
-      background: var(--pill-bg);
-      color: var(--pill-fg);
-      padding: .18em .6em;
-      border-radius: 999px;
-      line-height: 1.6;
-      font-weight: 500;
-    }
-
-    /* ── Footer ──────────────────────────────────────────────────── */
-    #footer {
-      font-size: .72rem;
-      color: #cbd5e1;
-      margin-top: 48px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border);
-    }
-
-    #footer a { color: #94a3b8; }
-
-    /* ── Responsive ──────────────────────────────────────────────── */
-    @media (max-width: 560px) {
-      .card-grid { grid-template-columns: 1fr; }
-      #topnav .site-name { display: none; }
-    }
+    img { max-width: 100%; }
   </style>
 </head>
 <body>
 
-<!-- ══ HERO ══════════════════════════════════════════════════════════ -->
-<div id="hero">
-  <div id="hero-inner">
-
-    <div id="topnav">
-      <div class="nav-links">
-        <a href="index.html" class="active">EN</a>
+  <div class="header">
+    <nav class="nav">
+      <div class="group">
+        <a href="index.html">EN</a>
         <a href="es.html">ES</a>
       </div>
-      <div class="nav-links">
+      <div class="group">
         <a href="index.html">cv</a>
         <a href="posts.html" class="active">posts</a>
       </div>
-    </div>
-
+    </nav>
     <h1>Posts</h1>
-    <p class="sub">Writing, projects, and things worth sharing.</p>
-
-  </div>
-</div>
-
-<!-- ══ CONTENT ═══════════════════════════════════════════════════════ -->
-<div id="content">
-
-  
-  <h2 class="section-title">All posts</h2>
-  <div class="card-grid">
-    
-
-    
-    <a class="card" href="https://github.com/italosalgado14/causal-tobacco" target="_blank" rel="noopener">
-    
-
-      <div class="card-accent"></div>
-
-      <div class="card-img">
-        
-        <img src="assets/tobacco.jpg" alt="Causal Effects of Tobacco Control Policies" loading="lazy" />
-        
-      </div>
-
-      <div class="card-body">
-        <div class="card-date">2025-12</div>
-        <div class="card-title">Causal Effects of Tobacco Control Policies</div>
-        <div class="card-desc">A comprehensive causal inference project analyzing the effect of tobacco control policies on smoking prevalence and health outcomes using panel data from 150+ countries over 20+ years.</div>
-        
-        <div class="card-tags">
-          <span class="pill">Causal Inference</span><span class="pill">Python</span>
-        </div>
-        
-      </div>
-
-    </a>
-
-    
-
-    
-    <a class="card" href="https://github.com/italosalgado14/yolo-seg-platform" target="_blank" rel="noopener">
-    
-
-      <div class="card-accent"></div>
-
-      <div class="card-img">
-        
-        <img src="assets/bubbles1.png" alt="Froth bubbles detection over an infrastructure" loading="lazy" />
-        
-      </div>
-
-      <div class="card-body">
-        <div class="card-date">2025-11</div>
-        <div class="card-title">Froth bubbles detection over an infrastructure</div>
-        <div class="card-desc">Build an end-to-end platform that receives images, runs YOLO-seg inference, stores results, monitors performance, and is fully deployed with Infrastructure as Code and CI/CD.</div>
-        
-        <div class="card-tags">
-          <span class="pill">FastAPI</span><span class="pill">Docker</span><span class="pill">PostgreSQL</span><span class="pill">Prometheus</span>
-        </div>
-        
-      </div>
-
-    </a>
-
-    
-
-    
-    <a class="card" href="https://github.com/italosalgado14/usm-docs" target="_blank" rel="noopener">
-    
-
-      <div class="card-accent"></div>
-
-      <div class="card-img">
-        
-        <img src="assets/rag1.jpg" alt="Code RAG prototipe with UTFSM documents" loading="lazy" />
-        
-      </div>
-
-      <div class="card-body">
-        <div class="card-date">2026-03</div>
-        <div class="card-title">Code RAG prototipe with UTFSM documents</div>
-        <div class="card-desc">Conversational application to talk about the courses of UTFSM 2014 to 2022 recopilation.</div>
-        
-        <div class="card-tags">
-          <span class="pill">Python</span><span class="pill">RAG</span>
-        </div>
-        
-      </div>
-
-    </a>
-
-    
-
-    
-    <a class="card" href="https://github.com/italosalgado14/nanochat" target="_blank" rel="noopener">
-    
-
-      <div class="card-accent"></div>
-
-      <div class="card-img">
-        
-        <img src="assets/nanochat.png" alt="Nanochat from karpathy: Ingestion" loading="lazy" />
-        
-      </div>
-
-      <div class="card-body">
-        <div class="card-date">2026-01</div>
-        <div class="card-title">Nanochat from karpathy: Ingestion</div>
-        <div class="card-desc">Im trying to ingest one of the most valuable repos to train LLM from scratch.</div>
-        
-        <div class="card-tags">
-          <span class="pill">LLM</span>
-        </div>
-        
-      </div>
-
-    </a>
-
-    
-
-    
-    <a class="card" href="https://github.com/italosalgado14/systems-dynamics" target="_blank" rel="noopener">
-    
-
-      <div class="card-accent"></div>
-
-      <div class="card-img">
-        
-        <img src="assets/bond1.png" alt="System Dynamics application over Economy" loading="lazy" />
-        
-      </div>
-
-      <div class="card-body">
-        <div class="card-date">2021-03</div>
-        <div class="card-title">System Dynamics application over Economy</div>
-        <div class="card-desc">Hamiltonian ports and the alternative application in economy.</div>
-        
-        <div class="card-tags">
-          <span class="pill">Python</span><span class="pill">Hamiltonian Ports</span><span class="pill">Control Systems Simulation</span>
-        </div>
-        
-      </div>
-
-    </a>
-
-    
-
-    
-    <a class="card" href="https://github.com/italosalgado14/froth-simulation" target="_blank" rel="noopener">
-    
-
-      <div class="card-accent"></div>
-
-      <div class="card-img">
-        
-        <img src="assets/simulated_bubbles1.png" alt="Froth Simulation Bubbles" loading="lazy" />
-        
-      </div>
-
-      <div class="card-body">
-        <div class="card-date">2026-03</div>
-        <div class="card-title">Froth Simulation Bubbles</div>
-        <div class="card-desc">Open source version proyect of generation of bubbles to generate syntetic data.</div>
-        
-        <div class="card-tags">
-          <span class="pill">Generated data</span><span class="pill">Computer Vision</span>
-        </div>
-        
-      </div>
-
-    </a>
-
-    
-
-    
-    <a class="card" href="https://salsep.bearblog.dev/blog/" target="_blank" rel="noopener">
-    
-
-      <div class="card-accent"></div>
-
-      <div class="card-img">
-        
-        <img src="assets/bear1.png" alt="Personal Blog" loading="lazy" />
-        
-      </div>
-
-      <div class="card-body">
-        <div class="card-date">2026-03</div>
-        <div class="card-title">Personal Blog</div>
-        <div class="card-desc">Personal Blog, writing about IA, random_topics(), Books and SC or AoE II. A privacy-first, no-nonsense, super-fast blogging platform.</div>
-        
-        <div class="card-tags">
-          <span class="pill">BearBlog</span>
-        </div>
-        
-      </div>
-
-    </a>
-
-    
-  </div>
-  
-
-  <div id="footer">
-    built automatically from <a href="../data/posts.json">posts.json</a> &mdash; cv-automat
+    <div class="subtitle">Writing, projects, and things worth sharing.</div>
   </div>
 
-</div>
+  <section class="section">
+    <h2 class="section-title">All posts</h2>
+    
+    <div class="posts">
+      
+      <a class="post" href="https://codeberg.org/isalgado/boardstiff" target="_blank" rel="noopener">
+        <div class="post-img"><img src="assets/tobacco.jpg" alt="" loading="lazy" /></div>
+        <div class="post-body">
+          <div class="post-date">2025-12</div>
+          <div class="post-title">Untitled</div>
+          <div class="post-desc">Simple standalone board for Scrum/Agile for personal use. I dont want to pay more suscriptions, this is a solution for that.</div>
+          <div class="tags"><span class="tag">Agile Board</span><span class="tag">JS</span></div>
+        </div>
+      </a>
+      
+      <a class="post" href="https://github.com/italosalgado14/causal-tobacco" target="_blank" rel="noopener">
+        <div class="post-img"><img src="assets/tobacco.jpg" alt="Causal Effects of Tobacco Control Policies" loading="lazy" /></div>
+        <div class="post-body">
+          <div class="post-date">2025-12</div>
+          <div class="post-title">Causal Effects of Tobacco Control Policies</div>
+          <div class="post-desc">A comprehensive causal inference project analyzing the effect of tobacco control policies on smoking prevalence and health outcomes using panel data from 150+ countries over 20+ years.</div>
+          <div class="tags"><span class="tag">Causal Inference</span><span class="tag">Python</span></div>
+        </div>
+      </a>
+      
+      <a class="post" href="https://github.com/italosalgado14/yolo-seg-platform" target="_blank" rel="noopener">
+        <div class="post-img"><img src="assets/bubbles1.png" alt="Froth bubbles detection over an infrastructure" loading="lazy" /></div>
+        <div class="post-body">
+          <div class="post-date">2025-11</div>
+          <div class="post-title">Froth bubbles detection over an infrastructure</div>
+          <div class="post-desc">Build an end-to-end platform that receives images, runs YOLO-seg inference, stores results, monitors performance, and is fully deployed with Infrastructure as Code and CI/CD.</div>
+          <div class="tags"><span class="tag">FastAPI</span><span class="tag">Docker</span><span class="tag">PostgreSQL</span><span class="tag">Prometheus</span></div>
+        </div>
+      </a>
+      
+      <a class="post" href="https://github.com/italosalgado14/usm-docs" target="_blank" rel="noopener">
+        <div class="post-img"><img src="assets/rag1.jpg" alt="Code RAG prototipe with UTFSM documents" loading="lazy" /></div>
+        <div class="post-body">
+          <div class="post-date">2026-03</div>
+          <div class="post-title">Code RAG prototipe with UTFSM documents</div>
+          <div class="post-desc">Conversational application to talk about the courses of UTFSM 2014 to 2022 recopilation.</div>
+          <div class="tags"><span class="tag">Python</span><span class="tag">RAG</span></div>
+        </div>
+      </a>
+      
+      <a class="post" href="https://github.com/italosalgado14/nanochat" target="_blank" rel="noopener">
+        <div class="post-img"><img src="assets/nanochat.png" alt="Nanochat from karpathy: Ingestion" loading="lazy" /></div>
+        <div class="post-body">
+          <div class="post-date">2026-01</div>
+          <div class="post-title">Nanochat from karpathy: Ingestion</div>
+          <div class="post-desc">Im trying to ingest one of the most valuable repos to train LLM from scratch.</div>
+          <div class="tags"><span class="tag">LLM</span></div>
+        </div>
+      </a>
+      
+      <a class="post" href="https://github.com/italosalgado14/systems-dynamics" target="_blank" rel="noopener">
+        <div class="post-img"><img src="assets/bond1.png" alt="System Dynamics application over Economy" loading="lazy" /></div>
+        <div class="post-body">
+          <div class="post-date">2021-03</div>
+          <div class="post-title">System Dynamics application over Economy</div>
+          <div class="post-desc">Hamiltonian ports and the alternative application in economy.</div>
+          <div class="tags"><span class="tag">Python</span><span class="tag">Hamiltonian Ports</span><span class="tag">Control Systems Simulation</span></div>
+        </div>
+      </a>
+      
+      <a class="post" href="https://github.com/italosalgado14/froth-simulation" target="_blank" rel="noopener">
+        <div class="post-img"><img src="assets/simulated_bubbles1.png" alt="Froth Simulation Bubbles" loading="lazy" /></div>
+        <div class="post-body">
+          <div class="post-date">2026-03</div>
+          <div class="post-title">Froth Simulation Bubbles</div>
+          <div class="post-desc">Open source version proyect of generation of bubbles to generate syntetic data.</div>
+          <div class="tags"><span class="tag">Generated data</span><span class="tag">Computer Vision</span></div>
+        </div>
+      </a>
+      
+      <a class="post" href="https://salsep.bearblog.dev/blog/" target="_blank" rel="noopener">
+        <div class="post-img"><img src="assets/bear1.png" alt="Personal Blog" loading="lazy" /></div>
+        <div class="post-body">
+          <div class="post-date">2026-03</div>
+          <div class="post-title">Personal Blog</div>
+          <div class="post-desc">Personal Blog, writing about IA, random_topics(), Books and SC or AoE II. A privacy-first, no-nonsense, super-fast blogging platform.</div>
+          <div class="tags"><span class="tag">BearBlog</span></div>
+        </div>
+      </a>
+      
+    </div>
+    
+  </section>
+
+  <div class="footer">built automatically from <a href="../data/posts.json">posts.json</a> &mdash; cv-automat</div>
+
 </body>
 </html>

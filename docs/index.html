@@ -5,904 +5,625 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Italo Salgado</title>
   <style>
-    /* ── Reset & tokens ─────────────────────────────────────────── */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ══════════════════════════════════════════════════════════════════
+       THE MONOSPACE WEB — brutalist design system
+       Adapted from Oskar Wickström's "The Monospace Web" (MIT).
+       Everything snaps to a character grid: 1ch wide x --line-height tall.
+       ══════════════════════════════════════════════════════════════════ */
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
 
     :root {
-      --accent:   #0ea5e9;   /* sky-500  */
-      --accent-d: #0369a1;   /* sky-700  */
-      --hero-bg:  #0f172a;   /* slate-900 */
-      --hero-fg:  #f1f5f9;   /* slate-100 */
-      --pill-bg:  #dbeafe;   /* blue-100 */
-      --pill-fg:  #1e3a8a;   /* blue-900 */
-      --body-bg:  #f8fafc;   /* slate-50 */
-      --text:     #1e293b;   /* slate-800 */
-      --muted:    #64748b;   /* slate-500 */
-      --border:   #e2e8f0;   /* slate-200 */
+      --font-family: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+      --line-height: 1.20rem;
+      --border-thickness: 2px;
+
+      --text-color:           #000;
+      --text-color-alt:       #666;
+      --background-color:      #fff;
+      --background-color-alt:  #eee;
+
+      --font-weight-normal: 500;
+      --font-weight-medium: 600;
+      --font-weight-bold:   800;
+
+      font-family: var(--font-family);
+      font-optical-sizing: auto;
+      font-weight: var(--font-weight-normal);
+      font-style: normal;
+      font-variant-numeric: tabular-nums lining-nums;
+      font-size: 16px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text-color:          #fff;
+        --text-color-alt:      #aaa;
+        --background-color:     #000;
+        --background-color-alt: #111;
+      }
+    }
+
+    /* ── Reset + the "owl" vertical rhythm ──────────────────────────── */
+    *          { box-sizing: border-box; }
+    * + *      { margin-top: var(--line-height); }   /* one line of rhythm between siblings */
+
+    html {
+      background: var(--background-color);
+      color: var(--text-color);
+      -webkit-text-size-adjust: 100%;
     }
 
     body {
-      font-family: sans-serif;
-      font-size: 16px;
-      line-height: 1.55;
-      color: var(--text);
-      background: var(--body-bg);
-    }
-
-    a { color: var(--accent-d); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    /* ── Hero ───────────────────────────────────────────────────── */
-    #hero {
-      background: var(--hero-bg);
-      color: var(--hero-fg);
-      padding: 0 20px;
-    }
-
-    #hero-inner {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 22px 0 36px;
-    }
-
-    /* nav inside hero */
-    #topnav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: .82rem;
-      color: #94a3b8;       /* slate-400 */
-      margin-bottom: 32px;
-    }
-
-    #topnav .nav-links { display: flex; gap: 10px; }
-
-    #topnav a {
-      color: #94a3b8;
-      text-decoration: none;
-      font-size: .78rem;
-      font-weight: 600;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      padding: 5px 14px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      transition: color .15s, border-color .15s, background .15s;
-    }
-    #topnav a:hover {
-      color: #fff;
-      border-color: #475569;
-    }
-    #topnav a.active {
-      color: var(--accent);
-      border-color: var(--accent);
-      background: rgba(14,165,233,.08);
-    }
-
-    /* name */
-    #hero h1 {
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: -.5px;
-      line-height: 1.1;
-      margin-bottom: 10px;
-    }
-
-    /* short tagline */
-    #hero .tagline {
-      font-size: 1rem;
-      color: #94a3b8;
-      max-width: 600px;
-      line-height: 1.6;
-      margin-bottom: 22px;
-    }
-
-    /* contact row */
-    #hero .contacts {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px 18px;
-      font-size: .82rem;
-    }
-
-    #hero .contacts a {
-      color: var(--accent);
-      text-decoration: none;
-      border-bottom: 1px solid transparent;
-    }
-    #hero .contacts a:hover {
-      border-bottom-color: var(--accent);
-    }
-
-    #hero .contacts .ph {
-      color: #475569;   /* slate-600 */
-    }
-
-    /* ── Content wrapper ─────────────────────────────────────────── */
-    #content {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 44px 20px 64px;
-    }
-
-    /* ── Section ─────────────────────────────────────────────────── */
-    .section { margin-bottom: 44px; }
-
-    .section-title {
-      font-size: .72rem;
-      font-weight: 700;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .section-title::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    /* ── About ───────────────────────────────────────────────────── */
-    .about-text {
-      font-size: .97rem;
-      color: var(--text);
-      line-height: 1.75;
-      max-width: 720px;
-    }
-
-    /* ── Skills ──────────────────────────────────────────────────── */
-    .skill-groups {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .skill-group {
-      display: grid;
-      grid-template-columns: 168px 1fr;
-      gap: 0 16px;
-      align-items: start;
-    }
-
-    .skill-group-name {
-      font-size: .82rem;
-      font-weight: 700;
-      color: var(--muted);
-      padding-top: 3px;
-    }
-
-    .skill-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-    }
-
-    .pill {
-      display: inline-block;
-      font-size: .75rem;
-      background: var(--pill-bg);
-      color: var(--pill-fg);
-      padding: .2em .65em;
-      border-radius: 999px;
-      line-height: 1.6;
-      font-weight: 500;
-    }
-
-    /* ── Languages ───────────────────────────────────────────────── */
-    .lang-pills { display: flex; flex-wrap: wrap; gap: 8px; }
-
-    .lang-pill {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 6px 12px;
-      font-size: .82rem;
-    }
-
-    .lang-name { font-weight: 600; color: var(--text); }
-    .lang-level {
-      font-size: .72rem;
-      color: #fff;
-      background: var(--accent);
-      padding: .1em .45em;
-      border-radius: 999px;
-      font-weight: 600;
-      letter-spacing: .03em;
-    }
-
-    /* ── Certifications ──────────────────────────────────────────── */
-    .cert-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .cert-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 10px 14px;
-    }
-
-    .cert-badge {
-      font-size: .68rem;
-      font-weight: 700;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-      padding: .25em .6em;
-      border-radius: 4px;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .cert-badge.coursera { background: #f3f6ff; color: #0056d2; border: 1px solid #c7d7f5; }
-    .cert-badge.udemy    { background: #fff3f0; color: #a435f0; border: 1px solid #e8c8f8; }
-    .cert-badge.other    { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
-
-    .cert-body { flex: 1; min-width: 0; }
-
-    .cert-title {
-      font-size: .88rem;
-      font-weight: 600;
-      color: var(--text);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: block;
-    }
-
-    .cert-title:hover { color: var(--accent-d); }
-
-    .cert-meta {
-      font-size: .75rem;
-      color: var(--muted);
-      margin-top: 1px;
-    }
-
-    .cert-year {
-      font-size: .75rem;
-      color: #cbd5e1;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    /* ── Project cards ───────────────────────────────────────────── */
-    .proj-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .proj-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-top: 3px solid var(--accent);
-      border-radius: 4px;
-      padding: 16px 18px;
-    }
-
-    .proj-card-name {
-      font-weight: 700;
-      font-size: .95rem;
-      color: var(--text);
-      margin-bottom: 2px;
-    }
-
-    .proj-card-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 8px;
-    }
-
-    .proj-card-tech {
-      font-size: .75rem;
-      color: var(--muted);
-    }
-
-    .proj-card-date {
-      font-size: .75rem;
-      color: #cbd5e1;   /* slate-300 */
-      white-space: nowrap;
-    }
-
-    /* ── Experience timeline ─────────────────────────────────────── */
-    .timeline { list-style: none; }
-
-    .tl-item {
-      display: grid;
-      grid-template-columns: 8px 1fr;
-      gap: 0 18px;
-      margin-bottom: 24px;
-    }
-
-    .tl-item:last-child { margin-bottom: 0; }
-
-    /* colored left bar */
-    .tl-bar {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 5px;
-    }
-
-    .tl-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--accent);
-      flex-shrink: 0;
-    }
-
-    .tl-line {
-      width: 2px;
-      flex: 1;
-      background: var(--border);
-      margin-top: 4px;
-    }
-
-    .tl-item:last-child .tl-line { display: none; }
-
-    .tl-body {}
-
-    .tl-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: 2px 10px;
-      margin-bottom: 2px;
-    }
-
-    .tl-title {
-      font-weight: 700;
-      font-size: .95rem;
-      color: var(--text);
-    }
-
-    .tl-date {
-      font-size: .78rem;
-      color: #cbd5e1;
-      white-space: nowrap;
-    }
-
-    .tl-company {
-      font-size: .85rem;
-      color: var(--accent-d);
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
-    /* ── Education (compact two-col) ─────────────────────────────── */
-    .edu-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
-
-    .edu-item {
-      display: grid;
-      grid-template-columns: 100px 1fr;
-      gap: 0 18px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .edu-item:last-child { border-bottom: none; padding-bottom: 0; }
-
-    .edu-dates {
-      font-size: .78rem;
-      color: #cbd5e1;
-      padding-top: 3px;
-    }
-
-    .edu-degree {
-      font-weight: 700;
-      font-size: .9rem;
-      color: var(--text);
-    }
-
-    .edu-inst {
-      font-size: .82rem;
-      color: var(--muted);
-      margin-bottom: 3px;
-    }
-
-    .edu-details {
-      font-size: .8rem;
-      color: #94a3b8;
-    }
-
-    /* ── Bullets ─────────────────────────────────────────────────── */
-    ul.bullets { list-style: none; padding: 0; margin-top: 6px; }
-
-    ul.bullets li {
       position: relative;
-      padding-left: 14px;
-      font-size: .85rem;
-      color: #475569;   /* slate-600 */
-      line-height: 1.55;
-      margin-bottom: 4px;
+      width: 100%;
+      margin: 0 auto;
+      padding: var(--line-height) 2ch;
+      max-width: 80ch;                                   /* fallback for no round() */
+      max-width: calc(min(80ch, round(down, 100%, 1ch)));
+      line-height: var(--line-height);
+      overflow-x: hidden;
     }
 
-    ul.bullets li::before {
-      content: "›";
-      position: absolute;
-      left: 0;
-      color: var(--accent);
-      font-weight: bold;
+    @media screen and (max-width: 480px) {
+      :root { font-size: 14px; }
+      body  { padding: var(--line-height) 1ch; }
     }
 
-    ul.bullets li strong { color: var(--text); }
-    ul.bullets li em     { font-style: italic; }
-    ul.bullets li code   {
-      font-family: "SFMono-Regular", Consolas, monospace;
-      font-size: .83em;
-      background: #f1f5f9;
-      padding: .05em .3em;
-      border-radius: 3px;
+    /* ── Headings ───────────────────────────────────────────────────── */
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: var(--font-weight-bold);
+      line-height: var(--line-height);
+      margin: calc(var(--line-height) * 2) 0 var(--line-height);
+    }
+    h1 {
+      font-size: 2rem;
+      line-height: calc(2 * var(--line-height));
+      text-transform: uppercase;
+      letter-spacing: -0.03em;
+    }
+    h2 { font-size: 1rem; text-transform: uppercase; }
+    h3 { font-size: 1rem; text-transform: uppercase; color: var(--text-color-alt); }
+
+    /* Section headers rendered like markdown "## TITLE" */
+    .section       { margin-top: calc(var(--line-height) * 2); }
+    .section-title {
+      font-size: 1rem;
+      text-transform: uppercase;
+      font-weight: var(--font-weight-bold);
+      margin: 0 0 var(--line-height);
+      border-bottom: var(--border-thickness) solid var(--text-color);
+      padding-bottom: calc(var(--line-height) / 2 - var(--border-thickness));
+    }
+    .section-title::before {
+      content: "## ";
+      color: var(--text-color-alt);
+      font-weight: var(--font-weight-medium);
     }
 
-    /* ── Footer ──────────────────────────────────────────────────── */
-    #footer {
-      font-size: .72rem;
-      color: #cbd5e1;
-      margin-top: 48px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border);
+    /* ── Links ──────────────────────────────────────────────────────── */
+    a {
+      color: var(--text-color);
+      text-decoration: underline;
+      text-decoration-thickness: var(--border-thickness);
+      text-underline-offset: 2px;
+    }
+    a:hover { background: var(--text-color); color: var(--background-color); text-decoration: none; }
+
+    strong { font-weight: var(--font-weight-bold); }
+    em     { font-style: italic; }
+
+    p { margin-bottom: var(--line-height); word-wrap: break-word; overflow-wrap: break-word; }
+
+    code {
+      font-family: var(--font-family);
+      font-weight: var(--font-weight-medium);
+      background: var(--background-color-alt);
+      padding: 0 0.4ch;
     }
 
-    #footer a { color: #94a3b8; }
-
-    /* ── Responsive ──────────────────────────────────────────────── */
-    @media (max-width: 600px) {
-      .proj-grid { grid-template-columns: 1fr; }
-      .skill-group { grid-template-columns: 1fr; gap: 4px 0; }
-      .edu-item { grid-template-columns: 1fr; gap: 2px; }
-      #topnav .site-name { display: none; }
-      .cert-title { white-space: normal; }
+    /* ── Horizontal rule (double bar) ───────────────────────────────── */
+    hr {
+      position: relative; display: block;
+      height: var(--line-height);
+      margin: calc(var(--line-height) * 1.5) 0;
+      border: none; color: var(--text-color);
     }
+    hr:after {
+      content: ""; display: block; position: absolute;
+      top: calc(var(--line-height) / 2 - var(--border-thickness));
+      left: 0; width: 100%; height: 0;
+      border-top: calc(var(--border-thickness) * 3) double var(--text-color);
+    }
+
+    /* ── Tables (the signature look) ────────────────────────────────── */
+    table {
+      position: relative;
+      width: 100%;
+      width: calc(round(down, 100%, 1ch));
+      border-collapse: collapse;
+      margin: 0 0 var(--line-height);
+    }
+    th, td {
+      border: var(--border-thickness) solid var(--text-color);
+      padding: calc(var(--line-height) / 2) 1ch;
+      line-height: var(--line-height);
+      vertical-align: top;
+      text-align: left;
+    }
+    th { font-weight: var(--font-weight-bold); text-transform: uppercase; }
+    thead th { background: var(--background-color-alt); }
+    .width-min  { width: 0%; white-space: nowrap; }
+    .width-auto { width: 100%; }
+    td a, th a { text-decoration-thickness: var(--border-thickness); }
+
+    /* ── Lists ──────────────────────────────────────────────────────── */
+    ul, ol { padding: 0; margin: 0 0 var(--line-height); }
+    ul { list-style-type: square; padding-left: 2ch; }
+    ol { list-style-type: decimal; padding-left: 3ch; }
+    li { margin: 0; }               /* kills the owl margin so bullets pack tight */
+    li::marker { line-height: 0; }
+    ul ul, ul ol, ol ul, ol ol { margin: 0; padding-left: 3ch; }
+
+    /* ── Header / masthead ──────────────────────────────────────────── */
+    .header      { margin-bottom: calc(var(--line-height) * 2); }
+    .header h1   { margin: 0; }
+    .subtitle    { color: var(--text-color-alt); font-weight: var(--font-weight-medium); margin: calc(var(--line-height) / 2) 0 0; }
+    .header table, .header .subtitle { margin-bottom: 0; }
+    .header .contacts { margin-top: var(--line-height); }
+    .header .contacts th { width: 0%; white-space: nowrap; }
+
+    /* ── Nav (bracketed, inverts when active) ───────────────────────── */
+    .nav {
+      display: flex; flex-wrap: wrap; gap: 0 3ch;
+      justify-content: space-between;
+      margin: 0 0 var(--line-height);
+    }
+    .nav .group { display: flex; gap: 1ch; margin: 0; }
+    .nav a { margin: 0; text-decoration: none; }
+    .nav a::before { content: "["; color: var(--text-color-alt); }
+    .nav a::after  { content: "]"; color: var(--text-color-alt); }
+    .nav a:hover              { background: var(--text-color); color: var(--background-color); }
+    .nav a.active             { background: var(--text-color); color: var(--background-color); text-decoration: none; }
+    .nav a.active::before,
+    .nav a.active::after      { color: var(--background-color); }
+
+    /* ── Tags / chips (bordered, square, brutalist) ─────────────────── */
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5ch; margin: 0; }
+    .tag {
+      display: inline-block; margin: 0;
+      border: var(--border-thickness) solid var(--text-color);
+      padding: 0 0.5ch;
+      font-size: 0.8rem;
+      font-weight: var(--font-weight-medium);
+      line-height: calc(var(--line-height) - var(--border-thickness));
+      white-space: nowrap;
+    }
+
+    /* ── CV entries (experience / projects) ─────────────────────────── */
+    .entry      { margin-top: calc(var(--line-height) * 1.5); }
+    .entry-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      flex-wrap: wrap; gap: 0 1ch; margin: 0;
+      border-bottom: var(--border-thickness) solid var(--text-color);
+      padding-bottom: calc(var(--line-height) / 2 - var(--border-thickness));
+    }
+    .entry-title { font-weight: var(--font-weight-bold); margin: 0; }
+    .entry-date  { color: var(--text-color-alt); white-space: nowrap; margin: 0; }
+    .entry-sub   { color: var(--text-color-alt); font-weight: var(--font-weight-medium); margin: calc(var(--line-height) / 2) 0 0; }
+    .entry ul    { margin-top: calc(var(--line-height) / 2); }
+
+    .muted { color: var(--text-color-alt); }
+
+    /* ── Posts grid (bordered cards, no radius, no shadow) ──────────── */
+    .posts {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--line-height) 2ch;
+      margin: 0;
+    }
+    @media (max-width: 640px) { .posts { grid-template-columns: 1fr; } }
+
+    .post {
+      display: flex; flex-direction: column;
+      border: var(--border-thickness) solid var(--text-color);
+      margin: 0;
+      color: var(--text-color);
+      text-decoration: none;
+    }
+    .post:hover { background: var(--background-color-alt); color: var(--text-color); }
+    .post:hover .post-title { text-decoration: underline; text-decoration-thickness: var(--border-thickness); }
+
+    .post-img {
+      margin: 0; aspect-ratio: 16 / 9; overflow: hidden;
+      border-bottom: var(--border-thickness) solid var(--text-color);
+      background: var(--background-color-alt);
+    }
+    .post-img img { display: block; width: 100%; height: 100%; object-fit: cover; margin: 0; }
+    .post-noimg {
+      margin: 0; aspect-ratio: 16 / 9;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-color-alt); font-size: 0.8rem; letter-spacing: 0.1em;
+      border-bottom: var(--border-thickness) solid var(--text-color);
+      background: var(--background-color-alt);
+    }
+    .post-body {
+      flex: 1; margin: 0;
+      padding: calc(var(--line-height) / 2) 1ch var(--line-height);
+      display: flex; flex-direction: column; gap: calc(var(--line-height) / 2);
+    }
+    .post-date  { color: var(--text-color-alt); font-size: 0.8rem; margin: 0; }
+    .post-title { font-weight: var(--font-weight-bold); margin: 0; }
+    .post-desc  { margin: 0; flex: 1; font-size: 0.9rem; }
+    .post-body .tags { margin: 0; }
+
+    /* ── Footer ─────────────────────────────────────────────────────── */
+    .footer {
+      margin-top: calc(var(--line-height) * 2);
+      padding-top: var(--line-height);
+      border-top: var(--border-thickness) solid var(--text-color);
+      color: var(--text-color-alt);
+      font-size: 0.85rem;
+    }
+    .footer a { color: var(--text-color-alt); }
+
+    img { max-width: 100%; }
   </style>
 </head>
 <body>
 
-<!-- ══ HERO ══════════════════════════════════════════════════════════ -->
-<div id="hero">
-  <div id="hero-inner">
+<!-- ══ HEADER ════════════════════════════════════════════════════════ -->
+<div class="header">
 
-    <div id="topnav">
-      <div class="nav-links">
-        <a href="index.html" class="active">EN</a>
-        <a href="es.html" class="">ES</a>
-      </div>
-      <div class="nav-links">
-        <a href="index.html" class="active">cv</a>
-        <a href="posts.html">posts</a>
-      </div>
+  <nav class="nav">
+    <div class="group">
+      <a href="index.html" class="active">EN</a>
+      <a href="es.html" class="">ES</a>
     </div>
-
-    <h1>Italo Salgado</h1>
-
-    <div class="contacts">
-      
-        <a href="mailto:italo.salgado.14@sansano.usm.cl">italo.salgado.14@sansano.usm.cl</a>
-      
-      
-        <a href="https://www.linkedin.com/in/italo-salgado-910764192/" target="_blank">LinkedIn</a>
-      
-      
-        <a href="https://github.com/italosalgado14" target="_blank">GitHub</a>
-      
-      
-        <a href="https://italosalgado14.github.io/cv-automat/" target="_blank">https://italosalgado14.github.io/cv-automat/</a>
-      
-      
-        <span class="ph">+569 595 750 75</span>
-      
+    <div class="group">
+      <a href="index.html" class="active">cv</a>
+      <a href="posts.html">posts</a>
     </div>
+  </nav>
 
-  </div>
+  <h1>Italo Salgado</h1>
+
+  <table class="width-auto contacts">
+    <tbody>
+      
+      <tr>
+        <th class="width-min">Email</th>
+        <td class="width-auto"><a href="mailto:italo.salgado.14@sansano.usm.cl">italo.salgado.14@sansano.usm.cl</a></td>
+      </tr>
+      
+      
+      <tr>
+        <th class="width-min">LinkedIn</th>
+        <td class="width-auto"><a href="https://www.linkedin.com/in/italo-salgado-910764192/" target="_blank" rel="noopener">https://www.linkedin.com/in/italo-salgado-910764192/</a></td>
+      </tr>
+      
+      
+      <tr>
+        <th class="width-min">GitHub</th>
+        <td class="width-auto"><a href="https://github.com/italosalgado14" target="_blank" rel="noopener">https://github.com/italosalgado14</a></td>
+      </tr>
+      
+      
+      <tr>
+        <th class="width-min">Website</th>
+        <td class="width-auto"><a href="https://italosalgado14.github.io/cv-automat/" target="_blank" rel="noopener">https://italosalgado14.github.io/cv-automat/</a></td>
+      </tr>
+      
+      
+      <tr>
+        <th class="width-min">Phone</th>
+        <td class="width-auto">+569 595 750 75</td>
+      </tr>
+      
+    </tbody>
+  </table>
+
 </div>
 
-<!-- ══ CONTENT ═══════════════════════════════════════════════════════ -->
-<div id="content">
+<!-- ══ ABOUT ═════════════════════════════════════════════════════════ -->
 
-  <!-- About -->
-  
-  <div class="section">
-    <h2 class="section-title">About</h2>
-    <p class="about-text">Machine Learning Engineer with a strong Software Engineering background and 5 years of experience, holding a degree in Electronic Engineering (UTFSM). Track record in training and deploying computer vision models and backend development. A solid foundation in computer science and electronics enables proficiency across software and hardware at multiple levels: from microarchitectures to high-level applications. Interested in MLE and SWE roles related to mining, healthcare, aquaculture, and economics.</p>
-  </div>
-  
+<section class="section">
+  <h2 class="section-title">About</h2>
+  <p>Machine Learning Engineer with a strong Software Engineering background and 5 years of experience, holding a degree in Electronic Engineering (UTFSM). Track record in training and deploying computer vision models and backend development. A solid foundation in computer science and electronics enables proficiency across software and hardware at multiple levels: from microarchitectures to high-level applications. Interested in MLE and SWE roles related to mining, healthcare, aquaculture, and economics.</p>
+</section>
 
-  <!-- Skills -->
+
+<!-- ══ SKILLS ════════════════════════════════════════════════════════ -->
+
+<section class="section">
+  <h2 class="section-title">Skills</h2>
+  <table class="width-auto">
+    <tbody>
+      
+      <tr>
+        <th class="width-min">Programming</th>
+        <td class="width-auto">
+          <div class="tags">
+            <span class="tag">Python</span><span class="tag">C++</span><span class="tag">C#</span><span class="tag">SQL</span>
+          </div>
+        </td>
+      </tr>
+      
+      <tr>
+        <th class="width-min">SWE</th>
+        <td class="width-auto">
+          <div class="tags">
+            <span class="tag">Agile methodologies</span><span class="tag">DevOps</span><span class="tag">Docker</span><span class="tag">GitHub Actions</span>
+          </div>
+        </td>
+      </tr>
+      
+      <tr>
+        <th class="width-min">ML</th>
+        <td class="width-auto">
+          <div class="tags">
+            <span class="tag">PyTorch</span><span class="tag">ONNX Runtime</span><span class="tag">Scikit-learn</span><span class="tag">MLFlow</span>
+          </div>
+        </td>
+      </tr>
+      
+      <tr>
+        <th class="width-min">CV</th>
+        <td class="width-auto">
+          <div class="tags">
+            <span class="tag">Image processing with OpenCV</span><span class="tag">YOLO</span><span class="tag">Camera management</span><span class="tag">Tracking</span><span class="tag">Unreal Engine and Blender</span>
+          </div>
+        </td>
+      </tr>
+      
+      <tr>
+        <th class="width-min">HW</th>
+        <td class="width-auto">
+          <div class="tags">
+            <span class="tag">Jetson</span><span class="tag">ZED and Point cloud management</span>
+          </div>
+        </td>
+      </tr>
+      
+      <tr>
+        <th class="width-min">Cloud</th>
+        <td class="width-auto">
+          <div class="tags">
+            <span class="tag">Google</span><span class="tag">AWS (with microcontrollers)</span><span class="tag">Azure (DL training)</span>
+          </div>
+        </td>
+      </tr>
+      
+      <tr>
+        <th class="width-min">Languages</th>
+        <td class="width-auto">
+          <div class="tags">
+            <span class="tag">Spanish (native)</span><span class="tag">English (B1 in Instituto Chileno Norteamericano)</span><span class="tag">German (B1 in Deutsch Akademie)</span>
+          </div>
+        </td>
+      </tr>
+      
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ══ LANGUAGES ═════════════════════════════════════════════════════ -->
+
+
+<!-- ══ CERTIFICATIONS ════════════════════════════════════════════════ -->
+
+<section class="section">
+  <h2 class="section-title">Certifications</h2>
+  <table class="width-auto">
+    <thead>
+      <tr>
+        <th class="width-min">Year</th>
+        <th class="width-auto">Certification</th>
+        <th>Provider</th>
+        <th class="width-min">Platform</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td class="width-min">2022</td>
+        <td class="width-auto">
+          <a href="https://www.crtic.cl/formacion/" target="_blank" rel="noopener">Unreal: Fundamentals</a>
+          <div class="muted" style="font-size:.8rem">UE classes, 40HH synchronous online lectures, plus extra homework.</div>
+        </td>
+        <td>CRTIC</td>
+        <td class="width-min">CRTIC</td>
+      </tr>
+      
+      <tr>
+        <td class="width-min">2025</td>
+        <td class="width-auto">
+          <a href="https://www.coursera.org/professional-certificates/devops-and-software-engineering" target="_blank" rel="noopener">Introduction to DevOps</a>
+          <div class="muted" style="font-size:.8rem">10 HH asynchronous</div>
+        </td>
+        <td>IBM</td>
+        <td class="width-min">Coursera</td>
+      </tr>
+      
+      <tr>
+        <td class="width-min">2026</td>
+        <td class="width-auto">
+          <a href="https://www.coursera.org/professional-certificates/data-engineering" target="_blank" rel="noopener">DeepLearning.AI Data Engineering</a>
+          <div class="muted" style="font-size:.8rem">on-going</div>
+        </td>
+        <td>DeepLearning.AI</td>
+        <td class="width-min">Coursera</td>
+      </tr>
+      
+      <tr>
+        <td class="width-min">2026</td>
+        <td class="width-auto">
+          <a href="https://www.coursera.org/professional-certificates/preparing-for-google-cloud-machine-learning-engineer-professional-certificate" target="_blank" rel="noopener">Preparing for Google Cloud Certification: Machine Learning Engineer</a>
+          <div class="muted" style="font-size:.8rem">on-going</div>
+        </td>
+        <td>Google</td>
+        <td class="width-min">Coursera</td>
+      </tr>
+      
+      <tr>
+        <td class="width-min">2026</td>
+        <td class="width-auto">
+          <a href="https://www.deeplearning.ai/courses/machine-learning-in-production/" target="_blank" rel="noopener">Machine Learning in Production</a>
+          <div class="muted" style="font-size:.8rem">Overview of Machine Learning in productions problems and solutions. 15HH asynchronous classes.</div>
+        </td>
+        <td>DeepLearning.AI</td>
+        <td class="width-min">Coursera</td>
+      </tr>
+      
+      <tr>
+        <td class="width-min">2025</td>
+        <td class="width-auto">
+          <a href="https://www.coursera.org/specializations/mlops-machine-learning-duke" target="_blank" rel="noopener">MLOps | Machine Learning Operations</a>
+          <div class="muted" style="font-size:.8rem">Master the end-to-end machine learning lifecycle by building, deploying, and monitoring production-ready models and industry-standard cloud platforms like AWS and Azure. 145HH asynchronous classes.</div>
+        </td>
+        <td>Duke University</td>
+        <td class="width-min">Coursera</td>
+      </tr>
+      
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ══ PROJECTS ══════════════════════════════════════════════════════ -->
+
+
+<!-- ══ EXPERIENCE ════════════════════════════════════════════════════ -->
+
+<section class="section">
+  <h2 class="section-title">Experience</h2>
   
-  <div class="section">
-    <h2 class="section-title">Skills</h2>
-    <div class="skill-groups">
-      
-      <div class="skill-group">
-        <span class="skill-group-name">Programming</span>
-        <div class="skill-pills">
-          
-          <span class="pill">Python</span>
-          
-          <span class="pill">C++</span>
-          
-          <span class="pill">C\#</span>
-          
-          <span class="pill">SQL</span>
-          
-        </div>
-      </div>
-      
-      <div class="skill-group">
-        <span class="skill-group-name">SWE</span>
-        <div class="skill-pills">
-          
-          <span class="pill">Agile methodologies</span>
-          
-          <span class="pill">DevOps</span>
-          
-          <span class="pill">Docker</span>
-          
-          <span class="pill">GitHub Actions</span>
-          
-        </div>
-      </div>
-      
-      <div class="skill-group">
-        <span class="skill-group-name">ML</span>
-        <div class="skill-pills">
-          
-          <span class="pill">PyTorch</span>
-          
-          <span class="pill">ONNX Runtime</span>
-          
-          <span class="pill">Scikit-learn</span>
-          
-          <span class="pill">MLFlow</span>
-          
-        </div>
-      </div>
-      
-      <div class="skill-group">
-        <span class="skill-group-name">CV</span>
-        <div class="skill-pills">
-          
-          <span class="pill">Image processing with OpenCV</span>
-          
-          <span class="pill">YOLO</span>
-          
-          <span class="pill">Camera management</span>
-          
-          <span class="pill">Tracking</span>
-          
-          <span class="pill">Unreal Engine and Blender</span>
-          
-        </div>
-      </div>
-      
-      <div class="skill-group">
-        <span class="skill-group-name">HW</span>
-        <div class="skill-pills">
-          
-          <span class="pill">Jetson</span>
-          
-          <span class="pill">ZED and Point cloud management</span>
-          
-        </div>
-      </div>
-      
-      <div class="skill-group">
-        <span class="skill-group-name">Cloud</span>
-        <div class="skill-pills">
-          
-          <span class="pill">Google</span>
-          
-          <span class="pill">AWS (with microcontrollers)</span>
-          
-          <span class="pill">Azure (DL training)</span>
-          
-        </div>
-      </div>
-      
-      <div class="skill-group">
-        <span class="skill-group-name">Languages</span>
-        <div class="skill-pills">
-          
-          <span class="pill">Spanish (native)</span>
-          
-          <span class="pill">English (B1 in Instituto Chileno Norteamericano)</span>
-          
-          <span class="pill">German (B1 in Deutsch Akademie)</span>
-          
-        </div>
-      </div>
-      
+  <div class="entry">
+    <div class="entry-head">
+      <span class="entry-title">Machine Learning Engineer</span>
+      <span class="entry-date">May 2023 - Present</span>
     </div>
+    <div class="entry-sub">Honeywell · Santiago, Chile (Hybrid)</div>
+    
+    <ul>
+      <li>Member of the Innovation Team focused in R&amp;D and Computer Vision.</li><li>Implementation of the full lifecycle of an object detection model: training, hyperparameter tuning, production deployment, and monitoring with selected KPIs.</li><li>Implementation and integration of signals into Honeywell control systems (with C#).</li><li>Development and implementation of computer vision pipelines combining traditional methods (feature-based) and data-driven approaches (DL and traditional ML) for: camera health monitoring, automatic retraining of classification models, and performance evaluation via CLI.</li><li>Design and configuration of Deep Learning model training pipelines using Azure.</li>
+    </ul>
+    
   </div>
   
-
-  <!-- Languages -->
-  
-
-  <!-- Certifications -->
-  
-  <div class="section">
-    <h2 class="section-title">Certifications</h2>
-    <div class="cert-list">
-      
-      <div class="cert-item">
-        <span class="cert-badge other">CRTIC</span>
-        <div class="cert-body">
-          
-          <a class="cert-title" href="https://www.crtic.cl/formacion/" target="_blank">Unreal: Fundamentals</a>
-          
-          <div class="cert-meta">CRTIC &mdash; <span style="font-style:italic;">UE classes, 40HH synchronous online lectures, plus extra homework.</span></div>
-        </div>
-        <span class="cert-year">2022</span>
-      </div>
-      
-      <div class="cert-item">
-        <span class="cert-badge coursera">Coursera</span>
-        <div class="cert-body">
-          
-          <a class="cert-title" href="https://www.coursera.org/professional-certificates/devops-and-software-engineering" target="_blank">Introduction to DevOps</a>
-          
-          <div class="cert-meta">IBM &mdash; <span style="font-style:italic;">10 HH asynchronous</span></div>
-        </div>
-        <span class="cert-year">2025</span>
-      </div>
-      
-      <div class="cert-item">
-        <span class="cert-badge coursera">Coursera</span>
-        <div class="cert-body">
-          
-          <a class="cert-title" href="https://www.coursera.org/professional-certificates/data-engineering" target="_blank">DeepLearning.AI Data Engineering</a>
-          
-          <div class="cert-meta">DeepLearning.AI &mdash; <span style="font-style:italic;">on-going</span></div>
-        </div>
-        <span class="cert-year">2026</span>
-      </div>
-      
-      <div class="cert-item">
-        <span class="cert-badge coursera">Coursera</span>
-        <div class="cert-body">
-          
-          <a class="cert-title" href="https://www.coursera.org/professional-certificates/preparing-for-google-cloud-machine-learning-engineer-professional-certificate" target="_blank">Preparing for Google Cloud Certification: Machine Learning Engineer</a>
-          
-          <div class="cert-meta">Google &mdash; <span style="font-style:italic;">on-going</span></div>
-        </div>
-        <span class="cert-year">2026</span>
-      </div>
-      
-      <div class="cert-item">
-        <span class="cert-badge coursera">Coursera</span>
-        <div class="cert-body">
-          
-          <a class="cert-title" href="https://www.deeplearning.ai/courses/machine-learning-in-production/" target="_blank">Machine Learning in Production</a>
-          
-          <div class="cert-meta">DeepLearning.AI &mdash; <span style="font-style:italic;">Overview of Machine Learning in productions problems and solutions. 15HH asynchronous classes.</span></div>
-        </div>
-        <span class="cert-year">2026</span>
-      </div>
-      
-      <div class="cert-item">
-        <span class="cert-badge coursera">Coursera</span>
-        <div class="cert-body">
-          
-          <a class="cert-title" href="https://www.coursera.org/specializations/mlops-machine-learning-duke" target="_blank">MLOps | Machine Learning Operations</a>
-          
-          <div class="cert-meta">Duke University &mdash; <span style="font-style:italic;">Master the end-to-end machine learning lifecycle by building, deploying, and monitoring production-ready models and industry-standard cloud platforms like AWS and Azure. 145HH asynchronous classes.</span></div>
-        </div>
-        <span class="cert-year">2025</span>
-      </div>
-      
+  <div class="entry">
+    <div class="entry-head">
+      <span class="entry-title">Computer Vision Engineer</span>
+      <span class="entry-date">January 2023 - May 2023</span>
     </div>
-  </div>
-  
-
-  <!-- Projects -->
-  
-
-  <!-- Experience -->
-  
-  <div class="section">
-    <h2 class="section-title">Experience</h2>
-    <ul class="timeline">
-      
-      <li class="tl-item">
-        <div class="tl-bar">
-          <div class="tl-dot"></div>
-          <div class="tl-line"></div>
-        </div>
-        <div class="tl-body">
-          <div class="tl-head">
-            <div class="tl-title">Machine Learning Engineer</div>
-            <div class="tl-date">May 2023 - Present</div>
-          </div>
-          <div class="tl-company">
-            Honeywell &middot; <span style="font-weight:400; color:var(--muted);">Santiago, Chile (Hybrid)</span>
-          </div>
-          
-          <ul class="bullets">
-            <li>Member of the Innovation Team focused in R&amp;D and Computer Vision.</li><li>Implementation of the full lifecycle of an object detection model: training, hyperparameter tuning, production deployment, and monitoring with selected KPIs.</li><li>Implementation and integration of signals into Honeywell control systems (with C#).</li><li>Development and implementation of computer vision pipelines combining traditional methods (feature-based) and data-driven approaches (DL and traditional ML) for: camera health monitoring, automatic retraining of classification models, and performance evaluation via CLI.</li><li>Design and configuration of Deep Learning model training pipelines using Azure.</li>
-          </ul>
-          
-        </div>
-      </li>
-      
-      <li class="tl-item">
-        <div class="tl-bar">
-          <div class="tl-dot"></div>
-          <div class="tl-line"></div>
-        </div>
-        <div class="tl-body">
-          <div class="tl-head">
-            <div class="tl-title">Computer Vision Engineer</div>
-            <div class="tl-date">January 2023 - May 2023</div>
-          </div>
-          <div class="tl-company">
-            Universidad Técnica Federico Santa María - Wildsense Technologies &amp; Innovation &middot; <span style="font-weight:400; color:var(--muted);">Valparaíso, Chile (On-site)</span>
-          </div>
-          
-          <ul class="bullets">
-            <li>Spin-off with Wildsense, working as a Mid-level Computer Vision Engineer. Applied computer vision to solve diverse aquaculture problems including tracking, segmentation, and classification.</li><li>Used point clouds for size estimation, including filtering, preprocessing, and region-of-interest selection. Generated representative point cloud datasets for iterative model creation.</li><li>Managed and led a 5-person computer vision team.</li>
-          </ul>
-          
-        </div>
-      </li>
-      
-      <li class="tl-item">
-        <div class="tl-bar">
-          <div class="tl-dot"></div>
-          <div class="tl-line"></div>
-        </div>
-        <div class="tl-body">
-          <div class="tl-head">
-            <div class="tl-title">Software Engineer</div>
-            <div class="tl-date">November 2022 - December 2022</div>
-          </div>
-          <div class="tl-company">
-            Aikologic Spa &middot; <span style="font-weight:400; color:var(--muted);">Santiago, Chile (Remote)</span>
-          </div>
-          
-          <ul class="bullets">
-            <li>Database management using Python with MySQL.</li><li>Evaluation and deployment of Machine Learning models into operations.</li><li>Evaluation of algorithms for microcontrollers.</li>
-          </ul>
-          
-        </div>
-      </li>
-      
-      <li class="tl-item">
-        <div class="tl-bar">
-          <div class="tl-dot"></div>
-          <div class="tl-line"></div>
-        </div>
-        <div class="tl-body">
-          <div class="tl-head">
-            <div class="tl-title">Computer Vision Engineer</div>
-            <div class="tl-date">April 2022 - September 2022</div>
-          </div>
-          <div class="tl-company">
-            Universidad Técnica Federico Santa María &middot; <span style="font-weight:400; color:var(--muted);">Valparaíso, Chile (On-site)</span>
-          </div>
-          
-          <ul class="bullets">
-            <li>Fondecyt project (ID: NAM21I0056) on state-of-the-art study and implementation of algorithms for estimating heart rate, respiration, blood pressure, among others, covering Deep Learning techniques and image processing.</li><li>Generation of a specialized dataset for bioindicator evaluation in coordination with hospitals and physicians.</li><li>Managed and led a 3-person team responsible for the computer vision area. Coordinated with the Full Stack team for integration.</li>
-          </ul>
-          
-        </div>
-      </li>
-      
-      <li class="tl-item">
-        <div class="tl-bar">
-          <div class="tl-dot"></div>
-          <div class="tl-line"></div>
-        </div>
-        <div class="tl-body">
-          <div class="tl-head">
-            <div class="tl-title">Trainee Computer Vision Engineer</div>
-            <div class="tl-date">April 2021 - February 2022</div>
-          </div>
-          <div class="tl-company">
-            Nexar S.A. &middot; <span style="font-weight:400; color:var(--muted);">Santiago, Chile (Remote)</span>
-          </div>
-          
-          <ul class="bullets">
-            <li>Thesis work in computer vision. Captured 3D movements from a short video. Performed user segmentation and video inpainting of the original footage. Imported results into Unreal Engine.</li><li>Study and implementation of 3D Body Tracking, segmentation, and inpainting algorithms. Scripting with Python.</li><li>Unreal Engine management: building <em>Levels</em> with <em>Blueprints</em>, animations, textures, etc.</li>
-          </ul>
-          
-        </div>
-      </li>
-      
-      <li class="tl-item">
-        <div class="tl-bar">
-          <div class="tl-dot"></div>
-          <div class="tl-line"></div>
-        </div>
-        <div class="tl-body">
-          <div class="tl-head">
-            <div class="tl-title">Intern Computer Vision Engineer</div>
-            <div class="tl-date">April 2021 - September 2021</div>
-          </div>
-          <div class="tl-company">
-            TSF S.A &middot; <span style="font-weight:400; color:var(--muted);">Santiago, Chile (Remote)</span>
-          </div>
-          
-          <ul class="bullets">
-            <li>Support in fruit tree detection using a Deep Learning approach. Generated segmentation data through VIA.</li><li>PyTorch programming of detection models based on Detectron2 (Mask R-CNN).</li>
-          </ul>
-          
-        </div>
-      </li>
-      
-      <li class="tl-item">
-        <div class="tl-bar">
-          <div class="tl-dot"></div>
-          <div class="tl-line"></div>
-        </div>
-        <div class="tl-body">
-          <div class="tl-head">
-            <div class="tl-title">Intern Hardware Engineer</div>
-            <div class="tl-date">April 2021 - September 2021</div>
-          </div>
-          <div class="tl-company">
-            Wiseconn S.A. &middot; <span style="font-weight:400; color:var(--muted);">Valparaíso, Chile (Remote)</span>
-          </div>
-          
-          <ul class="bullets">
-            <li>Integration of experimental embedded systems with AWS IoT cloud. Integration of WiFi nodes with the company's internal network.</li><li>Connected an XBee 3 Cellular node with an ESP8266 WiFi node to the AWS IoT network.</li>
-          </ul>
-          
-        </div>
-      </li>
-      
+    <div class="entry-sub">Universidad Técnica Federico Santa María - Wildsense Technologies &amp; Innovation · Valparaíso, Chile (On-site)</div>
+    
+    <ul>
+      <li>Spin-off with Wildsense, working as a Mid-level Computer Vision Engineer. Applied computer vision to solve diverse aquaculture problems including tracking, segmentation, and classification.</li><li>Used point clouds for size estimation, including filtering, preprocessing, and region-of-interest selection. Generated representative point cloud datasets for iterative model creation.</li><li>Managed and led a 5-person computer vision team.</li>
     </ul>
+    
   </div>
   
-
-  <!-- Education -->
-  
-  <div class="section">
-    <h2 class="section-title">Education</h2>
-    <ul class="edu-list">
-      
-      <li class="edu-item">
-        <div class="edu-dates">2018 - 2021</div>
-        <div>
-          <div class="edu-degree">B.Sc. in Electronic Engineering</div>
-          <div class="edu-inst">Universidad Técnica Federico Santa María, Main Campus &middot; Valparaíso, Chile</div>
-          <div class="edu-details">Completed - Thesis: <em>Cloud-based Garment Simulation on Body Dynamics Estimated from Monocular RGB Videos</em></div>
-        </div>
-      </li>
-      
-      <li class="edu-item">
-        <div class="edu-dates">2014 - 2017</div>
-        <div>
-          <div class="edu-degree">B.Sc. in Computer Science</div>
-          <div class="edu-inst">Universidad Técnica Federico Santa María, Main Campus &middot; Valparaíso, Chile</div>
-          <div class="edu-details">4 of 6 years completed</div>
-        </div>
-      </li>
-      
+  <div class="entry">
+    <div class="entry-head">
+      <span class="entry-title">Software Engineer</span>
+      <span class="entry-date">November 2022 - December 2022</span>
+    </div>
+    <div class="entry-sub">Aikologic Spa · Santiago, Chile (Remote)</div>
+    
+    <ul>
+      <li>Database management using Python with MySQL.</li><li>Evaluation and deployment of Machine Learning models into operations.</li><li>Evaluation of algorithms for microcontrollers.</li>
     </ul>
+    
   </div>
   
-
-  <div id="footer">
-    built automatically from <a href="../cv/cv.tex">cv.tex</a> &mdash; cv-automat
+  <div class="entry">
+    <div class="entry-head">
+      <span class="entry-title">Computer Vision Engineer</span>
+      <span class="entry-date">April 2022 - September 2022</span>
+    </div>
+    <div class="entry-sub">Universidad Técnica Federico Santa María · Valparaíso, Chile (On-site)</div>
+    
+    <ul>
+      <li>Fondecyt project (ID: NAM21I0056) on state-of-the-art study and implementation of algorithms for estimating heart rate, respiration, blood pressure, among others, covering Deep Learning techniques and image processing.</li><li>Generation of a specialized dataset for bioindicator evaluation in coordination with hospitals and physicians.</li><li>Managed and led a 3-person team responsible for the computer vision area. Coordinated with the Full Stack team for integration.</li>
+    </ul>
+    
   </div>
+  
+  <div class="entry">
+    <div class="entry-head">
+      <span class="entry-title">Trainee Computer Vision Engineer</span>
+      <span class="entry-date">April 2021 - February 2022</span>
+    </div>
+    <div class="entry-sub">Nexar S.A. · Santiago, Chile (Remote)</div>
+    
+    <ul>
+      <li>Thesis work in computer vision. Captured 3D movements from a short video. Performed user segmentation and video inpainting of the original footage. Imported results into Unreal Engine.</li><li>Study and implementation of 3D Body Tracking, segmentation, and inpainting algorithms. Scripting with Python.</li><li>Unreal Engine management: building <em>Levels</em> with <em>Blueprints</em>, animations, textures, etc.</li>
+    </ul>
+    
+  </div>
+  
+  <div class="entry">
+    <div class="entry-head">
+      <span class="entry-title">Intern Computer Vision Engineer</span>
+      <span class="entry-date">April 2021 - September 2021</span>
+    </div>
+    <div class="entry-sub">TSF S.A · Santiago, Chile (Remote)</div>
+    
+    <ul>
+      <li>Support in fruit tree detection using a Deep Learning approach. Generated segmentation data through VIA.</li><li>PyTorch programming of detection models based on Detectron2 (Mask R-CNN).</li>
+    </ul>
+    
+  </div>
+  
+  <div class="entry">
+    <div class="entry-head">
+      <span class="entry-title">Intern Hardware Engineer</span>
+      <span class="entry-date">April 2021 - September 2021</span>
+    </div>
+    <div class="entry-sub">Wiseconn S.A. · Valparaíso, Chile (Remote)</div>
+    
+    <ul>
+      <li>Integration of experimental embedded systems with AWS IoT cloud. Integration of WiFi nodes with the company's internal network.</li><li>Connected an XBee 3 Cellular node with an ESP8266 WiFi node to the AWS IoT network.</li>
+    </ul>
+    
+  </div>
+  
+</section>
 
-</div>
+
+<!-- ══ EDUCATION ═════════════════════════════════════════════════════ -->
+
+<section class="section">
+  <h2 class="section-title">Education</h2>
+  <table class="width-auto">
+    <tbody>
+      
+      <tr>
+        <td class="width-min">2018 - 2021</td>
+        <td class="width-auto">
+          <strong>B.Sc. in Electronic Engineering</strong>
+          <div class="muted">Universidad Técnica Federico Santa María, Main Campus · Valparaíso, Chile</div>
+          <div class="muted" style="font-size:.85rem">Completed - Thesis: <em>Cloud-based Garment Simulation on Body Dynamics Estimated from Monocular RGB Videos</em></div>
+        </td>
+      </tr>
+      
+      <tr>
+        <td class="width-min">2014 - 2017</td>
+        <td class="width-auto">
+          <strong>B.Sc. in Computer Science</strong>
+          <div class="muted">Universidad Técnica Federico Santa María, Main Campus · Valparaíso, Chile</div>
+          <div class="muted" style="font-size:.85rem">4 of 6 years completed</div>
+        </td>
+      </tr>
+      
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════════ -->
+<div class="footer">built automatically from <a href="../cv/cv.tex">cv.tex</a> — cv-automat</div>
+
 </body>
 </html>
