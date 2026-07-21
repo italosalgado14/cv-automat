@@ -1,5 +1,27 @@
 [
-    {
+  {
+    "title": "Raspberry Server Scripts",
+    "date": "2025-06",
+    "image": "assets/raspi.jpg",
+    "description": "Scripts for manage the raspi 5, and work as a server in home.",
+    "link": "https://github.com/italosalgado14/raspberry-scripts",
+    "tags": [
+      "Scripting",
+      "Server in House"
+    ]
+  }, 
+  {
+    "title": "CachyPool",
+    "date": "2026-03",
+    "image": "assets/cachyOS-image.jpg",
+    "description": "CachyOS opinionated version edit for development and NVIDIA card compatibility with Hyperlnd.",
+    "link": "https://github.com/italosalgado14/cachyPool",
+    "tags": [
+      "OS",
+      "Arch"
+    ]
+  },  
+  {
     "title": "Boardstiff",
     "date": "2026-06",
     "image": "assets/board-example.png",
