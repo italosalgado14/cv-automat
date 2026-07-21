@@ -1,4 +1,16 @@
 [
+    {
+    "title": "EnCoCoa",
+    "date": "2026-02",
+    "image": "assets/encocoa-icon.jpg",
+    "description": "English Conversational Coach. A local lightweight tool for practicing English with a partner.",
+    "link": "https://github.com/italosalgado14/EnCoCoA",
+    "tags": [
+      "Python",
+      "ML",
+      "Side Proyect"
+    ]
+  }, 
   {
     "title": "Raspberry Server Scripts",
     "date": "2025-06",
