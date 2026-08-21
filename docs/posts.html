@@ -6,9 +6,18 @@
   <title>Italo Salgado &mdash; Posts</title>
   <style>
     /* ══════════════════════════════════════════════════════════════════
-       THE MONOSPACE WEB — brutalist design system
+       THE MONOSPACE WEB — brutalist design system + console palette
        Adapted from Oskar Wickström's "The Monospace Web" (MIT).
        Everything snaps to a character grid: 1ch wide x --line-height tall.
+
+       Colour roles read like a terminal session:
+         green    section headings, prompts, bullets, nav brackets
+         blue     links + the first row (header) of every table
+         cyan     row labels / key columns, sub-headings
+         amber    dates and inline code
+         magenta  tags / chips
+       Light mode uses darkened variants (>=4.5:1 on white); dark mode
+       switches to the bright ANSI-ish variants.
        ══════════════════════════════════════════════════════════════════ */
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
 
@@ -21,6 +30,17 @@
       --text-color-alt:       #666;
       --background-color:      #fff;
       --background-color-alt:  #eee;
+
+      /* ── Console palette — light mode (darkened for white background) ─ */
+      --c-green:      #1a7f37;
+      --c-green-dim:  #3d9e5b;
+      --c-blue:       #0969da;
+      --c-blue-fg:    #0550ae;
+      --c-blue-bg:    #ddf4ff;
+      --c-cyan:       #0e7490;
+      --c-amber:      #9a6700;
+      --c-amber-bg:   #fff8c5;
+      --c-magenta:    #8250df;
 
       --font-weight-normal: 500;
       --font-weight-medium: 600;
@@ -40,6 +60,17 @@
         --text-color-alt:      #aaa;
         --background-color:     #000;
         --background-color-alt: #111;
+
+        /* ── Console palette — dark mode (bright terminal variants) ──── */
+        --c-green:      #3fb950;
+        --c-green-dim:  #2ea043;
+        --c-blue:       #58a6ff;
+        --c-blue-fg:    #a5d6ff;
+        --c-blue-bg:    #0c2d4e;
+        --c-cyan:       #39c5cf;
+        --c-amber:      #d29922;
+        --c-amber-bg:   #2b2106;
+        --c-magenta:    #d2a8ff;
       }
     }
 
@@ -82,32 +113,33 @@
       letter-spacing: -0.03em;
     }
     h2 { font-size: 1rem; text-transform: uppercase; }
-    h3 { font-size: 1rem; text-transform: uppercase; color: var(--text-color-alt); }
+    h3 { font-size: 1rem; text-transform: uppercase; color: var(--c-cyan); }
 
-    /* Section headers rendered like markdown "## TITLE" */
+    /* Section headers rendered like a markdown/shell "## TITLE" */
     .section       { margin-top: calc(var(--line-height) * 2); }
     .section-title {
       font-size: 1rem;
       text-transform: uppercase;
       font-weight: var(--font-weight-bold);
       margin: 0 0 var(--line-height);
-      border-bottom: var(--border-thickness) solid var(--text-color);
+      color: var(--c-green);
+      border-bottom: var(--border-thickness) solid var(--c-green);
       padding-bottom: calc(var(--line-height) / 2 - var(--border-thickness));
     }
     .section-title::before {
       content: "## ";
-      color: var(--text-color-alt);
+      color: var(--c-green-dim);
       font-weight: var(--font-weight-medium);
     }
 
     /* ── Links ──────────────────────────────────────────────────────── */
     a {
-      color: var(--text-color);
+      color: var(--c-blue);
       text-decoration: underline;
       text-decoration-thickness: var(--border-thickness);
       text-underline-offset: 2px;
     }
-    a:hover { background: var(--text-color); color: var(--background-color); text-decoration: none; }
+    a:hover { background: var(--c-blue); color: var(--background-color); text-decoration: none; }
 
     strong { font-weight: var(--font-weight-bold); }
     em     { font-style: italic; }
@@ -117,7 +149,8 @@
     code {
       font-family: var(--font-family);
       font-weight: var(--font-weight-medium);
-      background: var(--background-color-alt);
+      color: var(--c-amber);
+      background: var(--c-amber-bg);
       padding: 0 0.4ch;
     }
 
@@ -126,13 +159,13 @@
       position: relative; display: block;
       height: var(--line-height);
       margin: calc(var(--line-height) * 1.5) 0;
-      border: none; color: var(--text-color);
+      border: none; color: var(--c-green);
     }
     hr:after {
       content: ""; display: block; position: absolute;
       top: calc(var(--line-height) / 2 - var(--border-thickness));
       left: 0; width: 100%; height: 0;
-      border-top: calc(var(--border-thickness) * 3) double var(--text-color);
+      border-top: calc(var(--border-thickness) * 3) double var(--c-green);
     }
 
     /* ── Tables (the signature look) ────────────────────────────────── */
@@ -151,28 +184,36 @@
       text-align: left;
     }
     th { font-weight: var(--font-weight-bold); text-transform: uppercase; }
-    thead th { background: var(--background-color-alt); }
+    /* first row of a table = the "column header" line of console output */
+    thead th {
+      color: var(--c-blue-fg);
+      background: var(--c-blue-bg);
+    }
+    /* row labels (key column) in key/value tables */
+    tbody th { color: var(--c-cyan); }
     .width-min  { width: 0%; white-space: nowrap; }
     .width-auto { width: 100%; }
     td a, th a { text-decoration-thickness: var(--border-thickness); }
+    /* date / year columns */
+    .date-cell { color: var(--c-amber); }
 
     /* ── Lists ──────────────────────────────────────────────────────── */
     ul, ol { padding: 0; margin: 0 0 var(--line-height); }
     ul { list-style-type: square; padding-left: 2ch; }
     ol { list-style-type: decimal; padding-left: 3ch; }
     li { margin: 0; }               /* kills the owl margin so bullets pack tight */
-    li::marker { line-height: 0; }
+    li::marker { line-height: 0; color: var(--c-green); }
     ul ul, ul ol, ol ul, ol ol { margin: 0; padding-left: 3ch; }
 
     /* ── Header / masthead ──────────────────────────────────────────── */
     .header      { margin-bottom: calc(var(--line-height) * 2); }
     .header h1   { margin: 0; }
-    .subtitle    { color: var(--text-color-alt); font-weight: var(--font-weight-medium); margin: calc(var(--line-height) / 2) 0 0; }
+    .subtitle    { color: var(--c-cyan); font-weight: var(--font-weight-medium); margin: calc(var(--line-height) / 2) 0 0; }
     .header table, .header .subtitle { margin-bottom: 0; }
     .header .contacts { margin-top: var(--line-height); }
     .header .contacts th { width: 0%; white-space: nowrap; }
 
-    /* ── Nav (bracketed, inverts when active) ───────────────────────── */
+    /* ── Nav (bracketed like a shell prompt, inverts when active) ───── */
     .nav {
       display: flex; flex-wrap: wrap; gap: 0 3ch;
       justify-content: space-between;
@@ -180,10 +221,12 @@
     }
     .nav .group { display: flex; gap: 1ch; margin: 0; }
     .nav a { margin: 0; text-decoration: none; }
-    .nav a::before { content: "["; color: var(--text-color-alt); }
-    .nav a::after  { content: "]"; color: var(--text-color-alt); }
-    .nav a:hover              { background: var(--text-color); color: var(--background-color); }
-    .nav a.active             { background: var(--text-color); color: var(--background-color); text-decoration: none; }
+    .nav a::before { content: "["; color: var(--c-green-dim); }
+    .nav a::after  { content: "]"; color: var(--c-green-dim); }
+    .nav a:hover              { background: var(--c-green); color: var(--background-color); }
+    .nav a:hover::before,
+    .nav a:hover::after       { color: var(--background-color); }
+    .nav a.active             { background: var(--c-green); color: var(--background-color); text-decoration: none; }
     .nav a.active::before,
     .nav a.active::after      { color: var(--background-color); }
 
@@ -191,7 +234,8 @@
     .tags { display: flex; flex-wrap: wrap; gap: 0.5ch; margin: 0; }
     .tag {
       display: inline-block; margin: 0;
-      border: var(--border-thickness) solid var(--text-color);
+      color: var(--c-magenta);
+      border: var(--border-thickness) solid var(--c-magenta);
       padding: 0 0.5ch;
       font-size: 0.8rem;
       font-weight: var(--font-weight-medium);
@@ -208,8 +252,13 @@
       padding-bottom: calc(var(--line-height) / 2 - var(--border-thickness));
     }
     .entry-title { font-weight: var(--font-weight-bold); margin: 0; }
-    .entry-date  { color: var(--text-color-alt); white-space: nowrap; margin: 0; }
-    .entry-sub   { color: var(--text-color-alt); font-weight: var(--font-weight-medium); margin: calc(var(--line-height) / 2) 0 0; }
+    .entry-title::before {                 /* prompt sigil, like a run command */
+      content: "$ ";
+      color: var(--c-green);
+      font-weight: var(--font-weight-medium);
+    }
+    .entry-date  { color: var(--c-amber); white-space: nowrap; margin: 0; }
+    .entry-sub   { color: var(--c-cyan); font-weight: var(--font-weight-medium); margin: calc(var(--line-height) / 2) 0 0; }
     .entry ul    { margin-top: calc(var(--line-height) / 2); }
 
     .muted { color: var(--text-color-alt); }
@@ -230,7 +279,7 @@
       color: var(--text-color);
       text-decoration: none;
     }
-    .post:hover { background: var(--background-color-alt); color: var(--text-color); }
+    .post:hover { background: var(--background-color-alt); color: var(--text-color); border-color: var(--c-green); }
     .post:hover .post-title { text-decoration: underline; text-decoration-thickness: var(--border-thickness); }
 
     .post-img {
@@ -251,19 +300,21 @@
       padding: calc(var(--line-height) / 2) 1ch var(--line-height);
       display: flex; flex-direction: column; gap: calc(var(--line-height) / 2);
     }
-    .post-date  { color: var(--text-color-alt); font-size: 0.8rem; margin: 0; }
+    .post-date  { color: var(--c-amber); font-size: 0.8rem; margin: 0; }
     .post-title { font-weight: var(--font-weight-bold); margin: 0; }
+    a.post .post-title { color: var(--c-blue); }   /* the whole card is a link */
     .post-desc  { margin: 0; flex: 1; font-size: 0.9rem; }
     .post-body .tags { margin: 0; }
 
-    /* ── Footer ─────────────────────────────────────────────────────── */
+    /* ── Footer (rendered like a shell comment) ─────────────────────── */
     .footer {
       margin-top: calc(var(--line-height) * 2);
       padding-top: var(--line-height);
-      border-top: var(--border-thickness) solid var(--text-color);
+      border-top: var(--border-thickness) solid var(--c-green-dim);
       color: var(--text-color-alt);
       font-size: 0.85rem;
     }
+    .footer::before { content: "# "; color: var(--c-green-dim); }
     .footer a { color: var(--text-color-alt); }
 
     img { max-width: 100%; }
@@ -291,13 +342,63 @@
     
     <div class="posts">
       
-      <a class="post" href="https://codeberg.org/isalgado/boardstiff" target="_blank" rel="noopener">
-        <div class="post-img"><img src="assets/tobacco.jpg" alt="" loading="lazy" /></div>
+      <a class="post" href="https://salsep.bearblog.dev/register-of-books-for-fun/" target="_blank" rel="noopener">
+        <div class="post-img"><img src="assets/2000px-Blue_flag_waving.svg.png" alt="Public registry of my books" loading="lazy" /></div>
         <div class="post-body">
-          <div class="post-date">2025-12</div>
-          <div class="post-title">Untitled</div>
+          <div class="post-date">2026-08</div>
+          <div class="post-title">Public registry of my books</div>
+          <div class="post-desc">This is a public registry of readed books. Generated with the Kobo-ld help.</div>
+          <div class="tags"><span class="tag">Books</span><span class="tag">Blog</span><span class="tag">BearBlog</span></div>
+        </div>
+      </a>
+      
+      <a class="post" href="https://codeberg.org/isalgado/kobo-ld" target="_blank" rel="noopener">
+        <div class="post-img"><img src="assets/kobold-img.png" alt="Kobo-ld" loading="lazy" /></div>
+        <div class="post-body">
+          <div class="post-date">2026-08</div>
+          <div class="post-title">Kobo-ld</div>
+          <div class="post-desc">Kobo e-reader integrated TUI to register, backup and make statistics from yout books. Generate resume about yours readings.</div>
+          <div class="tags"><span class="tag">Kobo e-reader</span><span class="tag">TUI application</span><span class="tag">Side Proyect</span></div>
+        </div>
+      </a>
+      
+      <a class="post" href="https://github.com/italosalgado14/EnCoCoA" target="_blank" rel="noopener">
+        <div class="post-img"><img src="assets/encocoa-icon.jpg" alt="EnCoCoa" loading="lazy" /></div>
+        <div class="post-body">
+          <div class="post-date">2026-02</div>
+          <div class="post-title">EnCoCoa</div>
+          <div class="post-desc">English Conversational Coach. A local lightweight tool for practicing English with a partner.</div>
+          <div class="tags"><span class="tag">Python</span><span class="tag">ML</span><span class="tag">Side Proyect</span></div>
+        </div>
+      </a>
+      
+      <a class="post" href="https://github.com/italosalgado14/raspberry-scripts" target="_blank" rel="noopener">
+        <div class="post-img"><img src="assets/raspi.jpg" alt="Raspberry Server Scripts" loading="lazy" /></div>
+        <div class="post-body">
+          <div class="post-date">2025-06</div>
+          <div class="post-title">Raspberry Server Scripts</div>
+          <div class="post-desc">Scripts for manage the raspi 5, and work as a server in home.</div>
+          <div class="tags"><span class="tag">Scripting</span><span class="tag">Server in House</span></div>
+        </div>
+      </a>
+      
+      <a class="post" href="https://github.com/italosalgado14/cachyPool" target="_blank" rel="noopener">
+        <div class="post-img"><img src="assets/cachyOS-image.jpg" alt="CachyPool" loading="lazy" /></div>
+        <div class="post-body">
+          <div class="post-date">2026-03</div>
+          <div class="post-title">CachyPool</div>
+          <div class="post-desc">CachyOS opinionated version edit for development and NVIDIA card compatibility with Hyperlnd.</div>
+          <div class="tags"><span class="tag">OS</span><span class="tag">Arch</span></div>
+        </div>
+      </a>
+      
+      <a class="post" href="https://codeberg.org/isalgado/boardstiff" target="_blank" rel="noopener">
+        <div class="post-img"><img src="assets/board-example.png" alt="Boardstiff" loading="lazy" /></div>
+        <div class="post-body">
+          <div class="post-date">2026-06</div>
+          <div class="post-title">Boardstiff</div>
           <div class="post-desc">Simple standalone board for Scrum/Agile for personal use. I dont want to pay more suscriptions, this is a solution for that.</div>
-          <div class="tags"><span class="tag">Agile Board</span><span class="tag">JS</span></div>
+          <div class="tags"><span class="tag">Agile Board</span><span class="tag">Side Proyect</span></div>
         </div>
       </a>
       
@@ -367,7 +468,7 @@
           <div class="post-date">2026-03</div>
           <div class="post-title">Personal Blog</div>
           <div class="post-desc">Personal Blog, writing about IA, random_topics(), Books and SC or AoE II. A privacy-first, no-nonsense, super-fast blogging platform.</div>
-          <div class="tags"><span class="tag">BearBlog</span></div>
+          <div class="tags"><span class="tag">BearBlog</span><span class="tag">Blog</span></div>
         </div>
       </a>
       
