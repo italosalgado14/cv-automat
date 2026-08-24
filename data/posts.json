@@ -1,8 +1,8 @@
 [
-        {
+  {
     "title": "Public registry of my books",
     "date": "2026-08",
-    "image": "assets/Books-icon.jpg",
+    "image": "assets/Books-icon.png",
     "description": "This is a public registry of readed books. Generated with the Kobo-ld help.",
     "link": "https://salsep.bearblog.dev/register-of-books-for-fun/",
     "tags": [
@@ -10,8 +10,8 @@
       "Blog",
       "BearBlog"
     ]
-  }, 
-      {
+  },
+  {
     "title": "Kobo-ld",
     "date": "2026-08",
     "image": "assets/kobold-img.png",
@@ -22,11 +22,11 @@
       "TUI application",
       "Side Proyect"
     ]
-  }, 
-    {
+  },
+  {
     "title": "EnCoCoa",
     "date": "2026-02",
-    "image": "assets/Encocoa-icon2.jpg",
+    "image": "assets/Encocoa-icon2.png",
     "description": "English Conversational Coach. A local lightweight tool for practicing English with a partner.",
     "link": "https://github.com/italosalgado14/EnCoCoA",
     "tags": [
@@ -34,11 +34,11 @@
       "ML",
       "Side Proyect"
     ]
-  }, 
+  },
   {
     "title": "Raspberry Server Scripts",
     "date": "2025-06",
-    "image": "assets/raspi.jpg",
+    "image": "assets/raspi.png",
     "description": "Scripts for manage the raspi 5, and work as a server in home.",
     "link": "https://github.com/italosalgado14/raspberry-scripts",
     "tags": [
@@ -46,11 +46,11 @@
       "Server in House",
       "Side Proyect"
     ]
-  }, 
+  },
   {
     "title": "CachyPool",
     "date": "2026-03",
-    "image": "assets/cachyOS-image.jpg",
+    "image": "assets/cachyOS-image.png",
     "description": "CachyOS opinionated version edit for development and NVIDIA card compatibility with Hyperlnd.",
     "link": "https://github.com/italosalgado14/cachyPool",
     "tags": [
@@ -58,7 +58,7 @@
       "Arch",
       "Side Proyect"
     ]
-  },  
+  },
   {
     "title": "Boardstiff",
     "date": "2026-06",
@@ -73,7 +73,7 @@
   {
     "title": "Causal Effects of Tobacco Control Policies",
     "date": "2025-12",
-    "image": "assets/tobacco.jpg",
+    "image": "assets/tobacco.png",
     "description": "A comprehensive causal inference project analyzing the effect of tobacco control policies on smoking prevalence and health outcomes using panel data from 150+ countries over 20+ years.",
     "link": "https://github.com/italosalgado14/causal-tobacco",
     "tags": [
