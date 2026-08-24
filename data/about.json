@@ -1,6 +1,6 @@
 {
   "title": "About",
-  "subtitle": "About this page — not the CV.",
+  "subtitle": "The different things I have.",
 
   "videos": [
     { "url": "https://youtu.be/JgEH01zv5Pg?si=rMF-_me1gr4KYxq7", "title": "HYSTERIA" },
@@ -10,17 +10,19 @@
 
   "sections": [
     {
-      "title": "First section",
+      "title": "Code and Engineering",
       "body": [
-        "Write here. This text lives in data/about.json, under sections[0].body — each string in that list becomes one paragraph.",
-        "This page is the odd one out in the repo: everything else is generated from cv/cv_en.tex and cv/cv_es.tex, while this one is just about the site itself."
+        "Today we live in a very different word compared to the 2020s. Today create and build proyects its exponencial too easy. Build know is open to everyone, in a very fast way, maybe with a lack of personal flavour, but solved throught work and improve the result manually",
+        "I enjoy very much this epoch for the code: I build and deply pages, programs and every I wanted in this years with excelptional velocity.",
+        "Programming will be different in the following years."
       ]
     },
     {
-      "title": "Second section",
+      "title": "Time spend, World and Phylosophy",
       "body": [
-        "Write here too — sections[1].body. Add, remove or reorder paragraphs freely; the page rebuilds around whatever is in the file.",
-        "The square above shuffles through whatever images sit in docs/images-to-rotate/. Drop files in, run make html, and they join the rotation."
+        "Time spend changes throught time when different technologies arrives. The next changes must come in the following years, with automatization of very repetitive tasks. Today we spend  8-9 hours working, 8 hours sleeping, 2 hours cooking and eating, 1 hour in transporting and the time remaining for people you care and your leisure activities.",
+        "Right know you can build, control and programming throught your phone, in a raspy, and in your computer with AI. This changes a lot of productivity related with the production of products and code, with intermitent instructions to the LLM the core of the building of the final product, not the action of programming",
+        "Plus, all the intellectual activities must be improved with the interaction of IA. Read, construct concept maps, connect ideas and resume knowledge are so much accesible, and more easy to search and construct. In the last year I reconnect with the reading activities expanding the connection of phylosophy, maths and science, with a new level of interpretation and interconection I never can allow to build without so much time. "
       ]
     }
   ]

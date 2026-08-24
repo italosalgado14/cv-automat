@@ -2,7 +2,7 @@
         {
     "title": "Public registry of my books",
     "date": "2026-08",
-    "image": "docs/assets/Books-icon.jpg",
+    "image": "assets/Books-icon.jpg",
     "description": "This is a public registry of readed books. Generated with the Kobo-ld help.",
     "link": "https://salsep.bearblog.dev/register-of-books-for-fun/",
     "tags": [
@@ -26,7 +26,7 @@
     {
     "title": "EnCoCoa",
     "date": "2026-02",
-    "image": "docs/assets/Encocoa-icon2.jpg",
+    "image": "assets/Encocoa-icon2.jpg",
     "description": "English Conversational Coach. A local lightweight tool for practicing English with a partner.",
     "link": "https://github.com/italosalgado14/EnCoCoA",
     "tags": [
