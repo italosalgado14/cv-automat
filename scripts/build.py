@@ -13,6 +13,7 @@ import sys
 import json
 import argparse
 from pathlib import Path
+from urllib.parse import urlparse, parse_qs
 
 # Jinja2 is the only non-stdlib dependency
 try:
@@ -36,6 +37,7 @@ def cli() -> argparse.Namespace:
     p.add_argument("--about-template", default="templates/about.html.j2",    help="Path to about Jinja2 template")
     p.add_argument("--about-out",      default="docs/about.html",            help="Output about HTML path")
     p.add_argument("--rotate-dir",     default="docs/images-to-rotate",      help="Folder of images shuffled on the about page")
+    p.add_argument("--buttons-dir",    default="docs/buttons",               help="Folder holding UI button images (play.png)")
     p.add_argument("--dump-json",      action="store_true",                  help="Print extracted JSON and exit")
     return p.parse_args()
 
@@ -65,6 +67,101 @@ def collect_rotating_images(rotate_dir: Path, docs_dir: Path) -> list[str]:
         for p in sorted(rotate_dir.iterdir())
         if p.is_file() and p.suffix.lower() in ROTATE_EXTS
     ]
+
+
+# ── About-page videos ─────────────────────────────────────────────────────────
+
+YOUTUBE_ID = re.compile(r"[A-Za-z0-9_-]{11}")
+YOUTUBE_HOSTS = {"youtube.com", "m.youtube.com", "youtube-nocookie.com", "music.youtube.com"}
+TIMESTAMP = re.compile(r"^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?$")
+
+
+def youtube_id(url: str) -> str | None:
+    """
+    Return the 11-character video id from any common YouTube URL form
+    (watch?v=ID, youtu.be/ID, /embed/ID, /shorts/ID, /live/ID) or from a
+    bare id. Returns None when the string is not recognisably a YouTube video.
+    """
+    url = url.strip()
+    if YOUTUBE_ID.fullmatch(url):
+        return url
+
+    parts = urlparse(url if "//" in url else "https://" + url)
+    host  = parts.netloc.lower().removeprefix("www.")
+
+    if host == "youtu.be":
+        candidate = parts.path.lstrip("/").split("/")[0]
+    elif host in YOUTUBE_HOSTS:
+        if parts.path.rstrip("/") == "/watch":
+            candidate = parse_qs(parts.query).get("v", [""])[0]
+        else:
+            m = re.match(r"^/(?:embed|shorts|live|v)/([^/?#]+)", parts.path)
+            candidate = m.group(1) if m else ""
+    else:
+        return None
+
+    return candidate if YOUTUBE_ID.fullmatch(candidate) else None
+
+
+def youtube_start(url: str) -> int:
+    """Start offset in seconds from ?t= / ?start= (accepts 90, 90s, 1h2m3s)."""
+    query = parse_qs(urlparse(url).query)
+    raw   = (query.get("start") or query.get("t") or [""])[0].strip().lower()
+    if not raw:
+        return 0
+    if raw.isdigit():
+        return int(raw)
+    m = TIMESTAMP.match(raw)
+    if not m or not any(m.groups()):
+        return 0
+    hours, minutes, seconds = (int(g or 0) for g in m.groups())
+    return hours * 3600 + minutes * 60 + seconds
+
+
+def collect_videos(about: dict) -> list[dict]:
+    """
+    Normalise about["videos"] (or a single about["video"]) into
+    [{id, url, title, start}, ...]. Entries whose URL is empty or not a
+    YouTube link are dropped — a placeholder with "url": "" simply means
+    "no play button yet".
+    """
+    raw = about.get("videos")
+    if raw is None:
+        raw = [about["video"]] if about.get("video") else []
+    if isinstance(raw, (str, dict)):
+        raw = [raw]
+
+    videos: list[dict] = []
+    for entry in raw:
+        if isinstance(entry, str):
+            entry = {"url": entry}
+        if not isinstance(entry, dict):
+            continue
+        url = str(entry.get("url") or "").strip()
+        if not url:
+            continue
+        vid = youtube_id(url)
+        if not vid:
+            print(f"SKIP video (not a recognised YouTube URL): {url}")
+            continue
+        videos.append({
+            "id":    vid,
+            "url":   url,
+            "title": str(entry.get("title") or "youtube video").strip(),
+            "start": youtube_start(url),
+        })
+    return videos
+
+
+def find_play_button(buttons_dir: Path, docs_dir: Path) -> str | None:
+    """Path to play.png relative to docs/, or None (template falls back to a glyph)."""
+    png = buttons_dir / "play.png"
+    if not png.is_file():
+        return None
+    try:
+        return png.relative_to(docs_dir).as_posix()
+    except ValueError:
+        return None
 
 
 # ── Brace-balanced argument extractor ─────────────────────────────────────────
@@ -350,6 +447,7 @@ def main() -> None:
     about_tmpl_path = repo_root / args.about_template
     about_out_path  = repo_root / args.about_out
     rotate_dir      = repo_root / args.rotate_dir
+    buttons_dir     = repo_root / args.buttons_dir
 
     # ── Build CV(s) ────────────────────────────────────────────────
     if args.cv and args.out:
@@ -382,12 +480,17 @@ def main() -> None:
     if about_tmpl_path.exists() and person_data:
         about = json.loads(about_data_path.read_text(encoding="utf-8")) \
                 if about_data_path.exists() else {"sections": []}
-        images = collect_rotating_images(rotate_dir, about_out_path.parent)
-        about_html = render({"person": person_data["person"],
-                             "about":  about,
-                             "images": images}, about_tmpl_path)
+        images      = collect_rotating_images(rotate_dir, about_out_path.parent)
+        videos      = collect_videos(about)
+        play_button = find_play_button(buttons_dir, about_out_path.parent)
+        about_html = render({"person":      person_data["person"],
+                             "about":       about,
+                             "images":      images,
+                             "videos":      videos,
+                             "play_button": play_button}, about_tmpl_path)
         about_out_path.write_text(about_html, encoding="utf-8")
-        print(f"Built: {about_out_path} ({len(images)} image(s) to shuffle)")
+        print(f"Built: {about_out_path} "
+              f"({len(images)} image(s) to shuffle, {len(videos)} video(s))")
     else:
         print(f"Skipped about page (template not found: {about_tmpl_path})")
 

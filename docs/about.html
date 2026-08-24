@@ -317,7 +317,7 @@
     .footer::before { content: "# "; color: var(--c-green-dim); }
     .footer a { color: var(--text-color-alt); }
 
-    /* ── About: square image shuffler (slot-machine, settles < 5s) ──── */
+    /* ── About: square image shuffler (constant speed, stops at 5s) ─── */
     .shuffle {
       position: relative;
       width: 100%;
@@ -328,13 +328,14 @@
       border: var(--border-thickness) solid var(--text-color);
       background: var(--background-color-alt);
     }
-    .shuffle img {
+    /* .frame = one rotating photo. The play button is deliberately NOT one. */
+    .shuffle .frame {
       position: absolute; inset: 0; margin: 0;
       display: none;
       width: 100%; height: 100%;
       object-fit: cover;
     }
-    .shuffle img.on { display: block; }
+    .shuffle .frame.on { display: block; }
     .shuffle-empty {
       position: absolute; inset: 0; margin: 0;
       display: flex; align-items: center; justify-content: center;
@@ -353,6 +354,53 @@
     .shuffle-cmd::before { content: "$ "; color: var(--c-green); }
     .shuffle-status                      { color: var(--c-amber); }
     .shuffle-status[data-state="done"]   { color: var(--c-green); }
+    .shuffle-status[data-state="play"]   { color: var(--c-magenta); }
+
+    /* ── Play button — revealed only once the shuffle has stopped ────── */
+    .shuffle-play {
+      position: absolute; inset: 0; margin: 0;
+      display: none;
+      align-items: center; justify-content: center;
+      padding: 0; border: 0;
+      background: transparent;
+      font: inherit; color: inherit;
+      -webkit-appearance: none; appearance: none;
+      cursor: pointer;
+    }
+    .shuffle-play.on { display: flex; }
+    .shuffle-play .cap {
+      margin: 0;
+      width: 34%; max-width: 140px; height: auto;
+      border: var(--border-thickness) solid #fff;
+      background: #000; color: #fff;
+      transition: transform 100ms linear, border-color 100ms linear;
+    }
+    /* text fallback when docs/buttons/play.png is missing */
+    .shuffle-play span.cap {
+      aspect-ratio: 1 / 1;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; line-height: 1;
+    }
+    .shuffle-play:hover .cap,
+    .shuffle-play:focus-visible .cap {
+      transform: scale(1.08);
+      border-color: var(--c-green);
+    }
+    .shuffle-play:focus-visible { outline: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .shuffle-play .cap { transition: none; }
+      .shuffle-play:hover .cap,
+      .shuffle-play:focus-visible .cap { transform: none; }
+    }
+
+    /* ── Video mode — the square turns into a 16:9 player ────────────── */
+    .video-playing .shuffle         { max-width: 100%; aspect-ratio: 16 / 9; }
+    .video-playing .shuffle-caption { max-width: 100%; }
+    .shuffle iframe {
+      position: absolute; inset: 0; margin: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
 
     img { max-width: 100%; }
   </style>
@@ -378,13 +426,16 @@
   <!-- ══ SQUARE IMAGE SHUFFLER ═══════════════════════════════════════ -->
   <div class="shuffle" id="shuffle">
     
-    <div class="shuffle-empty">no images yet &mdash; drop files into docs/images-to-rotate/ and rebuild</div>
+    
+    <img class="frame on" src="images-to-rotate/askeladd.png" alt="" /><img class="frame" src="images-to-rotate/cliffyoung.png" alt="" /><img class="frame" src="images-to-rotate/rommel.jpg" alt="" />
+    
     
   </div>
   <div class="shuffle-caption">
     <span class="shuffle-cmd">shuffle images-to-rotate/</span>
-    <span class="shuffle-status" id="shuffle-status">0 files</span>
+    <span class="shuffle-status" id="shuffle-status">3 files</span>
   </div>
+  
 
   <!-- ══ TEXT SECTIONS ═══════════════════════════════════════════════ -->
   
@@ -402,28 +453,63 @@
   <div class="footer">built automatically from <a href="../data/about.json">about.json</a> &mdash; cv-automat</div>
 
   <script>
-  /* Slot-machine shuffle: flips fast, decelerates, and stops well before 5s.
-     Progressive enhancement — with JS off the first image stays put. */
+  /* Image shuffle: constant speed, stops after exactly 5s, then offers the
+     play button. Progressive enhancement — with JS off the first image stays
+     put and the <noscript> link above takes over. */
   (function () {
     var box = document.getElementById('shuffle');
     if (!box) return;
 
-    var imgs   = Array.prototype.slice.call(box.querySelectorAll('img'));
+    var imgs   = Array.prototype.slice.call(box.querySelectorAll('img.frame'));
     var status = document.getElementById('shuffle-status');
+    var play   = document.getElementById('shuffle-play');
+    var VIDEOS = [];
 
     var setStatus = function (state, text) {
       if (!status) return;
       status.setAttribute('data-state', state);
       status.textContent = text;
     };
+
+    /* Swap the square for a YouTube player. The iframe is only created here,
+       on the click — nothing from youtube.com loads before that. */
+    var start = function (video) {
+      var frame = document.createElement('iframe');
+      frame.src = 'https://www.youtube-nocookie.com/embed/' + video.id +
+                  '?autoplay=1&rel=0&modestbranding=1' +
+                  (video.start ? '&start=' + video.start : '');
+      frame.title = video.title;
+      /* without `allow`, Chrome ignores autoplay=1 even on a click */
+      frame.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      frame.setAttribute('allowfullscreen', '');
+      frame.referrerPolicy = 'strict-origin-when-cross-origin';
+
+      for (var n = 0; n < imgs.length; n++) imgs[n].className = 'frame';
+      play.className = 'shuffle-play';
+      box.appendChild(frame);
+      document.body.className += ' video-playing';
+      setStatus('play', 'playing \u2014 ' + video.title);
+    };
+
+    /* One video is drawn at random per page load — same spirit as the images. */
+    var offerVideo = function () {
+      if (!play || !VIDEOS.length) return;
+      var video = VIDEOS[Math.floor(Math.random() * VIDEOS.length)];
+      play.setAttribute('aria-label', 'Play: ' + video.title);
+      play.title = video.title;
+      play.addEventListener('click', function () { start(video); });
+      play.className = 'shuffle-play on';
+    };
+
     var done = function () {
-      setStatus('done', imgs.length + ' file' + (imgs.length === 1 ? '' : 's') + ' — stopped');
+      setStatus('done', imgs.length + ' file' + (imgs.length === 1 ? '' : 's') + ' \u2014 stopped');
+      offerVideo();
     };
 
     if (imgs.length < 2) { done(); return; }
 
     var show = function (i) {
-      for (var n = 0; n < imgs.length; n++) imgs[n].className = (n === i) ? 'on' : '';
+      for (var n = 0; n < imgs.length; n++) imgs[n].className = (n === i) ? 'frame on' : 'frame';
     };
     var pick = function (avoid) {
       var i;
@@ -438,23 +524,17 @@
                   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduced) { done(); return; }
 
-    var BUDGET  = 4500;   /* hard ceiling, so it always settles before 5s */
-    var elapsed = 0;
-    var step    = 0;
+    var STEP   = 120;    /* ms between flips — constant, no easing, no ramp */
+    var BUDGET = 5000;   /* the shuffle stops after exactly 5s */
 
-    setStatus('run', 'shuffling…');
+    setStatus('run', 'shuffling\u2026');
 
-    (function tick() {
-      var delay = Math.min(600, Math.round(120 + step * step * 9));  /* 120ms → 600ms */
-      if (elapsed + delay > BUDGET) { done(); return; }
-      elapsed += delay;
-      step++;
-      setTimeout(function () {
-        current = pick(current);
-        show(current);
-        tick();
-      }, delay);
-    })();
+    var timer = setInterval(function () {
+      current = pick(current);
+      show(current);
+    }, STEP);
+
+    setTimeout(function () { clearInterval(timer); done(); }, BUDGET);
   })();
   </script>
 

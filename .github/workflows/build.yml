@@ -16,6 +16,7 @@ on:
       - "data/about.json"
       - "docs/assets/**"
       - "docs/images-to-rotate/**"
+      - "docs/buttons/**"
       - ".github/workflows/build.yml"
   workflow_dispatch:   # allow manual trigger from the Actions tab
 

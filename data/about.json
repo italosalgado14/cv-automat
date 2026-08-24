@@ -1,6 +1,13 @@
 {
   "title": "About",
   "subtitle": "About this page — not the CV.",
+
+  "videos": [
+    { "url": "https://youtu.be/JgEH01zv5Pg?si=rMF-_me1gr4KYxq7", "title": "HYSTERIA" },
+    { "url": "https://youtu.be/0BkURpJbxRE?si=-U2XdJZegNomipso", "title": "SLEEPWALKING" },
+    { "url": "https://youtu.be/r3Q5zpSJZXQ?si=VFQPxDE20t6_CFHk", "title": "DRAINYOU" }
+  ],
+
   "sections": [
     {
       "title": "First section",
