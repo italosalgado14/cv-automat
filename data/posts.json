@@ -2,7 +2,7 @@
         {
     "title": "Public registry of my books",
     "date": "2026-08",
-    "image": "assets/2000px-Blue_flag_waving.svg.png",
+    "image": "docs/assets/Books-icon.jpg",
     "description": "This is a public registry of readed books. Generated with the Kobo-ld help.",
     "link": "https://salsep.bearblog.dev/register-of-books-for-fun/",
     "tags": [
@@ -26,7 +26,7 @@
     {
     "title": "EnCoCoa",
     "date": "2026-02",
-    "image": "assets/encocoa-icon.jpg",
+    "image": "docs/assets/Encocoa-icon2.jpg",
     "description": "English Conversational Coach. A local lightweight tool for practicing English with a partner.",
     "link": "https://github.com/italosalgado14/EnCoCoA",
     "tags": [
@@ -43,7 +43,8 @@
     "link": "https://github.com/italosalgado14/raspberry-scripts",
     "tags": [
       "Scripting",
-      "Server in House"
+      "Server in House",
+      "Side Proyect"
     ]
   }, 
   {
@@ -54,7 +55,8 @@
     "link": "https://github.com/italosalgado14/cachyPool",
     "tags": [
       "OS",
-      "Arch"
+      "Arch",
+      "Side Proyect"
     ]
   },  
   {
@@ -76,7 +78,8 @@
     "link": "https://github.com/italosalgado14/causal-tobacco",
     "tags": [
       "Causal Inference",
-      "Python"
+      "Python",
+      "Side Proyect"
     ]
   },
   {
@@ -89,7 +92,8 @@
       "FastAPI",
       "Docker",
       "PostgreSQL",
-      "Prometheus"
+      "Prometheus",
+      "Side Proyect"
     ]
   },
   {
@@ -100,7 +104,8 @@
     "link": "https://github.com/italosalgado14/usm-docs",
     "tags": [
       "Python",
-      "RAG"
+      "RAG",
+      "Side Proyect"
     ]
   },
   {
@@ -110,7 +115,8 @@
     "description": "Im trying to ingest one of the most valuable repos to train LLM from scratch.",
     "link": "https://github.com/italosalgado14/nanochat",
     "tags": [
-      "LLM"
+      "LLM",
+      "Repo Digestion"
     ]
   },
   {
@@ -120,7 +126,7 @@
     "description": "Hamiltonian ports and the alternative application in economy.",
     "link": "https://github.com/italosalgado14/systems-dynamics",
     "tags": [
-      "Python",
+      "University Proyect",
       "Hamiltonian Ports",
       "Control Systems Simulation"
     ]
@@ -133,17 +139,17 @@
     "link": "https://github.com/italosalgado14/froth-simulation",
     "tags": [
       "Generated data",
-      "Computer Vision"
+      "Computer Vision",
+      "Side Proyect"
     ]
   },
   {
     "title": "Personal Blog",
     "date": "2026-03",
     "image": "assets/bear1.png",
-    "description": "Personal Blog, writing about IA, random_topics(), Books and SC or AoE II. A privacy-first, no-nonsense, super-fast blogging platform.",
+    "description": "Personal Blog, writing about random_topics(), BearBlog: A privacy-first, no-nonsense, super-fast blogging platform.",
     "link": "https://salsep.bearblog.dev/blog/",
     "tags": [
-      "BearBlog",
       "Blog"
     ]
   }
