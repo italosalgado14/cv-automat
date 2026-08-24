@@ -317,12 +317,13 @@
     .footer::before { content: "# "; color: var(--c-green-dim); }
     .footer a { color: var(--text-color-alt); }
 
-    /* ── About: square image shuffler (constant speed, stops at 5s) ─── */
+    /* ── About: 16:9 image shuffler (constant speed, stops at 5s) ───── */
+    /* 16:9 on purpose: the video plays in this very box, so clicking play
+       swaps the content without moving a single pixel of the layout. */
     .shuffle {
       position: relative;
       width: 100%;
-      max-width: 400px;
-      aspect-ratio: 1 / 1;
+      aspect-ratio: 16 / 9;
       margin: 0 auto;
       overflow: hidden;
       border: var(--border-thickness) solid var(--text-color);
@@ -345,7 +346,6 @@
     /* status line under the square, rendered like a running command */
     .shuffle-caption {
       display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 1ch;
-      max-width: 400px;
       margin: calc(var(--line-height) / 2) auto 0;
       font-size: 0.8rem;
     }
@@ -393,9 +393,7 @@
       .shuffle-play:focus-visible .cap { transform: none; }
     }
 
-    /* ── Video mode — the square turns into a 16:9 player ────────────── */
-    .video-playing .shuffle         { max-width: 100%; aspect-ratio: 16 / 9; }
-    .video-playing .shuffle-caption { max-width: 100%; }
+    /* The player fills the same box the photos were using. */
     .shuffle iframe {
       position: absolute; inset: 0; margin: 0;
       width: 100%; height: 100%;
@@ -430,11 +428,24 @@
     <img class="frame on" src="images-to-rotate/askeladd.png" alt="" /><img class="frame" src="images-to-rotate/cliffyoung.png" alt="" /><img class="frame" src="images-to-rotate/rommel.jpg" alt="" />
     
     
+    
+    <button type="button" class="shuffle-play" id="shuffle-play" aria-label="Play video">
+      <img class="cap" src="buttons/play.png" alt="" />
+      
+    </button>
+    
   </div>
   <div class="shuffle-caption">
     <span class="shuffle-cmd">shuffle images-to-rotate/</span>
     <span class="shuffle-status" id="shuffle-status">3 files</span>
   </div>
+  
+  <noscript>
+    <div class="shuffle-caption">
+      <span class="shuffle-cmd">watch</span>
+      <span><a href="https://youtu.be/JgEH01zv5Pg?si=rMF-_me1gr4KYxq7">HYSTERIA</a>, <a href="https://youtu.be/0BkURpJbxRE?si=-U2XdJZegNomipso">SLEEPWALKING</a>, <a href="https://youtu.be/r3Q5zpSJZXQ?si=VFQPxDE20t6_CFHk">DRAINYOU</a></span>
+    </div>
+  </noscript>
   
 
   <!-- ══ TEXT SECTIONS ═══════════════════════════════════════════════ -->
@@ -463,7 +474,7 @@
     var imgs   = Array.prototype.slice.call(box.querySelectorAll('img.frame'));
     var status = document.getElementById('shuffle-status');
     var play   = document.getElementById('shuffle-play');
-    var VIDEOS = [];
+    var VIDEOS = [{"id": "JgEH01zv5Pg", "start": 0, "title": "HYSTERIA", "url": "https://youtu.be/JgEH01zv5Pg?si=rMF-_me1gr4KYxq7"}, {"id": "0BkURpJbxRE", "start": 0, "title": "SLEEPWALKING", "url": "https://youtu.be/0BkURpJbxRE?si=-U2XdJZegNomipso"}, {"id": "r3Q5zpSJZXQ", "start": 0, "title": "DRAINYOU", "url": "https://youtu.be/r3Q5zpSJZXQ?si=VFQPxDE20t6_CFHk"}];
 
     var setStatus = function (state, text) {
       if (!status) return;
@@ -487,7 +498,6 @@
       for (var n = 0; n < imgs.length; n++) imgs[n].className = 'frame';
       play.className = 'shuffle-play';
       box.appendChild(frame);
-      document.body.className += ' video-playing';
       setStatus('play', 'playing \u2014 ' + video.title);
     };
 

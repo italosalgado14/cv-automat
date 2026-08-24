@@ -317,12 +317,13 @@
     .footer::before { content: "# "; color: var(--c-green-dim); }
     .footer a { color: var(--text-color-alt); }
 
-    /* ── About: square image shuffler (constant speed, stops at 5s) ─── */
+    /* ── About: 16:9 image shuffler (constant speed, stops at 5s) ───── */
+    /* 16:9 on purpose: the video plays in this very box, so clicking play
+       swaps the content without moving a single pixel of the layout. */
     .shuffle {
       position: relative;
       width: 100%;
-      max-width: 400px;
-      aspect-ratio: 1 / 1;
+      aspect-ratio: 16 / 9;
       margin: 0 auto;
       overflow: hidden;
       border: var(--border-thickness) solid var(--text-color);
@@ -345,7 +346,6 @@
     /* status line under the square, rendered like a running command */
     .shuffle-caption {
       display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 1ch;
-      max-width: 400px;
       margin: calc(var(--line-height) / 2) auto 0;
       font-size: 0.8rem;
     }
@@ -393,9 +393,7 @@
       .shuffle-play:focus-visible .cap { transform: none; }
     }
 
-    /* ── Video mode — the square turns into a 16:9 player ────────────── */
-    .video-playing .shuffle         { max-width: 100%; aspect-ratio: 16 / 9; }
-    .video-playing .shuffle-caption { max-width: 100%; }
+    /* The player fills the same box the photos were using. */
     .shuffle iframe {
       position: absolute; inset: 0; margin: 0;
       width: 100%; height: 100%;
@@ -497,7 +495,6 @@
       for (var n = 0; n < imgs.length; n++) imgs[n].className = 'frame';
       play.className = 'shuffle-play';
       box.appendChild(frame);
-      document.body.className += ' video-playing';
       setStatus('play', 'playing \u2014 ' + video.title);
     };
 
