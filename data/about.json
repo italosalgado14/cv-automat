@@ -1,0 +1,20 @@
+{
+  "title": "About",
+  "subtitle": "About this page — not the CV.",
+  "sections": [
+    {
+      "title": "First section",
+      "body": [
+        "Write here. This text lives in data/about.json, under sections[0].body — each string in that list becomes one paragraph.",
+        "This page is the odd one out in the repo: everything else is generated from cv/cv_en.tex and cv/cv_es.tex, while this one is just about the site itself."
+      ]
+    },
+    {
+      "title": "Second section",
+      "body": [
+        "Write here too — sections[1].body. Add, remove or reorder paragraphs freely; the page rebuilds around whatever is in the file.",
+        "The square above shuffles through whatever images sit in docs/images-to-rotate/. Drop files in, run make html, and they join the rotation."
+      ]
+    }
+  ]
+}

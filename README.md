@@ -16,3 +16,5 @@ https://owickstrom.github.io/the-monospace-web/
 https://italosalgado14.github.io/cv-automat/    --> CV page
 
 https://italosalgado14.github.io/cv-automat/posts.html --> Posts page
+
+https://italosalgado14.github.io/cv-automat/about.html --> About page (text in `data/about.json`, shuffled images in `docs/images-to-rotate/`)

@@ -317,6 +317,43 @@
     .footer::before { content: "# "; color: var(--c-green-dim); }
     .footer a { color: var(--text-color-alt); }
 
+    /* ── About: square image shuffler (slot-machine, settles < 5s) ──── */
+    .shuffle {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      aspect-ratio: 1 / 1;
+      margin: 0 auto;
+      overflow: hidden;
+      border: var(--border-thickness) solid var(--text-color);
+      background: var(--background-color-alt);
+    }
+    .shuffle img {
+      position: absolute; inset: 0; margin: 0;
+      display: none;
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .shuffle img.on { display: block; }
+    .shuffle-empty {
+      position: absolute; inset: 0; margin: 0;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 2ch; text-align: center;
+      color: var(--text-color-alt); font-size: 0.8rem;
+    }
+    /* status line under the square, rendered like a running command */
+    .shuffle-caption {
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 1ch;
+      max-width: 400px;
+      margin: calc(var(--line-height) / 2) auto 0;
+      font-size: 0.8rem;
+    }
+    .shuffle-caption > * { margin: 0; }
+    .shuffle-cmd { color: var(--c-cyan); }
+    .shuffle-cmd::before { content: "$ "; color: var(--c-green); }
+    .shuffle-status                      { color: var(--c-amber); }
+    .shuffle-status[data-state="done"]   { color: var(--c-green); }
+
     img { max-width: 100%; }
   </style>
 </head>
@@ -331,6 +368,7 @@
       <div class="group">
         <a href="index.html">cv</a>
         <a href="posts.html" class="active">posts</a>
+        <a href="about.html">about</a>
       </div>
     </nav>
     <h1>Posts</h1>

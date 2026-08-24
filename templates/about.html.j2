@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ lang | default('en') }}">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{{ person.name }}</title>
+  <title>{{ person.name }} &mdash; About</title>
   <style>
     /* ══════════════════════════════════════════════════════════════════
        THE MONOSPACE WEB — brutalist design system + console palette
@@ -359,199 +359,102 @@
 </head>
 <body>
 
-<!-- ══ HEADER ════════════════════════════════════════════════════════ -->
-<div class="header">
-
-  <nav class="nav">
-    <div class="group">
-      <a href="index.html" class="{{ 'active' if lang == 'en' }}">EN</a>
-      <a href="es.html" class="{{ 'active' if lang == 'es' }}">ES</a>
-    </div>
-    <div class="group">
-      <a href="{{ 'index.html' if lang == 'en' else 'es.html' }}" class="active">cv</a>
-      <a href="posts.html">posts</a>
-      <a href="about.html">about</a>
-    </div>
-  </nav>
-
-  <h1>{{ person.name }}</h1>
-
-  <table class="width-auto contacts">
-    <tbody>
-      {% if person.email %}
-      <tr>
-        <th class="width-min">Email</th>
-        <td class="width-auto"><a href="mailto:{{ person.email }}">{{ person.email }}</a></td>
-      </tr>
-      {% endif %}
-      {% if person.linkedin %}
-      <tr>
-        <th class="width-min">LinkedIn</th>
-        <td class="width-auto"><a href="{{ person.linkedin }}" target="_blank" rel="noopener">{{ person.linkedin }}</a></td>
-      </tr>
-      {% endif %}
-      {% if person.github %}
-      <tr>
-        <th class="width-min">GitHub</th>
-        <td class="width-auto"><a href="{{ person.github }}" target="_blank" rel="noopener">{{ person.github }}</a></td>
-      </tr>
-      {% endif %}
-      {% if person.website %}
-      <tr>
-        <th class="width-min">Website</th>
-        <td class="width-auto"><a href="{{ person.website }}" target="_blank" rel="noopener">{{ person.website }}</a></td>
-      </tr>
-      {% endif %}
-      {% if person.phone %}
-      <tr>
-        <th class="width-min">Phone</th>
-        <td class="width-auto">{{ person.phone }}</td>
-      </tr>
-      {% endif %}
-    </tbody>
-  </table>
-
-</div>
-
-<!-- ══ ABOUT ═════════════════════════════════════════════════════════ -->
-{% if summary %}
-<section class="section">
-  <h2 class="section-title">About</h2>
-  <p>{{ summary }}</p>
-</section>
-{% endif %}
-
-<!-- ══ SKILLS ════════════════════════════════════════════════════════ -->
-{% if tech_skills %}
-<section class="section">
-  <h2 class="section-title">Skills</h2>
-  <table class="width-auto">
-    <tbody>
-      {% for group in tech_skills %}
-      <tr>
-        <th class="width-min">{{ group.category }}</th>
-        <td class="width-auto">
-          <div class="tags">
-            {% for tag in group.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
-          </div>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</section>
-{% endif %}
-
-<!-- ══ LANGUAGES ═════════════════════════════════════════════════════ -->
-{% if lang_tags %}
-<section class="section">
-  <h2 class="section-title">Languages</h2>
-  <div class="tags">
-    {% for entry in lang_tags %}
-    {%- set parts = entry.split('(') %}
-    {%- set lname = parts[0].strip() %}
-    {%- set level = parts[1].rstrip(')').strip() if parts|length > 1 else '' %}
-    <span class="tag">{{ lname }}{% if level %} · {{ level }}{% endif %}</span>
-    {% endfor %}
+  <div class="header">
+    <nav class="nav">
+      <div class="group">
+        <a href="index.html">EN</a>
+        <a href="es.html">ES</a>
+      </div>
+      <div class="group">
+        <a href="index.html">cv</a>
+        <a href="posts.html">posts</a>
+        <a href="about.html" class="active">about</a>
+      </div>
+    </nav>
+    <h1>{{ about.title | default('About') }}</h1>
+    {% if about.subtitle %}<div class="subtitle">{{ about.subtitle }}</div>{% endif %}
   </div>
-</section>
-{% endif %}
 
-<!-- ══ CERTIFICATIONS ════════════════════════════════════════════════ -->
-{% if certifications %}
-<section class="section">
-  <h2 class="section-title">Certifications</h2>
-  <table class="width-auto">
-    <thead>
-      <tr>
-        <th class="width-min">Year</th>
-        <th class="width-auto">Certification</th>
-        <th>Provider</th>
-        <th class="width-min">Platform</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for cert in certifications %}
-      <tr>
-        <td class="width-min date-cell">{{ cert.year }}</td>
-        <td class="width-auto">
-          {% if cert.url %}<a href="{{ cert.url }}" target="_blank" rel="noopener">{{ cert.title }}</a>{% else %}{{ cert.title }}{% endif %}
-          {% if cert.comment %}<div class="muted" style="font-size:.8rem">{{ cert.comment }}</div>{% endif %}
-        </td>
-        <td>{{ cert.provider }}</td>
-        <td class="width-min">{{ cert.platform }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</section>
-{% endif %}
-
-<!-- ══ PROJECTS ══════════════════════════════════════════════════════ -->
-{% if projects %}
-<section class="section">
-  <h2 class="section-title">Projects</h2>
-  {% for proj in projects %}
-  <div class="entry">
-    <div class="entry-head">
-      <span class="entry-title">{{ proj.name }}</span>
-      <span class="entry-date">{{ proj.dates }}</span>
-    </div>
-    {% if proj.tech %}<div class="entry-sub">{{ proj.tech }}</div>{% endif %}
-    {% if proj.bullets %}
-    <ul>
-      {% for b in proj.bullets %}<li>{{ b | safe_html }}</li>{% endfor %}
-    </ul>
+  <!-- ══ SQUARE IMAGE SHUFFLER ═══════════════════════════════════════ -->
+  <div class="shuffle" id="shuffle">
+    {% if images %}
+    {# eager on purpose: the shuffle flips every ~120ms, lazy images would blank the square #}
+    {% for img in images %}<img src="{{ img }}" alt=""{% if loop.first %} class="on"{% endif %} />{% endfor %}
+    {% else %}
+    <div class="shuffle-empty">no images yet &mdash; drop files into docs/images-to-rotate/ and rebuild</div>
     {% endif %}
   </div>
-  {% endfor %}
-</section>
-{% endif %}
-
-<!-- ══ EXPERIENCE ════════════════════════════════════════════════════ -->
-{% if experience %}
-<section class="section">
-  <h2 class="section-title">Experience</h2>
-  {% for job in experience %}
-  <div class="entry">
-    <div class="entry-head">
-      <span class="entry-title">{{ job.title }}</span>
-      <span class="entry-date">{{ job.dates }}</span>
-    </div>
-    <div class="entry-sub">{{ job.company }}{% if job.location %} · {{ job.location }}{% endif %}</div>
-    {% if job.bullets %}
-    <ul>
-      {% for b in job.bullets %}<li>{{ b | safe_html }}</li>{% endfor %}
-    </ul>
-    {% endif %}
+  <div class="shuffle-caption">
+    <span class="shuffle-cmd">shuffle images-to-rotate/</span>
+    <span class="shuffle-status" id="shuffle-status">{{ images | length }} file{{ '' if images | length == 1 else 's' }}</span>
   </div>
+
+  <!-- ══ TEXT SECTIONS ═══════════════════════════════════════════════ -->
+  {% for sec in about.sections %}
+  <section class="section">
+    <h2 class="section-title">{{ sec.title }}</h2>
+    {% for para in sec.body %}<p>{{ para }}</p>{% endfor %}
+  </section>
   {% endfor %}
-</section>
-{% endif %}
 
-<!-- ══ EDUCATION ═════════════════════════════════════════════════════ -->
-{% if education %}
-<section class="section">
-  <h2 class="section-title">Education</h2>
-  <table class="width-auto">
-    <tbody>
-      {% for edu in education %}
-      <tr>
-        <td class="width-min date-cell">{{ edu.dates }}</td>
-        <td class="width-auto">
-          <strong>{{ edu.degree }}</strong>
-          <div class="muted">{{ edu.institution }}{% if edu.location %} · {{ edu.location }}{% endif %}</div>
-          {% if edu.details %}<div class="muted" style="font-size:.85rem">{{ edu.details | safe_html }}</div>{% endif %}
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</section>
-{% endif %}
+  <div class="footer">built automatically from <a href="../data/about.json">about.json</a> &mdash; cv-automat</div>
 
-<!-- ══ FOOTER ════════════════════════════════════════════════════════ -->
-<div class="footer">built automatically from <a href="../cv/cv.tex">cv.tex</a> — cv-automat</div>
+  <script>
+  /* Slot-machine shuffle: flips fast, decelerates, and stops well before 5s.
+     Progressive enhancement — with JS off the first image stays put. */
+  (function () {
+    var box = document.getElementById('shuffle');
+    if (!box) return;
+
+    var imgs   = Array.prototype.slice.call(box.querySelectorAll('img'));
+    var status = document.getElementById('shuffle-status');
+
+    var setStatus = function (state, text) {
+      if (!status) return;
+      status.setAttribute('data-state', state);
+      status.textContent = text;
+    };
+    var done = function () {
+      setStatus('done', imgs.length + ' file' + (imgs.length === 1 ? '' : 's') + ' — stopped');
+    };
+
+    if (imgs.length < 2) { done(); return; }
+
+    var show = function (i) {
+      for (var n = 0; n < imgs.length; n++) imgs[n].className = (n === i) ? 'on' : '';
+    };
+    var pick = function (avoid) {
+      var i;
+      do { i = Math.floor(Math.random() * imgs.length); } while (i === avoid);
+      return i;
+    };
+
+    var current = pick(-1);
+    show(current);
+
+    var reduced = window.matchMedia &&
+                  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) { done(); return; }
+
+    var BUDGET  = 4500;   /* hard ceiling, so it always settles before 5s */
+    var elapsed = 0;
+    var step    = 0;
+
+    setStatus('run', 'shuffling…');
+
+    (function tick() {
+      var delay = Math.min(600, Math.round(120 + step * step * 9));  /* 120ms → 600ms */
+      if (elapsed + delay > BUDGET) { done(); return; }
+      elapsed += delay;
+      step++;
+      setTimeout(function () {
+        current = pick(current);
+        show(current);
+        tick();
+      }, delay);
+    })();
+  })();
+  </script>
 
 </body>
 </html>

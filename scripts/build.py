@@ -32,6 +32,10 @@ def cli() -> argparse.Namespace:
     p.add_argument("--posts-template", default="templates/posts.html.j2",   help="Path to posts Jinja2 template")
     p.add_argument("--posts-out",      default="docs/posts.html",            help="Output posts HTML path")
     p.add_argument("--certs-data",     default="data/certifications.json",   help="Path to certifications JSON")
+    p.add_argument("--about-data",     default="data/about.json",            help="Path to about-page JSON")
+    p.add_argument("--about-template", default="templates/about.html.j2",    help="Path to about Jinja2 template")
+    p.add_argument("--about-out",      default="docs/about.html",            help="Output about HTML path")
+    p.add_argument("--rotate-dir",     default="docs/images-to-rotate",      help="Folder of images shuffled on the about page")
     p.add_argument("--dump-json",      action="store_true",                  help="Print extracted JSON and exit")
     return p.parse_args()
 
@@ -42,6 +46,25 @@ CV_LANGS = [
     {"lang": "en", "cv": "cv/cv_en.tex", "out": "docs/index.html"},
     {"lang": "es", "cv": "cv/cv_es.tex", "out": "docs/es.html"},
 ]
+
+
+# ── About-page image rotation ─────────────────────────────────────────────────
+
+ROTATE_EXTS = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg"}
+
+
+def collect_rotating_images(rotate_dir: Path, docs_dir: Path) -> list[str]:
+    """
+    Return the images in `rotate_dir` as paths relative to `docs_dir`
+    (i.e. usable as-is in <img src=...>). Non-images (README, etc.) are ignored.
+    """
+    if not rotate_dir.is_dir():
+        return []
+    return [
+        p.relative_to(docs_dir).as_posix()
+        for p in sorted(rotate_dir.iterdir())
+        if p.is_file() and p.suffix.lower() in ROTATE_EXTS
+    ]
 
 
 # ── Brace-balanced argument extractor ─────────────────────────────────────────
@@ -323,6 +346,10 @@ def main() -> None:
     posts_tmpl_path = repo_root / args.posts_template
     posts_out_path  = repo_root / args.posts_out
     certs_data_path = repo_root / args.certs_data
+    about_data_path = repo_root / args.about_data
+    about_tmpl_path = repo_root / args.about_template
+    about_out_path  = repo_root / args.about_out
+    rotate_dir      = repo_root / args.rotate_dir
 
     # ── Build CV(s) ────────────────────────────────────────────────
     if args.cv and args.out:
@@ -350,6 +377,19 @@ def main() -> None:
         print(f"Built: {posts_out_path}")
     else:
         print(f"Skipped posts page (template not found: {posts_tmpl_path})")
+
+    # ── Build about page ───────────────────────────────────────────
+    if about_tmpl_path.exists() and person_data:
+        about = json.loads(about_data_path.read_text(encoding="utf-8")) \
+                if about_data_path.exists() else {"sections": []}
+        images = collect_rotating_images(rotate_dir, about_out_path.parent)
+        about_html = render({"person": person_data["person"],
+                             "about":  about,
+                             "images": images}, about_tmpl_path)
+        about_out_path.write_text(about_html, encoding="utf-8")
+        print(f"Built: {about_out_path} ({len(images)} image(s) to shuffle)")
+    else:
+        print(f"Skipped about page (template not found: {about_tmpl_path})")
 
 
 if __name__ == "__main__":
