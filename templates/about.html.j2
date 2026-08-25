@@ -391,6 +391,38 @@
       .shuffle-play:focus-visible .cap { transform: none; }
     }
 
+    /* ── About: hand-drawn diagram "gif" (frames flip every 500ms) ──── */
+    /* Frames are stacked on top of each other and cross-faded with a stepped
+       keyframe, so the loop runs with no JS and no animated-GIF file. The
+       wrapper carries the aspect ratio because every frame is absolute. */
+    .diagram {
+      position: relative;
+      width: 100%; max-width: 44rem;
+      margin-left: auto; margin-right: auto;
+      aspect-ratio: 9 / 5;   /* the frames are 900x500 */
+      overflow: hidden;
+      border: var(--border-thickness) solid var(--text-color);
+      background: #000;
+    }
+    .diagram .dframe {
+      position: absolute; inset: 0; margin: 0;   /* margin: 0 defeats the owl rule */
+      width: 100%; height: 100%;
+      object-fit: contain;
+      opacity: 0;
+      animation: diagram-cycle var(--diagram-cycle) steps(1, end) infinite;
+    }
+    {% set diagram_step = (100.0 / (diagram_frames | length or 1)) | round(3) %}
+    @keyframes diagram-cycle {
+      0%              { opacity: 1; }
+      {{ diagram_step }}%   { opacity: 0; }   /* one slot of the loop per frame */
+      100%            { opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      /* one still frame instead of a flicker */
+      .diagram .dframe            { animation: none; }
+      .diagram .dframe:first-child { opacity: 1; }
+    }
+
     /* The player fills the same box the photos were using. */
     .shuffle iframe {
       position: absolute; inset: 0; margin: 0;
@@ -449,6 +481,12 @@
   <section class="section">
     <h2 class="section-title">{{ sec.title }}</h2>
     {% for para in sec.body %}<p>{{ para }}</p>{% endfor %}
+    {% if sec.animation == 'diagram' and diagram_frames %}
+    {# eager on purpose: a frame that loads late would blink a hole in the loop #}
+    <div class="diagram" style="--diagram-cycle: {{ diagram_frames | length * 500 }}ms" aria-label="Animated hand-drawn concept map" role="img">
+      {% for f in diagram_frames %}<img class="dframe" src="{{ f }}" alt="" style="animation-delay: {{ loop.index0 * 500 }}ms" />{% endfor %}
+    </div>
+    {% endif %}
   </section>
   {% endfor %}
 

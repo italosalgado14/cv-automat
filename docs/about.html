@@ -391,6 +391,38 @@
       .shuffle-play:focus-visible .cap { transform: none; }
     }
 
+    /* ── About: hand-drawn diagram "gif" (frames flip every 500ms) ──── */
+    /* Frames are stacked on top of each other and cross-faded with a stepped
+       keyframe, so the loop runs with no JS and no animated-GIF file. The
+       wrapper carries the aspect ratio because every frame is absolute. */
+    .diagram {
+      position: relative;
+      width: 100%; max-width: 44rem;
+      margin-left: auto; margin-right: auto;
+      aspect-ratio: 9 / 5;   /* the frames are 900x500 */
+      overflow: hidden;
+      border: var(--border-thickness) solid var(--text-color);
+      background: #000;
+    }
+    .diagram .dframe {
+      position: absolute; inset: 0; margin: 0;   /* margin: 0 defeats the owl rule */
+      width: 100%; height: 100%;
+      object-fit: contain;
+      opacity: 0;
+      animation: diagram-cycle var(--diagram-cycle) steps(1, end) infinite;
+    }
+    
+    @keyframes diagram-cycle {
+      0%              { opacity: 1; }
+      33.333%   { opacity: 0; }   /* one slot of the loop per frame */
+      100%            { opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      /* one still frame instead of a flicker */
+      .diagram .dframe            { animation: none; }
+      .diagram .dframe:first-child { opacity: 1; }
+    }
+
     /* The player fills the same box the photos were using. */
     .shuffle iframe {
       position: absolute; inset: 0; margin: 0;
@@ -423,7 +455,7 @@
   <div class="shuffle" id="shuffle">
     
     
-    <img class="frame on" src="images-to-rotate/DSC01366.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC01558.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC01584.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC01589.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC01923.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04276.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04285.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04304.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04327.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04448.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04461.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04472.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04479.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04481.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04605.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04640.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04684.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04797.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04877.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04945.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04950.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04951.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC05008.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC05009.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC05083.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC05208.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC05347.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC05540.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC06267.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC06699.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC06704.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC06927.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC07016.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC07029.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC07087.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC07196.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC07267.JPG" alt="" /><img class="frame" src="images-to-rotate/askeladd.png" alt="" /><img class="frame" src="images-to-rotate/cliffyoung.png" alt="" /><img class="frame" src="images-to-rotate/rommel.jpg" alt="" />
+    <img class="frame on" src="images-to-rotate/DSC01366.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC01558.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC01584.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC01589.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC01923.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04276.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04285.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04304.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04327.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04448.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04461.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04472.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04479.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04481.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04605.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04640.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04684.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04797.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04877.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04945.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04950.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC04951.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC05008.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC05009.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC05083.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC05208.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC05347.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC05540.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC06267.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC06699.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC06704.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC06927.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC07016.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC07029.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC07087.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC07196.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC07267.JPG" alt="" />
     
     
     
@@ -447,11 +479,18 @@
   <section class="section">
     <h2 class="section-title">Code and Engineering</h2>
     <p>Today we live in a very different word compared to the 2020s. Today create and build proyects its exponencial too easy. Build know is open to everyone, in a very fast way, maybe with a lack of personal flavour, but solved throught work and improve the result manually</p><p>I enjoy very much this epoch for the code: I build and deply pages, programs and every I wanted in this years with excelptional velocity.</p><p>Programming will be different in the following years.</p>
+    
   </section>
   
   <section class="section">
     <h2 class="section-title">Time spend, World and Phylosophy</h2>
     <p>Time spend changes throught time when different technologies arrives. The next changes must come in the following years, with automatization of very repetitive tasks. Today we spend  8-9 hours working, 8 hours sleeping, 2 hours cooking and eating, 1 hour in transporting and the time remaining for people you care and your leisure activities.</p><p>Right know you can build, control and programming throught your phone, in a raspy, and in your computer with AI. This changes a lot of productivity related with the production of products and code, with intermitent instructions to the LLM the core of the building of the final product, not the action of programming</p><p>Plus, all the intellectual activities must be improved with the interaction of IA. Read, construct concept maps, connect ideas and resume knowledge are so much accesible, and more easy to search and construct. In the last year I reconnect with the reading activities expanding the connection of phylosophy, maths and science, with a new level of interpretation and interconection I never can allow to build without so much time. </p>
+    
+    
+    <div class="diagram" style="--diagram-cycle: 1500ms" aria-label="Animated hand-drawn concept map" role="img">
+      <img class="dframe" src="buttons/diagrama1.png" alt="" style="animation-delay: 0ms" /><img class="dframe" src="buttons/diagrama2.png" alt="" style="animation-delay: 500ms" /><img class="dframe" src="buttons/diagrama3.png" alt="" style="animation-delay: 1000ms" />
+    </div>
+    
   </section>
   
 

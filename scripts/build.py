@@ -188,6 +188,34 @@ def find_play_button(buttons_dir: Path, docs_dir: Path,
     return None
 
 
+# ── About-page diagram animation ──────────────────────────────────────────────
+
+DIAGRAM_PREFIX = "diagrama"
+
+
+def collect_diagram_frames(buttons_dir: Path, docs_dir: Path) -> list[str]:
+    """
+    Frames of the animated diagram (docs/buttons/diagrama1.png, diagrama2.png,
+    ...) as paths relative to `docs_dir`, ordered by their trailing number so
+    diagrama10 lands after diagrama2 instead of before it.
+    """
+    if not buttons_dir.is_dir():
+        return []
+
+    frames = []
+    for f in buttons_dir.iterdir():
+        if not f.is_file() or f.suffix.lower() not in BUTTON_EXTS:
+            continue
+        m = re.fullmatch(DIAGRAM_PREFIX + r"(\d+)", f.stem, re.IGNORECASE)
+        if not m:
+            continue
+        try:
+            frames.append((int(m.group(1)), f.relative_to(docs_dir).as_posix()))
+        except ValueError:
+            continue
+    return [rel for _, rel in sorted(frames)]
+
+
 # ── Brace-balanced argument extractor ─────────────────────────────────────────
 
 def extract_args(text: str, start: int, n: int) -> tuple[list[str], int]:
@@ -508,14 +536,17 @@ def main() -> None:
         videos      = collect_videos(about)
         play_button = find_play_button(buttons_dir, about_out_path.parent,
                                        args.play_button)
-        about_html = render({"person":      person_data["person"],
-                             "about":       about,
-                             "images":      images,
-                             "videos":      videos,
-                             "play_button": play_button}, about_tmpl_path)
+        diagram     = collect_diagram_frames(buttons_dir, about_out_path.parent)
+        about_html = render({"person":         person_data["person"],
+                             "about":          about,
+                             "images":         images,
+                             "videos":         videos,
+                             "play_button":    play_button,
+                             "diagram_frames": diagram}, about_tmpl_path)
         about_out_path.write_text(about_html, encoding="utf-8")
         print(f"Built: {about_out_path} "
-              f"({len(images)} image(s) to shuffle, {len(videos)} video(s))")
+              f"({len(images)} image(s) to shuffle, {len(videos)} video(s), "
+              f"{len(diagram)} diagram frame(s))")
     else:
         print(f"Skipped about page (template not found: {about_tmpl_path})")
 
