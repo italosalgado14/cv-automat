@@ -343,7 +343,8 @@
       padding: 0 2ch; text-align: center;
       color: var(--text-color-alt); font-size: 0.8rem;
     }
-    /* status line under the square, rendered like a running command */
+    /* Only the <noscript> video links use this now — rendered like a running
+       command. The live status line under the square was removed. */
     .shuffle-caption {
       display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 1ch;
       margin: calc(var(--line-height) / 2) auto 0;
@@ -352,9 +353,6 @@
     .shuffle-caption > * { margin: 0; }
     .shuffle-cmd { color: var(--c-cyan); }
     .shuffle-cmd::before { content: "$ "; color: var(--c-green); }
-    .shuffle-status                      { color: var(--c-amber); }
-    .shuffle-status[data-state="done"]   { color: var(--c-green); }
-    .shuffle-status[data-state="play"]   { color: var(--c-magenta); }
 
     /* ── Play button — revealed only once the shuffle has stopped ────── */
     .shuffle-play {
@@ -436,10 +434,6 @@
       {% else %}<span class="cap">&#9654;</span>{% endif %}
     </button>
     {% endif %}
-  </div>
-  <div class="shuffle-caption">
-    <span class="shuffle-cmd">shuffle images-to-rotate/</span>
-    <span class="shuffle-status" id="shuffle-status">{{ images | length }} file{{ '' if images | length == 1 else 's' }}</span>
   </div>
   {% if videos %}
   <noscript>
