@@ -37,7 +37,8 @@ def cli() -> argparse.Namespace:
     p.add_argument("--about-template", default="templates/about.html.j2",    help="Path to about Jinja2 template")
     p.add_argument("--about-out",      default="docs/about.html",            help="Output about HTML path")
     p.add_argument("--rotate-dir",     default="docs/images-to-rotate",      help="Folder of images shuffled on the about page")
-    p.add_argument("--buttons-dir",    default="docs/buttons",               help="Folder holding UI button images (play.png)")
+    p.add_argument("--buttons-dir",    default="docs/buttons",               help="Folder holding UI button images")
+    p.add_argument("--play-button",    default="play2.jpg",                  help="Filename inside --buttons-dir to use for the about-page play button")
     p.add_argument("--dump-json",      action="store_true",                  help="Print extracted JSON and exit")
     return p.parse_args()
 
@@ -153,15 +154,38 @@ def collect_videos(about: dict) -> list[dict]:
     return videos
 
 
-def find_play_button(buttons_dir: Path, docs_dir: Path) -> str | None:
-    """Path to play.png relative to docs/, or None (template falls back to a glyph)."""
-    png = buttons_dir / "play.png"
-    if not png.is_file():
+BUTTON_EXTS = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg"}
+
+
+def find_play_button(buttons_dir: Path, docs_dir: Path,
+                     preferred: str) -> str | None:
+    """
+    Path to the play-button image relative to docs/, or None (the template
+    falls back to a ▶ glyph).
+
+    `preferred` wins whenever that exact file exists. Otherwise any other
+    play*.<image> in the folder is used, so swapping the file for a different
+    name or extension does not silently drop the button back to the glyph.
+    """
+    if not buttons_dir.is_dir():
         return None
-    try:
-        return png.relative_to(docs_dir).as_posix()
-    except ValueError:
-        return None
+
+    others = sorted(
+        p for p in buttons_dir.iterdir()
+        if p.is_file()
+        and p.suffix.lower() in BUTTON_EXTS
+        and p.name.lower().startswith("play")
+        and p.name != preferred
+    )
+
+    for candidate in [buttons_dir / preferred, *others]:
+        if not candidate.is_file():
+            continue
+        try:
+            return candidate.relative_to(docs_dir).as_posix()
+        except ValueError:
+            continue
+    return None
 
 
 # ── Brace-balanced argument extractor ─────────────────────────────────────────
@@ -482,7 +506,8 @@ def main() -> None:
                 if about_data_path.exists() else {"sections": []}
         images      = collect_rotating_images(rotate_dir, about_out_path.parent)
         videos      = collect_videos(about)
-        play_button = find_play_button(buttons_dir, about_out_path.parent)
+        play_button = find_play_button(buttons_dir, about_out_path.parent,
+                                       args.play_button)
         about_html = render({"person":      person_data["person"],
                              "about":       about,
                              "images":      images,
