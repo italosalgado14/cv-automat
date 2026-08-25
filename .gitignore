@@ -1,6 +1,10 @@
+# LaTeX build artifacts
 cv/*.aux
 cv/*.log
 cv/*.out
 cv/*.pdf
 
-.venv/*
+# Python
+__pycache__/
+*.pyc
+.venv/
