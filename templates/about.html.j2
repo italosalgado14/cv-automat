@@ -574,7 +574,7 @@
                   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduced) { done(); return; }
 
-    var STEP   = 120;    /* ms between flips — constant, no easing, no ramp */
+    var STEP   = 250;    /* ms between flips — constant, no easing, no ramp */
     var BUDGET = 3000;   /* the shuffle stops after exactly 3s */
 
     setStatus('run', 'shuffling\u2026');
