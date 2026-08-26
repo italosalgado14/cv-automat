@@ -317,7 +317,7 @@
     .footer::before { content: "# "; color: var(--c-green-dim); }
     .footer a { color: var(--text-color-alt); }
 
-    /* ── About: 16:9 image shuffler (constant speed, stops at 5s) ───── */
+    /* ── About: 16:9 image shuffler (constant speed, stops at 3s) ───── */
     /* 16:9 on purpose: the video plays in this very box, so clicking play
        swaps the content without moving a single pixel of the layout. */
     .shuffle {
@@ -497,7 +497,7 @@
   <div class="footer">built automatically from <a href="../data/about.json">about.json</a> &mdash; cv-automat</div>
 
   <script>
-  /* Image shuffle: constant speed, stops after exactly 5s, then offers the
+  /* Image shuffle: constant speed, stops after exactly 3s, then offers the
      play button. Progressive enhancement — with JS off the first image stays
      put and the <noscript> link above takes over. */
   (function () {
@@ -575,7 +575,7 @@
     if (reduced) { done(); return; }
 
     var STEP   = 120;    /* ms between flips — constant, no easing, no ramp */
-    var BUDGET = 5000;   /* the shuffle stops after exactly 5s */
+    var BUDGET = 3000;   /* the shuffle stops after exactly 3s */
 
     setStatus('run', 'shuffling\u2026');
 
