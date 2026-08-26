@@ -58,8 +58,10 @@ def cli() -> argparse.Namespace:
                    help="Path to posts.json (updated when files are renamed)")
     p.add_argument("--rotate", default=str(repo_root / "docs" / "images-to-rotate"),
                    help="Folder of shuffler images to downscale")
-    p.add_argument("--rotate-max-width", type=int, default=2400, metavar="PX",
-                   help="Cap on the longest side of a shuffler image (default: 2400)")
+    p.add_argument("--rotate-max-width", type=int, default=1400, metavar="PX",
+                   help="Cap on the longest side of a shuffler image (default: 1400). "
+                        "The about-page box is at most 80ch (~770 CSS px), so 1400 is "
+                        "already ~2x for high-DPI screens; 2400 cost 21 MB of page weight.")
     p.add_argument("--quality", type=int, default=85, metavar="Q",
                    help="JPEG/WebP quality used when downscaling (default: 85)")
     p.add_argument("--dry-run", action="store_true",

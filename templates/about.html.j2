@@ -454,8 +454,12 @@
   <!-- ══ SQUARE IMAGE SHUFFLER ═══════════════════════════════════════ -->
   <div class="shuffle" id="shuffle">
     {% if images %}
-    {# eager on purpose: the shuffle flips every ~120ms, lazy images would blank the square #}
-    {% for img in images %}<img class="frame{% if loop.first %} on{% endif %}" src="{{ img }}" alt="" />{% endfor %}
+    {# Never loading="lazy": a hidden frame never intersects the viewport, so it
+       would never load at all. Instead the first few frames keep default
+       priority and the rest drop to fetchpriority="low", so the opening paint
+       is not queued behind every photo in the folder. The script only flips to
+       frames that have actually finished downloading. #}
+    {% for img in images %}<img class="frame{% if loop.first %} on{% endif %}" src="{{ img }}" alt=""{% if loop.index > 3 %} fetchpriority="low" decoding="async"{% endif %} />{% endfor %}
     {% else %}
     <div class="shuffle-empty">no images yet &mdash; drop files into docs/images-to-rotate/ and rebuild</div>
     {% endif %}
@@ -550,10 +554,17 @@
     var show = function (i) {
       for (var n = 0; n < imgs.length; n++) imgs[n].className = (n === i) ? 'frame on' : 'frame';
     };
+    /* Only frames that finished downloading are eligible: the photos now
+       arrive over several seconds, and flipping to a pending one would blank
+       the square. `complete` alone is not enough — it is also true for a
+       failed load, hence naturalWidth. */
     var pick = function (avoid) {
-      var i;
-      do { i = Math.floor(Math.random() * imgs.length); } while (i === avoid);
-      return i;
+      var ready = [];
+      for (var n = 0; n < imgs.length; n++) {
+        if (n !== avoid && imgs[n].complete && imgs[n].naturalWidth) ready.push(n);
+      }
+      if (!ready.length) return avoid < 0 ? 0 : avoid;   /* nothing else yet — hold */
+      return ready[Math.floor(Math.random() * ready.length)];
     };
 
     var current = pick(-1);

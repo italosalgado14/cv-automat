@@ -24,7 +24,7 @@ help:
 	@echo "  html        Render docs/*.html from cv/*.tex"
 	@echo "  pdf         Compile cv/*.tex to PDF (requires tectonic or pdflatex)"
 	@echo "  build       html + pdf"
-	@echo "  assets      Square docs/assets/ + cap docs/images-to-rotate/ at 2400px"
+	@echo "  assets      Square docs/assets/ + cap docs/images-to-rotate/ at 1400px"
 	@echo "  clean       Remove LaTeX aux files"
 	@echo "  clean-pdf   Remove generated PDFs"
 	@echo "  clean-all   Remove venv, aux files, and generated PDFs"
