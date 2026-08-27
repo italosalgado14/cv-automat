@@ -335,17 +335,21 @@
       width: 100%; height: 100%;
       object-fit: cover;
       opacity: 0;
-      /* The outgoing frame holds full opacity for the length of the fade-in
-         (hence the trailing delay) and only then fades, unseen, beneath the
-         new one. A symmetric crossfade would sum to less than alpha 1 at the
-         midpoint and dip toward the box background — a subtler version of the
-         very flicker this replaces. */
-      transition: opacity 110ms linear 110ms;
+      z-index: 0;
     }
+    /* Three states instead of a fade in both directions. The frame being
+       replaced keeps .prev — full opacity, no transition, one layer down — so
+       the stack always adds up to at least alpha 1 and the box background can
+       never show through the swap. It is dropped later, unseen, from behind a
+       frame that is by then fully opaque. A symmetric crossfade would dip
+       toward the background at the midpoint; matching two delays against each
+       other (the previous attempt) only hides that dip if the timing lands
+       perfectly. */
+    .shuffle .frame.prev { opacity: 1; z-index: 1; }
     .shuffle .frame.on {
       opacity: 1;
-      z-index: 1;                                  /* incoming fades in on top */
-      transition: opacity 110ms linear 0ms;
+      z-index: 2;                                  /* incoming fades in on top */
+      transition: opacity 180ms ease-in-out;
     }
     .shuffle-empty {
       position: absolute; inset: 0; margin: 0;
@@ -353,6 +357,15 @@
       padding: 0 2ch; text-align: center;
       color: var(--text-color-alt); font-size: 0.8rem;
     }
+    /* Same box, but only while the opening photo is in flight — and only if it
+       takes long enough to notice, so a fast connection never sees it. */
+    .shuffle-wait {
+      position: absolute; inset: 0; margin: 0; z-index: 0;
+      display: none; align-items: center; justify-content: center;
+      color: var(--text-color-alt); font-size: 0.8rem;
+    }
+    .shuffle-wait.on { display: flex; }
+    .shuffle-wait::before { content: "$ "; color: var(--c-green); }
     /* Only the <noscript> video links use this now — rendered like a running
        command. The live status line under the square was removed. */
     .shuffle-caption {
@@ -367,7 +380,7 @@
     /* ── Play button — revealed only once the shuffle has stopped ────── */
     .shuffle-play {
       position: absolute; inset: 0; margin: 0;
-      z-index: 2;              /* above the settled frame, which holds .on/z-index 1 */
+      z-index: 3;              /* above the settled frame, which holds .on/z-index 2 */
       display: none;
       align-items: center; justify-content: center;
       padding: 0; border: 0;
@@ -432,13 +445,13 @@
       /* one still frame instead of a flicker */
       .diagram .dframe            { animation: none; }
       .diagram .dframe:first-child { opacity: 1; }
-      .shuffle .frame             { transition: none; }
+      .shuffle .frame.on          { transition: none; }
     }
 
     /* The player fills the same box the photos were using. */
     .shuffle iframe {
       position: absolute; inset: 0; margin: 0;
-      z-index: 3;              /* the video covers both the frames and the button */
+      z-index: 4;              /* the video covers both the frames and the button */
       width: 100%; height: 100%;
       border: 0;
     }
@@ -468,7 +481,9 @@
   <div class="shuffle" id="shuffle">
     
     
-    <img class="frame on" src="images-to-rotate/DSC01366.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC01558.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC01584.JPG" alt="" /><img class="frame" src="images-to-rotate/DSC01589.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC01923.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC04276.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC04285.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC04304.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC04327.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC04448.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC04461.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC04472.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC04479.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC04481.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC04605.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC04640.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC04684.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC04797.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC04877.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC04945.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC04950.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC04951.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC05008.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC05009.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC05083.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC05208.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC05347.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC05540.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC06267.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC06699.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC06704.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC06927.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC07016.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC07029.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC07087.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC07196.JPG" alt="" fetchpriority="low" decoding="async" /><img class="frame" src="images-to-rotate/DSC07267.JPG" alt="" fetchpriority="low" decoding="async" />
+    <img class="frame on" src="images-to-rotate/DSC01366.JPG" fetchpriority="high" alt="" /><img class="frame" data-src="images-to-rotate/DSC01558.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC01584.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC01589.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC01923.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC04276.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC04285.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC04304.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC04327.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC04448.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC04461.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC04472.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC04479.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC04481.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC04605.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC04640.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC04684.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC04797.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC04877.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC04945.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC04950.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC04951.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC05008.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC05009.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC05083.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC05208.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC05347.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC05540.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC06267.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC06699.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC06704.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC06927.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC07016.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC07029.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC07087.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC07196.JPG" decoding="async" alt="" /><img class="frame" data-src="images-to-rotate/DSC07267.JPG" decoding="async" alt="" />
+    
+    <div class="shuffle-wait" id="shuffle-wait">loading photos&hellip;</div>
     
     
     
@@ -501,7 +516,8 @@
     
     
     <div class="diagram" style="--diagram-cycle: 2500ms" aria-label="Animated hand-drawn concept map" role="img">
-      <img class="dframe" src="buttons/diagrama1.png" alt="" style="animation-delay: 0ms" /><img class="dframe" src="buttons/diagrama2.png" alt="" style="animation-delay: 500ms" /><img class="dframe" src="buttons/diagrama3.png" alt="" style="animation-delay: 1000ms" /><img class="dframe" src="buttons/diagrama4.png" alt="" style="animation-delay: 1500ms" /><img class="dframe" src="buttons/diagrama5.png" alt="" style="animation-delay: 2000ms" />
+      
+      <img class="dframe" src="buttons/diagrama1.png" alt="" fetchpriority="low" decoding="async" style="animation-delay: 0ms" /><img class="dframe" src="buttons/diagrama2.png" alt="" fetchpriority="low" decoding="async" style="animation-delay: 500ms" /><img class="dframe" src="buttons/diagrama3.png" alt="" fetchpriority="low" decoding="async" style="animation-delay: 1000ms" /><img class="dframe" src="buttons/diagrama4.png" alt="" fetchpriority="low" decoding="async" style="animation-delay: 1500ms" /><img class="dframe" src="buttons/diagrama5.png" alt="" fetchpriority="low" decoding="async" style="animation-delay: 2000ms" />
     </div>
     
   </section>
@@ -521,6 +537,17 @@
     var status = document.getElementById('shuffle-status');
     var play   = document.getElementById('shuffle-play');
     var VIDEOS = [{"id": "JgEH01zv5Pg", "start": 0, "title": "HYSTERIA", "url": "https://youtu.be/JgEH01zv5Pg?si=rMF-_me1gr4KYxq7"}, {"id": "0BkURpJbxRE", "start": 0, "title": "SLEEPWALKING", "url": "https://youtu.be/0BkURpJbxRE?si=-U2XdJZegNomipso"}, {"id": "r3Q5zpSJZXQ", "start": 0, "title": "DRAINYOU", "url": "https://youtu.be/r3Q5zpSJZXQ?si=VFQPxDE20t6_CFHk"}];
+
+    var wait     = document.getElementById('shuffle-wait');
+    var current  = -1;      /* frame on screen           (.on)   */
+    var previous = -1;      /* the one it replaced       (.prev) */
+    var started  = false;
+    var stopped  = false;
+    var deadline = 0;
+    var startShuffle = function () {};      /* replaced once the pieces exist */
+
+    var reduced = window.matchMedia &&
+                  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     var setStatus = function (state, text) {
       if (!status) return;
@@ -558,66 +585,195 @@
     };
 
     var done = function () {
-      setStatus('done', imgs.length + ' file' + (imgs.length === 1 ? '' : 's') + ' \u2014 stopped');
+      stopped = true;                              /* also halts the fetch queue */
+      setStatus('done', imgs.length + ' file' + (imgs.length === 1 ? '' : 's') + ' — stopped');
       offerVideo();
+      /* A link slow enough to burn the whole window without delivering a photo
+         would otherwise leave the box empty for good — the queue is stopped and
+         nothing else is coming. The opening photo is already in flight, so wait
+         for it and paint it, late, rather than settling on the background. */
+      /* `showFirst` is undefined on the single-photo early exit below, where
+         there is nothing to rescue: that photo carries .on from the markup. */
+      if (current < 0 && showFirst) { imgs[0].addEventListener('load', showFirst); showFirst(); }
+    };
+
+    var showFirst = function () {
+      if (current >= 0 || !(imgs[0].complete && imgs[0].naturalWidth)) return;
+      whenReady(imgs[0], function () { if (current < 0) show(0); });
     };
 
     if (imgs.length < 2) { done(); return; }
 
-    var show = function (i) {
-      for (var n = 0; n < imgs.length; n++) imgs[n].className = (n === i) ? 'frame on' : 'frame';
+    /* ── Fetching ────────────────────────────────────────────────────
+       The markup ships one photo with a src; everything else waits in data-src
+       and is fetched from here, one at a time, and only once that first photo
+       has painted — anything racing it just delays the one frame the visitor is
+       waiting to see. One at a time on purpose: the shuffle wants a steady drip
+       of new photos, and three in parallel on a slow link means three arriving
+       late together rather than one arriving three times sooner. The order is
+       drawn at random per page load, so a visitor does not always get the same
+       handful, and the queue stops the moment the shuffle does: frames that
+       would arrive afterwards are never shown, so fetching them is waste. */
+    var LANES  = 1;
+    var queue  = [];
+    for (var q = 0; q < imgs.length; q++) {
+      if (imgs[q].getAttribute('data-src')) queue.push(imgs[q]);
+    }
+    for (var s = queue.length - 1; s > 0; s--) {    /* Fisher-Yates */
+      var r = Math.floor(Math.random() * (s + 1));
+      var tmp = queue[s]; queue[s] = queue[r]; queue[r] = tmp;
+    }
+
+    var fetchNext = function () {
+      startShuffle();                              /* a new photo may be flippable */
+      if (stopped) return;
+      var img = queue.shift();
+      if (!img) return;
+      img.addEventListener('load',  fetchNext);
+      img.addEventListener('error', fetchNext);    /* a bad file must not stall it */
+      img.src = img.getAttribute('data-src');
+      img.removeAttribute('data-src');
     };
-    /* Only frames that finished downloading are eligible: the photos now
-       arrive over several seconds, and flipping to a pending one would blank
-       the square. `complete` alone is not enough — it is also true for a
-       failed load, hence naturalWidth. */
-    var pick = function (avoid) {
+
+    var opened = false;
+    var openLanes = function () {
+      if (opened) return;
+      opened = true;
+      for (var l = 0; l < LANES; l++) fetchNext();
+    };
+
+    /* ── Choosing ────────────────────────────────────────────────────
+       Only frames that have actually arrived are eligible: `complete` alone
+       is not enough — it is also true for a failed load and for a frame that
+       has no src yet, hence naturalWidth. The frame still carrying .prev is
+       skipped too, otherwise coming back to it would cut rather than fade
+       (it is already at full opacity). With only two photos in hand that
+       leaves nothing to pick, so the second pass allows it. */
+    var eligible = function (skipA, skipB) {
       var ready = [];
       for (var n = 0; n < imgs.length; n++) {
-        if (n !== avoid && imgs[n].complete && imgs[n].naturalWidth) ready.push(n);
+        if (n === skipA || n === skipB) continue;
+        if (imgs[n].complete && imgs[n].naturalWidth) ready.push(n);
       }
-      if (!ready.length) return avoid < 0 ? 0 : avoid;   /* nothing else yet — hold */
+      return ready;
+    };
+
+    var pick = function () {
+      var ready = eligible(current, previous);
+      if (!ready.length) ready = eligible(current, -1);
+      if (!ready.length) return -1;                /* nothing else has landed */
       return ready[Math.floor(Math.random() * ready.length)];
     };
 
-    var current = pick(-1);
-    show(current);
+    /* The incoming frame fades in on top; the one it replaces holds full
+       opacity underneath for the length of that fade. The frame below *that*
+       is already covered by an opaque layer, so dropping it here is invisible
+       and needs no timer. */
+    var show = function (i) {
+      if (wait) wait.className = 'shuffle-wait';   /* a photo is about to land */
+      if (previous >= 0 && previous !== i) imgs[previous].className = 'frame';
+      previous = current;
+      current  = i;
+      if (previous >= 0 && previous !== i) imgs[previous].className = 'frame prev';
+      imgs[i].className = 'frame on';
+    };
 
-    var reduced = window.matchMedia &&
-                  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduced) { done(); return; }
-
-    var STEP   = 250;    /* ms between flips — constant, no easing, no ramp */
-    var BUDGET = 3000;   /* the shuffle stops after exactly 3s */
-
-    /* `complete && naturalWidth` (see pick) only proves the bytes arrived and
-       the header parsed — the bitmap can still be undecoded, and decoding it
-       *during* the swap is what made the box flash its background. decode()
-       resolves once the frame is ready to paint, so we never flip to an image
-       the compositor cannot draw yet. Browsers without it behave as before. */
+    /* `complete && naturalWidth` only proves the bytes arrived and the header
+       parsed — the bitmap can still be undecoded, and decoding it *during* the
+       swap is what made the box flash its background. decode() resolves once
+       the frame is ready to paint. Browsers without it behave as before. */
     var whenReady = function (img, cb) {
       if (img.decode) { img.decode().then(cb, cb); return; }
       cb();
     };
 
-    setStatus('run', 'shuffling\u2026');
+    var STEP   = 250;    /* ms between flips — constant, no easing, no ramp */
+    var BUDGET = 3000;   /* the shuffle stops after exactly 3s of shuffling */
 
     /* Self-scheduling rather than setInterval: each step waits for its own
        frame to be decodable, so a slow decode delays the next flip instead of
        being painted half-ready. The deadline still ends things on time. */
-    var deadline = Date.now() + BUDGET;
-
     var tick = function () {
+      if (stopped) return;
       if (Date.now() >= deadline) { done(); return; }
-      var next = pick(current);
+      var next = pick();
+      if (next < 0) { setTimeout(tick, STEP); return; }   /* wait, do not blank */
       whenReady(imgs[next], function () {
-        current = next;
-        show(current);
+        if (stopped) return;
+        show(next);
         setTimeout(tick, STEP);
       });
     };
 
-    setTimeout(tick, STEP);
+    /* The clock starts at the first photo that can actually be painted, not at
+       page load. Started at parse time it could — and on a slow link did —
+       run out while the box was still empty, so the shuffle "ran" for three
+       seconds without ever showing a photo. */
+    startShuffle = function () {
+      if (started || stopped) return;
+      var first = current >= 0 ? current : pick();
+      if (first < 0) return;                       /* nothing paintable yet */
+      started = true;
+      whenReady(imgs[first], function () {
+        if (stopped) return;
+        if (current !== first) show(first);
+        if (reduced) { done(); return; }           /* one still photo, no flicker */
+        openLanes();                               /* now the rest may download */
+        setStatus('run', 'shuffling…');
+        deadline = Date.now() + BUDGET;
+        setTimeout(tick, STEP);
+      });
+    };
+
+    /* Photo 0 is marked .on in the markup so the no-script page shows
+       something. Adopt it if it has already painted; otherwise clear it, or
+       the box would sit showing an image that has no pixels yet. */
+    if (imgs[0].complete && imgs[0].naturalWidth) current = 0;
+    else imgs[0].className = 'frame';
+
+    imgs[0].addEventListener('load',  startShuffle);
+    imgs[0].addEventListener('error', openLanes);  /* missing file: fetch the rest anyway */
+    setTimeout(openLanes, 4000);                   /* and never wait on it forever */
+
+    /* An empty 16:9 box is just a dark rectangle, which is exactly what this
+       whole exercise is about. Say what it is waiting for instead — but only
+       once the wait is long enough to register, so it never flashes on a
+       connection that had the photo all along. show() clears it. */
+    if (wait) setTimeout(function () {
+      if (current < 0 && !stopped) wait.className = 'shuffle-wait on';
+    }, 400);
+
+    startShuffle();
+  })();
+
+  /* Diagram: hold the flip-book until every frame can paint. The frames are
+     hard cuts on a black box, so one that has not arrived yet is not a missing
+     image — it is a black rectangle held for its full 500ms slot. Pausing and
+     releasing all five together keeps them in step. Without JS nothing is
+     paused and the loop runs exactly as before. */
+  (function () {
+    var dg = document.querySelector('.diagram');
+    if (!dg) return;
+    var frames = Array.prototype.slice.call(dg.querySelectorAll('.dframe'));
+    if (!frames.length) return;
+
+    for (var i = 0; i < frames.length; i++) frames[i].style.animationPlayState = 'paused';
+
+    var left = frames.length, released = false;
+    var release = function () {
+      if (released) return;
+      released = true;
+      for (var k = 0; k < frames.length; k++) frames[k].style.animationPlayState = '';
+    };
+    var arrived = function () { if (--left <= 0) release(); };
+
+    for (var j = 0; j < frames.length; j++) {
+      var f = frames[j];
+      if (f.decode) { f.decode().then(arrived, arrived); }
+      else if (f.complete) { arrived(); }
+      else { f.addEventListener('load', arrived); f.addEventListener('error', arrived); }
+    }
+    setTimeout(release, 8000);      /* never leave the diagram frozen */
   })();
   </script>
 
