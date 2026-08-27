@@ -1,8 +1,8 @@
 [
-    {
+  {
     "title": "Age of empires 2 build helper",
     "date": "2026-09",
-    "image": "assets/aoe2.jpg",
+    "image": "assets/aoe2.png",
     "description": "This is a helper to follow a build in game of AoE2, more personalized.",
     "link": "https://italosalgado14.github.io/Aoe2-build-helper/",
     "tags": [
