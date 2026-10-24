@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
   <title>{{ person.name }} &mdash; About</title>
   <style>
     /* ══════════════════════════════════════════════════════════════════
@@ -16,8 +17,8 @@
          cyan     row labels / key columns, sub-headings
          amber    dates and inline code
          magenta  tags / chips
-       Light mode uses darkened variants (>=4.5:1 on white); dark mode
-       switches to the bright ANSI-ish variants.
+       The page is always dark: the palette below is the bright
+       ANSI-ish variant, tuned for a black background.
        ══════════════════════════════════════════════════════════════════ */
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
 
@@ -26,21 +27,21 @@
       --line-height: 1.20rem;
       --border-thickness: 2px;
 
-      --text-color:           #000;
-      --text-color-alt:       #666;
-      --background-color:      #fff;
-      --background-color-alt:  #eee;
+      --text-color:           #fff;
+      --text-color-alt:       #aaa;
+      --background-color:     #000;
+      --background-color-alt: #111;
 
-      /* ── Console palette — light mode (darkened for white background) ─ */
-      --c-green:      #1a7f37;
-      --c-green-dim:  #3d9e5b;
-      --c-blue:       #0969da;
-      --c-blue-fg:    #0550ae;
-      --c-blue-bg:    #ddf4ff;
-      --c-cyan:       #0e7490;
-      --c-amber:      #9a6700;
-      --c-amber-bg:   #fff8c5;
-      --c-magenta:    #8250df;
+      /* ── Console palette — bright terminal variants on black ───── */
+      --c-green:      #3fb950;
+      --c-green-dim:  #2ea043;
+      --c-blue:       #58a6ff;
+      --c-blue-fg:    #a5d6ff;
+      --c-blue-bg:    #0c2d4e;
+      --c-cyan:       #39c5cf;
+      --c-amber:      #d29922;
+      --c-amber-bg:   #2b2106;
+      --c-magenta:    #d2a8ff;
 
       --font-weight-normal: 500;
       --font-weight-medium: 600;
@@ -52,26 +53,7 @@
       font-style: normal;
       font-variant-numeric: tabular-nums lining-nums;
       font-size: 16px;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --text-color:          #fff;
-        --text-color-alt:      #aaa;
-        --background-color:     #000;
-        --background-color-alt: #111;
-
-        /* ── Console palette — dark mode (bright terminal variants) ──── */
-        --c-green:      #3fb950;
-        --c-green-dim:  #2ea043;
-        --c-blue:       #58a6ff;
-        --c-blue-fg:    #a5d6ff;
-        --c-blue-bg:    #0c2d4e;
-        --c-cyan:       #39c5cf;
-        --c-amber:      #d29922;
-        --c-amber-bg:   #2b2106;
-        --c-magenta:    #d2a8ff;
-      }
+      color-scheme: dark;                 /* form controls + scrollbars follow */
     }
 
     /* ── Reset + the "owl" vertical rhythm ──────────────────────────── */
